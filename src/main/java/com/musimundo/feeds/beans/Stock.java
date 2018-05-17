@@ -1,4 +1,4 @@
-package com.musimundo.feeds.beans.feeds;
+package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.EstadoProcesamiento;
 
@@ -6,29 +6,24 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "MERCHANDISE")
-public class Merchandise {
+@Table(name = "STOCK")
+public class Stock
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "SOURCE")
-    private String source;
+    @Column(name = "CODIGO_PRODUCTIO")
+    private Integer codigoProducto;
 
-    @Column(name = "REF_TYPE")
-    private String refType;
+    @Column(name = "STOCK")
+    private Integer stock;
 
-    @Column(name = "TARGET")
-    private String target;
+    @Column(name = "WAREHOUSE")
+    private String warehouse;
 
-    @Column(name = "RELACION")
-    private String relacion;
-
-    @Column(name = "QUALIFIER")
-    private String qualifier;
-
-    @Column(name = "PRESELECTED")
-    private String preselected;
+    @Column(name = "STATUS")
+    private String status;
 
     @Column(name = "ORIGEN_IMPORTACION")
     private String origenImportacion;
@@ -45,7 +40,7 @@ public class Merchandise {
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Merchandise()
+    public Stock()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -58,52 +53,36 @@ public class Merchandise {
         this.id = id;
     }
 
-    public String getSource() {
-        return source;
+    public Integer getCodigoProducto() {
+        return codigoProducto;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setCodigoProducto(Integer codigoProducto) {
+        this.codigoProducto = codigoProducto;
     }
 
-    public String getRefType() {
-        return refType;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setRefType(String refType) {
-        this.refType = refType;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    public String getTarget() {
-        return target;
+    public String getWarehouse() {
+        return warehouse;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse;
     }
 
-    public String getRelacion() {
-        return relacion;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRelacion(String relacion) {
-        this.relacion = relacion;
-    }
-
-    public String getQualifier() {
-        return qualifier;
-    }
-
-    public void setQualifier(String qualifier) {
-        this.qualifier = qualifier;
-    }
-
-    public String getPreselected() {
-        return preselected;
-    }
-
-    public void setPreselected(String preselected) {
-        this.preselected = preselected;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOrigenImportacion() {
@@ -146,4 +125,3 @@ public class Merchandise {
         this.empresa = empresa;
     }
 }
-

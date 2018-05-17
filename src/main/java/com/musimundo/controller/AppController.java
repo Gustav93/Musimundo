@@ -1,24 +1,22 @@
 package com.musimundo.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.musimundo.feeds.beans.Producto;
+import com.musimundo.feeds.dao.ProductoDao;
+import com.musimundo.feeds.service.ProductService;
+import com.musimundo.utilities.EstadoProcesamiento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +31,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.musimundo.carritos.beans.CarroCerrado;
@@ -55,6 +51,9 @@ import com.musimundo.servicemonitor.services.ServiceToCheckService;
 @RequestMapping("/")
 @SessionAttributes("roles")
 public class AppController {
+
+	@Autowired
+	ProductService productService;
 
 	@Autowired
 	UserService userService;
@@ -87,6 +86,18 @@ public class AppController {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
+
+		Producto p = new Producto();
+		p.setBrand("aaaa");
+		p.setCodigoProducto("123456");
+
+		productService.save(p);
+
+		List<Producto> res = productService.findAll();
+		res.toString();
+
+		String a = res.get(0).getEstadoProcesamiento().toString();
+
 		return "userslist";
 	}
 	
@@ -293,7 +304,7 @@ public class AppController {
 	}
 	
 	/**
-	 * This method will Stock.
+	 * This method will StockService.
 	 */
 	@RequestMapping(value = {"/consultastock" }, method = RequestMethod.GET)
 	public String consultastock(ModelMap model) {

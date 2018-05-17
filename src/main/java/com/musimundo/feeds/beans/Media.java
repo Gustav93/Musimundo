@@ -1,4 +1,4 @@
-package com.musimundo.feeds.beans.feeds;
+package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.EstadoProcesamiento;
 
@@ -6,24 +6,21 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "STOCK")
-public class Stock
+@Table(name = "MEDIA")
+public class Media
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "CODIGO_PRODUCTIO")
-    private Integer codigoProducto;
+    @Column(name = "CODIGO_PRODUCTO")
+    private String codigoProducto;
 
-    @Column(name = "STOCK")
-    private Integer stock;
+    @Column(name = "CODE_MEDIA")
+    private String codeMedia;
 
-    @Column(name = "WAREHOUSE")
-    private String warehouse;
-
-    @Column(name = "STATUS")
-    private String status;
+    @Column(name = "IS_DEFAULT")
+    private boolean isDefault;
 
     @Column(name = "ORIGEN_IMPORTACION")
     private String origenImportacion;
@@ -40,7 +37,7 @@ public class Stock
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Stock()
+    public Media()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -53,36 +50,28 @@ public class Stock
         this.id = id;
     }
 
-    public Integer getCodigoProducto() {
+    public String getCodigoProducto() {
         return codigoProducto;
     }
 
-    public void setCodigoProducto(Integer codigoProducto) {
+    public void setCodigoProducto(String codigoProducto) {
         this.codigoProducto = codigoProducto;
     }
 
-    public Integer getStock() {
-        return stock;
+    public String getCodeMedia() {
+        return codeMedia;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setCodeMedia(String codeMedia) {
+        this.codeMedia = codeMedia;
     }
 
-    public String getWarehouse() {
-        return warehouse;
+    public boolean isDefault() {
+        return isDefault;
     }
 
-    public void setWarehouse(String warehouse) {
-        this.warehouse = warehouse;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 
     public String getOrigenImportacion() {

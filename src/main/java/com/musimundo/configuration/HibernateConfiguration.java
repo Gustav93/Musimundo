@@ -29,7 +29,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.musimundo.model",  "com.musimundo.servicemonitor.beans"});
+        sessionFactory.setPackagesToScan(new String[] { "com.musimundo.model",  "com.musimundo.servicemonitor.beans", "com.musimundo.feeds.beans"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }

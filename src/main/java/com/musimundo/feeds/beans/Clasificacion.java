@@ -1,4 +1,4 @@
-package com.musimundo.feeds.beans.feeds;
+package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.EstadoProcesamiento;
 

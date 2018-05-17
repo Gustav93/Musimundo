@@ -1,4 +1,4 @@
-package com.musimundo.feeds.beans.feeds;
+package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.EstadoProcesamiento;
 
@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "MEDIA")
-public class Media
+@Table(name = "PRECIOS")
+public class Precio
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,11 +16,17 @@ public class Media
     @Column(name = "CODIGO_PRODUCTO")
     private String codigoProducto;
 
-    @Column(name = "CODE_MEDIA")
-    private String codeMedia;
+    @Column(name = "CURRENCY")
+    private String currency;
 
-    @Column(name = "IS_DEFAULT")
-    private boolean isDefault;
+    @Column(name = "ONLINE_PRICE")
+    private Double onlinePrice;
+
+    @Column(name = "STORE_PRICE")
+    private Double storePrice;
+
+    @Column(name = "HAS_PRIORITY")
+    private boolean hasPriority;
 
     @Column(name = "ORIGEN_IMPORTACION")
     private String origenImportacion;
@@ -37,7 +43,7 @@ public class Media
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Media()
+    public Precio()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -58,20 +64,36 @@ public class Media
         this.codigoProducto = codigoProducto;
     }
 
-    public String getCodeMedia() {
-        return codeMedia;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCodeMedia(String codeMedia) {
-        this.codeMedia = codeMedia;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public Double getOnlinePrice() {
+        return onlinePrice;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setOnlinePrice(Double onlinePrice) {
+        this.onlinePrice = onlinePrice;
+    }
+
+    public Double getStorePrice() {
+        return storePrice;
+    }
+
+    public void setStorePrice(Double storePrice) {
+        this.storePrice = storePrice;
+    }
+
+    public boolean getHasPriority() {
+        return hasPriority;
+    }
+
+    public void setHasPriority(boolean hasPriority) {
+        this.hasPriority = hasPriority;
     }
 
     public String getOrigenImportacion() {

@@ -1,4 +1,4 @@
-package com.musimundo.feeds.beans.feeds;
+package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.EstadoProcesamiento;
 
@@ -6,27 +6,29 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "PRECIOS")
-public class Precio
-{
+@Table(name = "MERCHANDISE")
+public class Merchandise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "CODIGO_PRODUCTO")
-    private String codigoProducto;
+    @Column(name = "SOURCE")
+    private String source;
 
-    @Column(name = "CURRENCY")
-    private String currency;
+    @Column(name = "REF_TYPE")
+    private String refType;
 
-    @Column(name = "ONLINE_PRICE")
-    private Double onlinePrice;
+    @Column(name = "TARGET")
+    private String target;
 
-    @Column(name = "STORE_PRICE")
-    private Double storePrice;
+    @Column(name = "RELACION")
+    private String relacion;
 
-    @Column(name = "HAS_PRIORITY")
-    private boolean hasPriority;
+    @Column(name = "QUALIFIER")
+    private String qualifier;
+
+    @Column(name = "PRESELECTED")
+    private String preselected;
 
     @Column(name = "ORIGEN_IMPORTACION")
     private String origenImportacion;
@@ -43,7 +45,7 @@ public class Precio
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Precio()
+    public Merchandise()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -56,44 +58,52 @@ public class Precio
         this.id = id;
     }
 
-    public String getCodigoProducto() {
-        return codigoProducto;
+    public String getSource() {
+        return source;
     }
 
-    public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getRefType() {
+        return refType;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setRefType(String refType) {
+        this.refType = refType;
     }
 
-    public Double getOnlinePrice() {
-        return onlinePrice;
+    public String getTarget() {
+        return target;
     }
 
-    public void setOnlinePrice(Double onlinePrice) {
-        this.onlinePrice = onlinePrice;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
-    public Double getStorePrice() {
-        return storePrice;
+    public String getRelacion() {
+        return relacion;
     }
 
-    public void setStorePrice(Double storePrice) {
-        this.storePrice = storePrice;
+    public void setRelacion(String relacion) {
+        this.relacion = relacion;
     }
 
-    public boolean isHasPriority() {
-        return hasPriority;
+    public String getQualifier() {
+        return qualifier;
     }
 
-    public void setHasPriority(boolean hasPriority) {
-        this.hasPriority = hasPriority;
+    public void setQualifier(String qualifier) {
+        this.qualifier = qualifier;
+    }
+
+    public String getPreselected() {
+        return preselected;
+    }
+
+    public void setPreselected(String preselected) {
+        this.preselected = preselected;
     }
 
     public String getOrigenImportacion() {
@@ -136,3 +146,4 @@ public class Precio
         this.empresa = empresa;
     }
 }
+
