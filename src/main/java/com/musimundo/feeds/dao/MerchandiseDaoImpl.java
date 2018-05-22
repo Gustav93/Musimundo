@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("MerchandiseDao")
+@Repository("merchandiseDao")
 public class MerchandiseDaoImpl  extends AbstractDao <Integer, Merchandise> implements MerchandiseDao {
 
     @Override
@@ -35,7 +35,7 @@ public class MerchandiseDaoImpl  extends AbstractDao <Integer, Merchandise> impl
     }
 
     @Override
-    public void save(Merchandise m) {
-        persist(m);
+    public void save(Merchandise merchandise) {
+        persist(merchandise);
     }
 }

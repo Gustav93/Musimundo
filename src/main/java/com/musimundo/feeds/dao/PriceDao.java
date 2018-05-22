@@ -1,11 +1,11 @@
-package com.musimundo.feeds.service;
+package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Price;
 
 import java.util.List;
 
-public interface PriceService {
-
+public interface PriceDao
+{
     Price findById(int id);
 
     List<Price> findByProductCode(String productCode);
@@ -13,6 +13,4 @@ public interface PriceService {
     List<Price> findAll();
 
     void save(Price price);
-
-    void update(Price price);
 }

@@ -1,11 +1,11 @@
-package com.musimundo.feeds.service;
+package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Product;
-import com.musimundo.feeds.beans.ProductReport;
+import com.musimundo.utilities.EstadoProcesamiento;
 
 import java.util.List;
 
-public interface ProductService
+public interface ProductDao
 {
     Product findById(int id);
 
@@ -15,7 +15,7 @@ public interface ProductService
 
     void save(Product product);
 
-    void update(Product product);
+    Long countAll();
 
-    ProductReport getReport();
+    Long count(EstadoProcesamiento status);
 }

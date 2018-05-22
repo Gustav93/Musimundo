@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.musimundo.feeds.beans.Producto;
-import com.musimundo.feeds.dao.ProductoDao;
+import com.musimundo.feeds.beans.Product;
+import com.musimundo.feeds.beans.ProductReport;
 import com.musimundo.feeds.service.ProductService;
-import com.musimundo.utilities.EstadoProcesamiento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -44,16 +43,10 @@ import com.musimundo.service.UserService;
 import com.musimundo.servicemonitor.beans.ServiceToCheck;
 import com.musimundo.servicemonitor.services.ServiceToCheckService;
 
-
-
-
 @Controller
 @RequestMapping("/")
 @SessionAttributes("roles")
 public class AppController {
-
-	@Autowired
-	ProductService productService;
 
 	@Autowired
 	UserService userService;
@@ -75,6 +68,9 @@ public class AppController {
 	
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
+
+	@Autowired
+	ProductService productService;
 	
 	
 	/**
@@ -87,13 +83,13 @@ public class AppController {
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
 
-		Producto p = new Producto();
+		Product p = new Product();
 		p.setBrand("aaaa");
 		p.setCodigoProducto("123456");
 
 		productService.save(p);
 
-		List<Producto> res = productService.findAll();
+		List<Product> res = productService.findAll();
 		res.toString();
 
 		String a = res.get(0).getEstadoProcesamiento().toString();
@@ -327,6 +323,18 @@ public class AppController {
 		model.addAttribute("liActivo", "liCarritosPeriodo");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "consultacarro";
+	}
+
+	@RequestMapping(value = {"/listaproductos"})
+	public String getProductList(ModelMap model){
+
+		List<Product> productList = productService.findAll();
+		ProductReport productReport = productService.getReport();
+
+		model.addAttribute("productList", productList);
+		model.addAttribute("productReport", productReport);
+
+		return "productlist";
 	}
 	
 	/**

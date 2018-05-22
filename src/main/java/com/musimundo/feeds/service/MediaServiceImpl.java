@@ -31,25 +31,25 @@ public class MediaServiceImpl implements MediaService
     }
 
     @Override
-    public void save(Media m) {
-        dao.save(m);
+    public void save(Media media) {
+        dao.save(media);
     }
 
     @Override
-    public void update(Media m) {
+    public void update(Media media) {
 
-        Media entity = dao.findById(m.getId());
+        Media entity = dao.findById(media.getId());
 
         if(entity != null)
         {
-            entity.setCodigoProducto(m.getCodigoProducto());
-            entity.setCodeMedia(m.getCodeMedia());
-            entity.setIsDefault(m.getIsDefault());
-            entity.setOrigenImportacion(m.getOrigenImportacion());
-            entity.setFechaProcesamiento(m.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(m.getEstadoProcesamiento());
-            entity.setDescripcionError(m.getDescripcionError());
-            entity.setEmpresa(m.getEmpresa());
+            entity.setCodigoProducto(media.getCodigoProducto());
+            entity.setCodeMedia(media.getCodeMedia());
+            entity.setIsDefault(media.getIsDefault());
+            entity.setOrigenImportacion(media.getOrigenImportacion());
+            entity.setFechaProcesamiento(media.getFechaProcesamiento());
+            entity.setEstadoProcesamiento(media.getEstadoProcesamiento());
+            entity.setDescripcionError(media.getDescripcionError());
+            entity.setEmpresa(media.getEmpresa());
         }
     }
 }

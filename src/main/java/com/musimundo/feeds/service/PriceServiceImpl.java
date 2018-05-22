@@ -1,7 +1,7 @@
 package com.musimundo.feeds.service;
 
-import com.musimundo.feeds.beans.Precio;
-import com.musimundo.feeds.dao.PrecioDao;
+import com.musimundo.feeds.beans.Price;
+import com.musimundo.feeds.dao.PriceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,45 +13,45 @@ import java.util.List;
 public class PriceServiceImpl implements PriceService {
 
     @Autowired
-    PrecioDao dao;
+    PriceDao dao;
 
     @Override
-    public Precio findById(int id) {
+    public Price findById(int id) {
         return dao.findById(id);
     }
 
     @Override
-    public List<Precio> findByProductCode(String productCode) {
+    public List<Price> findByProductCode(String productCode) {
         return dao.findByProductCode(productCode);
     }
 
     @Override
-    public List<Precio> findAll() {
+    public List<Price> findAll() {
         return dao.findAll();
     }
 
     @Override
-    public void save(Precio p) {
-        dao.save(p);
+    public void save(Price price) {
+        dao.save(price);
     }
 
     @Override
-    public void update(Precio p) {
+    public void update(Price price) {
 
-        Precio entity = dao.findById(p.getId());
+        Price entity = dao.findById(price.getId());
 
         if(entity != null)
         {
-            entity.setCodigoProducto(p.getCodigoProducto());
-            entity.setCurrency(p.getCurrency());
-            entity.setOnlinePrice(p.getOnlinePrice());
-            entity.setStorePrice(p.getStorePrice());
-            entity.setHasPriority(p.getHasPriority());
-            entity.setOrigenImportacion(p.getOrigenImportacion());
-            entity.setFechaProcesamiento(p.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(p.getEstadoProcesamiento());
-            entity.setDescripcionError(p.getDescripcionError());
-            entity.setEmpresa(p.getEmpresa());
+            entity.setCodigoProducto(price.getCodigoProducto());
+            entity.setCurrency(price.getCurrency());
+            entity.setOnlinePrice(price.getOnlinePrice());
+            entity.setStorePrice(price.getStorePrice());
+            entity.setHasPriority(price.getHasPriority());
+            entity.setOrigenImportacion(price.getOrigenImportacion());
+            entity.setFechaProcesamiento(price.getFechaProcesamiento());
+            entity.setEstadoProcesamiento(price.getEstadoProcesamiento());
+            entity.setDescripcionError(price.getDescripcionError());
+            entity.setEmpresa(price.getEmpresa());
         }
     }
 }

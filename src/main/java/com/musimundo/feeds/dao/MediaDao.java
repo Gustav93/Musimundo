@@ -1,7 +1,6 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Media;
-import com.musimundo.feeds.beans.Precio;
 
 import java.util.List;
 
@@ -13,5 +12,5 @@ public interface MediaDao {
 
     List<Media> findAll();
 
-    void save(Media m);
+    void save(Media media);
 }

@@ -11,5 +11,5 @@ public interface StockDao
 
     List<Stock> findAll();
 
-    void save(Stock s);
+    void save(Stock stock);
 }

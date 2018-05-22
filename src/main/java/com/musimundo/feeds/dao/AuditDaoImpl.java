@@ -1,41 +1,41 @@
 package com.musimundo.feeds.dao;
 
-import com.musimundo.feeds.beans.Precio;
+import com.musimundo.feeds.beans.Audit;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("PrecioDao")
-public class PrecioDaoImpl extends AbstractDao <Integer, Precio> implements PrecioDao
-{
+@Repository("auditDao")
+public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditDao {
 
     @Override
-    public Precio findById(int id) {
-        Precio res = getByKey(id);
+    public Audit findById(int id) {
+        Audit res = getByKey(id);
         return res;
     }
 
     @Override
-    public List<Precio> findByProductCode(String productCode) {
+    public List<Audit> findByProductCode(String productCode) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("codigoProducto", productCode));
 
-        List<Precio> res = crit.list();
+        List<Audit> res = crit.list();
 
         return res;
     }
 
     @Override
-    public List<Precio> findAll() {
+    public List<Audit> findAll() {
         Criteria crit = createEntityCriteria();
-        List<Precio> res = crit.list();
+        List<Audit> res = crit.list();
+
         return res;
     }
 
     @Override
-    public void save(Precio p) {
-        persist(p);
+    public void save(Audit audit) {
+        persist(audit);
     }
 }

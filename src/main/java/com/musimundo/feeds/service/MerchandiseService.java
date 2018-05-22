@@ -12,7 +12,7 @@ public interface MerchandiseService
 
     List<Merchandise> findAll();
 
-    void save(Merchandise m);
+    void save(Merchandise merchandise);
 
-    void update(Merchandise m);
+    void update(Merchandise merchandise);
 }

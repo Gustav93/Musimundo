@@ -31,25 +31,25 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void save(Stock s) {
-        dao.save(s);
+    public void save(Stock stock) {
+        dao.save(stock);
     }
 
     @Override
-    public void update(Stock s) {
-        Stock entity = dao.findById(s.getId());
+    public void update(Stock stock) {
+        Stock entity = dao.findById(stock.getId());
 
         if(entity != null)
         {
-            entity.setCodigoProducto(s.getCodigoProducto());
-            entity.setStock(s.getStock());
-            entity.setWarehouse(s.getWarehouse());
-            entity.setStatus(s.getStatus());
-            entity.setOrigenImportacion(s.getOrigenImportacion());
-            entity.setFechaProcesamiento(s.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(s.getEstadoProcesamiento());
-            entity.setDescripcionError(s.getDescripcionError());
-            entity.setEmpresa(s.getEmpresa());
+            entity.setCodigoProducto(stock.getCodigoProducto());
+            entity.setStock(stock.getStock());
+            entity.setWarehouse(stock.getWarehouse());
+            entity.setStatus(stock.getStatus());
+            entity.setOrigenImportacion(stock.getOrigenImportacion());
+            entity.setFechaProcesamiento(stock.getFechaProcesamiento());
+            entity.setEstadoProcesamiento(stock.getEstadoProcesamiento());
+            entity.setDescripcionError(stock.getDescripcionError());
+            entity.setEmpresa(stock.getEmpresa());
         }
     }
 }

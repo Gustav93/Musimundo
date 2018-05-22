@@ -12,7 +12,7 @@ public interface StockService {
 
     List<Stock> findAll();
 
-    void save(Stock s);
+    void save(Stock stock);
 
-    void update(Stock s);
+    void update(Stock stock);
 }

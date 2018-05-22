@@ -1,14 +1,13 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Media;
-import com.musimundo.feeds.beans.Precio;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("MediaDao")
+@Repository("mediaDao")
 public class MediaDaoImpl extends AbstractDao <Integer, Media> implements MediaDao
 {
     @Override
@@ -36,7 +35,7 @@ public class MediaDaoImpl extends AbstractDao <Integer, Media> implements MediaD
     }
 
     @Override
-    public void save(Media m) {
-        persist(m);
+    public void save(Media media) {
+        persist(media);
     }
 }

@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "AUDITORIA")
-public class Auditoria
+@Table(name = "AUDIT")
+public class Audit
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Auditoria
     @Column(name = "FEED_TYPE")
     private String feedType;
 
-    public Auditoria() {
+    public Audit() {
     }
 
     public Integer getId() {

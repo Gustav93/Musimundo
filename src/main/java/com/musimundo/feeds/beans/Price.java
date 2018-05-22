@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CLASIFICACION")
-public class Clasificacion
+@Table(name = "PRICE")
+public class Price
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,14 +16,17 @@ public class Clasificacion
     @Column(name = "CODIGO_PRODUCTO")
     private String codigoProducto;
 
-    @Column(name = "ATT_CODE")
-    private String attCode;
+    @Column(name = "CURRENCY")
+    private String currency;
 
-    @Column(name = "CODIGO_CATEGORIA")
-    private String codigoCategoria;
+    @Column(name = "ONLINE_PRICE")
+    private Double onlinePrice;
 
-    @Column(name = "VALOR_ATRIBUTO")
-    private String valorAtributo;
+    @Column(name = "STORE_PRICE")
+    private Double storePrice;
+
+    @Column(name = "HAS_PRIORITY")
+    private boolean hasPriority;
 
     @Column(name = "ORIGEN_IMPORTACION")
     private String origenImportacion;
@@ -40,7 +43,7 @@ public class Clasificacion
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Clasificacion()
+    public Price()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -61,28 +64,36 @@ public class Clasificacion
         this.codigoProducto = codigoProducto;
     }
 
-    public String getAttCode() {
-        return attCode;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setAttCode(String attCode) {
-        this.attCode = attCode;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public String getCodigoCategoria() {
-        return codigoCategoria;
+    public Double getOnlinePrice() {
+        return onlinePrice;
     }
 
-    public void setCodigoCategoria(String codigoCategoria) {
-        this.codigoCategoria = codigoCategoria;
+    public void setOnlinePrice(Double onlinePrice) {
+        this.onlinePrice = onlinePrice;
     }
 
-    public String getValorAtributo() {
-        return valorAtributo;
+    public Double getStorePrice() {
+        return storePrice;
     }
 
-    public void setValorAtributo(String valorAtributo) {
-        this.valorAtributo = valorAtributo;
+    public void setStorePrice(Double storePrice) {
+        this.storePrice = storePrice;
+    }
+
+    public boolean getHasPriority() {
+        return hasPriority;
+    }
+
+    public void setHasPriority(boolean hasPriority) {
+        this.hasPriority = hasPriority;
     }
 
     public String getOrigenImportacion() {

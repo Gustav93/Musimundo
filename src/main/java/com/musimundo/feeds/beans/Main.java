@@ -1,18 +1,18 @@
 package com.musimundo.feeds.beans;
 
-import com.musimundo.feeds.dao.ProductoDao;
-import com.musimundo.feeds.dao.ProductoDaoImpl;
+import com.musimundo.feeds.dao.ProductDao;
+import com.musimundo.feeds.dao.ProductDaoImpl;
 
 public class Main
 {
     public static void main(String[] args) {
 
-        Producto p = new Producto();
+        Product p = new Product();
 
         p.setBrand("asd");
         p.setCodigoProducto("1234");
 
-        ProductoDao dao = new ProductoDaoImpl();
+        ProductDao dao = new ProductDaoImpl();
 
 
 //        dao.persist(p);

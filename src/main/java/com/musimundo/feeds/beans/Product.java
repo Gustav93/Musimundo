@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "PRODUCTOS")
-public class Producto
+@Table(name = "PRODUCT")
+public class Product
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class Producto
     @Column(name = "EMPRESA")
     private String empresa;
 
-    public Producto()
+    public Product()
     {
         this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
     }
@@ -193,7 +193,7 @@ public class Producto
 
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Product{" +
                 "id=" + id +
                 ", codigoProducto=" + codigoProducto +
                 ", ean=" + ean +

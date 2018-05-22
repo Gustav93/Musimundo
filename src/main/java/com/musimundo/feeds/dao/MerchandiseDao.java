@@ -12,5 +12,5 @@ public interface MerchandiseDao {
 
     List<Merchandise> findAll();
 
-    void save(Merchandise m);
+    void save(Merchandise merchandise);
 }

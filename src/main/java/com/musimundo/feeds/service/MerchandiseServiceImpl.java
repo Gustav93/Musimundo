@@ -31,28 +31,28 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     }
 
     @Override
-    public void save(Merchandise m) {
-        dao.save(m);
+    public void save(Merchandise merchandise) {
+        dao.save(merchandise);
     }
 
     @Override
-    public void update(Merchandise m) {
+    public void update(Merchandise merchandise) {
 
-        Merchandise entity = dao.findById(m.getId());
+        Merchandise entity = dao.findById(merchandise.getId());
 
         if(entity != null)
         {
-            entity.setSource(m.getSource());
-            entity.setRefType(m.getRefType());
-            entity.setTarget(m.getTarget());
-            entity.setRelacion(m.getRelacion());
-            entity.setQualifier(m.getQualifier());
-            entity.setPreselected(m.getPreselected());
-            entity.setOrigenImportacion(m.getOrigenImportacion());
-            entity.setFechaProcesamiento(m.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(m.getEstadoProcesamiento());
-            entity.setDescripcionError(m.getDescripcionError());
-            entity.setEmpresa(m.getEmpresa());
+            entity.setSource(merchandise.getSource());
+            entity.setRefType(merchandise.getRefType());
+            entity.setTarget(merchandise.getTarget());
+            entity.setRelacion(merchandise.getRelacion());
+            entity.setQualifier(merchandise.getQualifier());
+            entity.setPreselected(merchandise.getPreselected());
+            entity.setOrigenImportacion(merchandise.getOrigenImportacion());
+            entity.setFechaProcesamiento(merchandise.getFechaProcesamiento());
+            entity.setEstadoProcesamiento(merchandise.getEstadoProcesamiento());
+            entity.setDescripcionError(merchandise.getDescripcionError());
+            entity.setEmpresa(merchandise.getEmpresa());
         }
     }
 }

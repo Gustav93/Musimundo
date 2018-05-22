@@ -12,7 +12,7 @@ public interface MediaService
 
     List<Media> findAll();
 
-    void save(Media m);
+    void save(Media media);
 
-    void update(Media m);
+    void update(Media media);
 }
