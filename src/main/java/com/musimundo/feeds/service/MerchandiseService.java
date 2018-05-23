@@ -1,6 +1,7 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Merchandise;
+import com.musimundo.feeds.beans.MerchandiseReport;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MerchandiseService
     void save(Merchandise merchandise);
 
     void update(Merchandise merchandise);
+
+    MerchandiseReport getReport();
 }

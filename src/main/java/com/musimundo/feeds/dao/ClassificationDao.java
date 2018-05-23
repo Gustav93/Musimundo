@@ -1,6 +1,7 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Classification;
+import com.musimundo.utilities.FeedStatus;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface ClassificationDao {
 
     void save(Classification classification);
 
+    Long countAll();
+
+    Long count(FeedStatus status);
 }

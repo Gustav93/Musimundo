@@ -1,13 +1,15 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
+import com.musimundo.utilities.FeedStatus;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("StockDao")
+@Repository("stockDao")
 public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockDao
 {
 
@@ -20,19 +22,19 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
 
     @Override
     public List<Stock> findByProductCode(String productCode) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("codigoProducto", productCode));
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("productCode", productCode));
 
-        List<Stock> res = crit.list();
+        List<Stock> res = criteria.list();
 
         return res;
     }
 
     @Override
     public List<Stock> findAll() {
-        Criteria crit = createEntityCriteria();
+        Criteria criteria = createEntityCriteria();
 
-        List<Stock> res = crit.list();
+        List<Stock> res = criteria.list();
 
         return res;
     }
@@ -40,5 +42,24 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
     @Override
     public void save(Stock stock) {
         persist(stock);
+    }
+
+    @Override
+    public Long countAll() {
+        Criteria criteria = createEntityCriteria();
+        criteria.setProjection(Projections.rowCount());
+        Long res = (Long)criteria.uniqueResult();
+
+        return res;
+    }
+
+    @Override
+    public Long count(FeedStatus status) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("feedStatus", status));
+        criteria.setProjection(Projections.rowCount());
+        Long res = (Long)criteria.uniqueResult();
+
+        return res;
     }
 }

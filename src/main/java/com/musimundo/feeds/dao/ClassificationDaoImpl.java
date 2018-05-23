@@ -1,7 +1,9 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Classification;
+import com.musimundo.utilities.FeedStatus;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -38,5 +40,24 @@ public class ClassificationDaoImpl extends AbstractDao <Integer, Classification>
     @Override
     public void save(Classification classification) {
         persist(classification);
+    }
+
+    @Override
+    public Long countAll() {
+        Criteria criteria = createEntityCriteria();
+        criteria.setProjection(Projections.rowCount());
+        Long res = (Long)criteria.uniqueResult();
+
+        return res;
+    }
+
+    @Override
+    public Long count(FeedStatus status) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("feedStatus", status));
+        criteria.setProjection(Projections.rowCount());
+        Long res = (Long)criteria.uniqueResult();
+
+        return res;
     }
 }

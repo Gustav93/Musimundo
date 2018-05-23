@@ -1,6 +1,7 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Stock;
+import com.musimundo.feeds.beans.StockReport;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface StockService {
     void save(Stock stock);
 
     void update(Stock stock);
+
+    StockReport getReport();
 }

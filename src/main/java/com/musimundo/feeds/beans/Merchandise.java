@@ -1,6 +1,6 @@
 package com.musimundo.feeds.beans;
 
-import com.musimundo.utilities.EstadoProcesamiento;
+import com.musimundo.utilities.FeedStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -37,7 +37,7 @@ public class Merchandise {
     private Date fechaProcesamiento;
 
     @Column(name = "ESTADO_PROCESAMIENTO")
-    private EstadoProcesamiento estadoProcesamiento;
+    private FeedStatus feedStatus;
 
     @Column(name = "DESCRIPCION_ERROR")
     private String descripcionError;
@@ -47,7 +47,7 @@ public class Merchandise {
 
     public Merchandise()
     {
-        this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
+        this.feedStatus = FeedStatus.NOT_PROCESSED;
     }
 
     public Integer getId() {
@@ -122,12 +122,12 @@ public class Merchandise {
         this.fechaProcesamiento = fechaProcesamiento;
     }
 
-    public EstadoProcesamiento getEstadoProcesamiento() {
-        return estadoProcesamiento;
+    public FeedStatus getFeedStatus() {
+        return feedStatus;
     }
 
-    public void setEstadoProcesamiento(EstadoProcesamiento estadoProcesamiento) {
-        this.estadoProcesamiento = estadoProcesamiento;
+    public void setFeedStatus(FeedStatus feedStatus) {
+        this.feedStatus = feedStatus;
     }
 
     public String getDescripcionError() {

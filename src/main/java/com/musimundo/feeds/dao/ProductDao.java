@@ -1,7 +1,7 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Product;
-import com.musimundo.utilities.EstadoProcesamiento;
+import com.musimundo.utilities.FeedStatus;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface ProductDao
 
     Long countAll();
 
-    Long count(EstadoProcesamiento status);
+    Long count(FeedStatus status);
 }

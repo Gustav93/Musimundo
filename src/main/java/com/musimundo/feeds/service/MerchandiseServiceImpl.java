@@ -1,7 +1,9 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Merchandise;
+import com.musimundo.feeds.beans.MerchandiseReport;
 import com.musimundo.feeds.dao.MerchandiseDao;
+import com.musimundo.utilities.FeedStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +52,22 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             entity.setPreselected(merchandise.getPreselected());
             entity.setOrigenImportacion(merchandise.getOrigenImportacion());
             entity.setFechaProcesamiento(merchandise.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(merchandise.getEstadoProcesamiento());
+            entity.setFeedStatus(merchandise.getFeedStatus());
             entity.setDescripcionError(merchandise.getDescripcionError());
             entity.setEmpresa(merchandise.getEmpresa());
         }
+    }
+
+    @Override
+    public MerchandiseReport getReport() {
+        MerchandiseReport report = new MerchandiseReport();
+
+        report.setCountTotal(dao.countAll());
+        report.setCountOk(dao.count(FeedStatus.OK));
+        report.setCountWarning(dao.count(FeedStatus.WARNING));
+        report.setCountError(dao.count(FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.count(FeedStatus.NOT_PROCESSED));
+
+        return report;
     }
 }

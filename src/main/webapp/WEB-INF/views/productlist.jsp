@@ -143,7 +143,7 @@
                                     <tbody>
                                     <c:forEach items="${productList}" var="product">
                                         <tr role="row">
-                                            <td>${product.codigoProducto}</td>
+                                            <td>${product.productCode}</td>
                                             <td>${product.ean}</td>
                                             <td>${product.brand}</td>
                                             <td>${product.name}</td>
@@ -153,11 +153,11 @@
                                             <td>${product.offlineDateTime}</td>
                                             <td>${product.approvalStatus}</td>
                                             <td>${product.description}</td>
-                                            <td>${product.origenImportacion}</td>
-                                            <td>${product.fechaProcesamiento}</td>
-                                            <td>${product.estadoProcesamiento}</td>
-                                            <td>${product.descripcionError}</td>
-                                            <td>${product.empresa}</td>
+                                            <td>${product.importOrigin}</td>
+                                            <td>${product.processingDate}</td>
+                                            <td>${product.feedStatus}</td>
+                                            <td>${product.errorDescription}</td>
+                                            <td>${product.company}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

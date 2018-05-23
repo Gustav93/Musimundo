@@ -3,7 +3,7 @@ package com.musimundo.feeds.service;
 import com.musimundo.feeds.beans.Product;
 import com.musimundo.feeds.beans.ProductReport;
 import com.musimundo.feeds.dao.ProductDao;
-import com.musimundo.utilities.EstadoProcesamiento;
+import com.musimundo.utilities.FeedStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        Long r = dao.count(EstadoProcesamiento.NO_PROCESADO);
+        Long r = dao.count(FeedStatus.NOT_PROCESSED);
         System.out.println(r);
         return dao.findAll();
     }
@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
          if(entity != null)
          {
-             entity.setCodigoProducto(product.getCodigoProducto());
+             entity.setProductCode(product.getProductCode());
              entity.setEan(product.getEan());
              entity.setBrand(product.getBrand());
              entity.setName(product.getName());
@@ -54,11 +54,11 @@ public class ProductServiceImpl implements ProductService {
              entity.setOfflineDateTime(product.getOfflineDateTime());
              entity.setApprovalStatus(product.getApprovalStatus());
              entity.setDescription(product.getDescription());
-             entity.setOrigenImportacion(product.getOrigenImportacion());
-             entity.setFechaProcesamiento(product.getFechaProcesamiento());
-             entity.setEstadoProcesamiento(product.getEstadoProcesamiento());
-             entity.setDescripcionError(product.getDescripcionError());
-             entity.setEmpresa(product.getEmpresa());
+             entity.setImportOrigin(product.getImportOrigin());
+             entity.setProcessingDate(product.getProcessingDate());
+             entity.setFeedStatus(product.getFeedStatus());
+             entity.setErrorDescription(product.getErrorDescription());
+             entity.setCompany(product.getCompany());
          }
     }
 
@@ -66,10 +66,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductReport getReport() {
         ProductReport report = new ProductReport();
         report.setCountTotal(dao.countAll());
-        report.setCountOk(dao.count(EstadoProcesamiento.PROCESADO_CORRECTAMENTE));
-        report.setCountWarning(dao.count(EstadoProcesamiento.PROCESADO_CON_WARNING));
-        report.setCountError(dao.count(EstadoProcesamiento.PROCESADO_CON_ERROR));
-        report.setCountNotProcessed(dao.count(EstadoProcesamiento.NO_PROCESADO));
+        report.setCountOk(dao.count(FeedStatus.OK));
+        report.setCountWarning(dao.count(FeedStatus.WARNING));
+        report.setCountError(dao.count(FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.count(FeedStatus.NOT_PROCESSED));
 
         return report;
     }

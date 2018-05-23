@@ -1,7 +1,7 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Product;
-import com.musimundo.utilities.EstadoProcesamiento;
+import com.musimundo.utilities.FeedStatus;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -20,18 +20,18 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
 
     @Override
     public List<Product> findByProductCode(String productCode) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("codigoProducto", productCode));
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("productCode", productCode));
 
-        List<Product> res = (List<Product>) crit.list();
+        List<Product> res = (List<Product>) criteria.list();
 
         return res;
     }
 
     @Override
     public List<Product> findAll() {
-        Criteria crit = createEntityCriteria();
-        List<Product> res = (List<Product>) crit.list();
+        Criteria criteria = createEntityCriteria();
+        List<Product> res = (List<Product>) criteria.list();
 
         return res;
     }
@@ -51,9 +51,9 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
     }
 
     @Override
-    public Long count(EstadoProcesamiento status) {
+    public Long count(FeedStatus status) {
         Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("estadoProcesamiento", status));
+        criteria.add(Restrictions.eq("feedStatus", status));
         criteria.setProjection(Projections.rowCount());
         Long res = (Long)criteria.uniqueResult();
 

@@ -1,6 +1,6 @@
 package com.musimundo.feeds.beans;
 
-import com.musimundo.utilities.EstadoProcesamiento;
+import com.musimundo.utilities.FeedStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,8 +13,8 @@ public class Product
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "CODIGO_PRODUCTO")
-    private String codigoProducto;
+    @Column(name = "PRODUCT_CODE")
+    private String productCode;
 
     @Column(name = "EAN")
     private String ean;
@@ -43,24 +43,24 @@ public class Product
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "ORIGEN_IMPORTACION")
-    private String origenImportacion;
+    @Column(name = "IMPORT_ORIGIN")
+    private String importOrigin;
 
-    @Column(name = "FECHA_PROCESAMIENTO")
-    private Date fechaProcesamiento;
+    @Column(name = "PROCESSING_DATE")
+    private Date processingDate;
 
-    @Column(name = "ESTADO_PROCESAMIENTO")
-    private EstadoProcesamiento estadoProcesamiento;
+    @Column(name = "FEED_STATUS")
+    private FeedStatus feedStatus;
 
-    @Column(name = "DESCRIPCION_ERROR")
-    private String descripcionError;
+    @Column(name = "ERROR_DESCRIPTION")
+    private String errorDescription;
 
-    @Column(name = "EMPRESA")
-    private String empresa;
+    @Column(name = "COMPANY")
+    private String company;
 
     public Product()
     {
-        this.estadoProcesamiento = EstadoProcesamiento.NO_PROCESADO;
+        this.feedStatus = FeedStatus.NOT_PROCESSED;
     }
 
     public Integer getId() {
@@ -71,12 +71,12 @@ public class Product
         this.id = id;
     }
 
-    public String getCodigoProducto() {
-        return codigoProducto;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public String getEan() {
@@ -151,51 +151,51 @@ public class Product
         this.description = description;
     }
 
-    public String getOrigenImportacion() {
-        return origenImportacion;
+    public String getImportOrigin() {
+        return importOrigin;
     }
 
-    public void setOrigenImportacion(String origenImportacion) {
-        this.origenImportacion = origenImportacion;
+    public void setImportOrigin(String importOrigin) {
+        this.importOrigin = importOrigin;
     }
 
-    public Date getFechaProcesamiento() {
-        return fechaProcesamiento;
+    public Date getProcessingDate() {
+        return processingDate;
     }
 
-    public void setFechaProcesamiento(Date fechaProcesamiento) {
-        this.fechaProcesamiento = fechaProcesamiento;
+    public void setProcessingDate(Date processingDate) {
+        this.processingDate = processingDate;
     }
 
-    public EstadoProcesamiento getEstadoProcesamiento() {
-        return estadoProcesamiento;
+    public FeedStatus getFeedStatus() {
+        return feedStatus;
     }
 
-    public void setEstadoProcesamiento(EstadoProcesamiento estadoProcesamiento) {
-        this.estadoProcesamiento = estadoProcesamiento;
+    public void setFeedStatus(FeedStatus feedStatus) {
+        this.feedStatus = feedStatus;
     }
 
-    public String getDescripcionError() {
-        return descripcionError;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 
-    public void setDescripcionError(String descripcionError) {
-        this.descripcionError = descripcionError;
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 
-    public String getEmpresa() {
-        return empresa;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", codigoProducto=" + codigoProducto +
+                ", productCode=" + productCode +
                 ", ean=" + ean +
                 ", brand='" + brand + '\'' +
                 ", name='" + name + '\'' +
@@ -205,11 +205,11 @@ public class Product
                 ", offlineDateTime=" + offlineDateTime +
                 ", approvalStatus='" + approvalStatus + '\'' +
                 ", description='" + description + '\'' +
-                ", origenImportacion='" + origenImportacion + '\'' +
-                ", fechaProcesamiento=" + fechaProcesamiento +
-                ", estadoProcesamiento='" + estadoProcesamiento + '\'' +
-                ", descripcionError='" + descripcionError + '\'' +
-                ", empresa='" + empresa + '\'' +
+                ", importOrigin='" + importOrigin + '\'' +
+                ", processingDate=" + processingDate +
+                ", feedStatus='" + feedStatus + '\'' +
+                ", errorDescription='" + errorDescription + '\'' +
+                ", company='" + company + '\'' +
                 '}';
     }
 }

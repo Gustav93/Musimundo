@@ -211,7 +211,7 @@
 												<td>${carroCerrado.medioPago}</td>
 												<td>${carroCerrado.tarjeta}</td>
 												<td>${carroCerrado.cuotas}</td>
-												<td>${carroCerrado.empresa}</td>
+												<td>${carroCerrado.company}</td>
 												<td>${carroCerrado.total}</td>
 											</tr>
 										</c:forEach>

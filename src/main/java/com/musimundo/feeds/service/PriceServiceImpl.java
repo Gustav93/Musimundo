@@ -1,7 +1,9 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Price;
+import com.musimundo.feeds.beans.PriceReport;
 import com.musimundo.feeds.dao.PriceDao;
+import com.musimundo.utilities.FeedStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,16 +44,28 @@ public class PriceServiceImpl implements PriceService {
 
         if(entity != null)
         {
-            entity.setCodigoProducto(price.getCodigoProducto());
+            entity.setProductCode(price.getProductCode());
             entity.setCurrency(price.getCurrency());
             entity.setOnlinePrice(price.getOnlinePrice());
             entity.setStorePrice(price.getStorePrice());
             entity.setHasPriority(price.getHasPriority());
-            entity.setOrigenImportacion(price.getOrigenImportacion());
-            entity.setFechaProcesamiento(price.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(price.getEstadoProcesamiento());
-            entity.setDescripcionError(price.getDescripcionError());
-            entity.setEmpresa(price.getEmpresa());
+            entity.setImportOrigin(price.getImportOrigin());
+            entity.setProcessingDate(price.getProcessingDate());
+            entity.setFeedStatus(price.getFeedStatus());
+            entity.setErrorDescription(price.getErrorDescription());
+            entity.setCompany(price.getCompany());
         }
+    }
+
+    @Override
+    public PriceReport getReport() {
+        PriceReport report = new PriceReport();
+        report.setCountTotal(dao.countAll());
+        report.setCountOk(dao.count(FeedStatus.OK));
+        report.setCountWarning(dao.count(FeedStatus.WARNING));
+        report.setCountError(dao.count(FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.count(FeedStatus.NOT_PROCESSED));
+
+        return report;
     }
 }

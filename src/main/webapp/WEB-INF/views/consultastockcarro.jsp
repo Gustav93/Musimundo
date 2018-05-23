@@ -62,12 +62,12 @@
 <script>
     function consultarStock()
     {
-        var empresa = document.getElementById("empresa").value;
+        var company = document.getElementById("company").value;
         var codigo = document.getElementById("codigo").value;
 
         $("#stockDisponible").text("");
         $("#cantStock").text("");
-        $.get("/consultar_retiro_tienda?codigo="+ codigo + "&" + "empresa=" + empresa, function (data) {
+        $.get("/consultar_retiro_tienda?codigo="+ codigo + "&" + "company=" + company, function (data) {
             if(data == "true")
                 $("#stockDisponible").text("Si");
 
@@ -78,7 +78,7 @@
                 alert("El producto no existe");
         });
 
-        $.get("/consultar_cant_stock?codigo="+ codigo + "&" + "empresa=" + empresa, function (cantStock) {
+        $.get("/consultar_cant_stock?codigo="+ codigo + "&" + "company=" + company, function (cantStock) {
             if(cantStock != "null")
                 $("#cantStock").text(cantStock);
         });
@@ -110,7 +110,7 @@
                             Empresa:
                         </div>
                         <div class="col-md-2 col-sm-12 col-xs-12">
-                            <select class = "col-sm-12 form-control d-inline" name="empresa" id="empresa" onchange="almacenarEmpresa()">
+                            <select class = "col-sm-12 form-control d-inline" name="company" id="company" onchange="almacenarEmpresa()">
                                 <option value="Emsa">Emsa</option>
                                 <option value="Carsa">Carsa</option>
                             </select>

@@ -1,7 +1,9 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Media;
+import com.musimundo.feeds.beans.MediaReport;
 import com.musimundo.feeds.dao.MediaDao;
+import com.musimundo.utilities.FeedStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,9 +49,21 @@ public class MediaServiceImpl implements MediaService
             entity.setIsDefault(media.getIsDefault());
             entity.setOrigenImportacion(media.getOrigenImportacion());
             entity.setFechaProcesamiento(media.getFechaProcesamiento());
-            entity.setEstadoProcesamiento(media.getEstadoProcesamiento());
+            entity.setFeedStatus(media.getFeedStatus());
             entity.setDescripcionError(media.getDescripcionError());
             entity.setEmpresa(media.getEmpresa());
         }
+    }
+
+    @Override
+    public MediaReport getReport() {
+        MediaReport report = new MediaReport();
+        report.setCountTotal(dao.countAll());
+        report.setCountOk(dao.count(FeedStatus.OK));
+        report.setCountWarning(dao.count(FeedStatus.WARNING));
+        report.setCountError(dao.count(FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.count(FeedStatus.NOT_PROCESSED));
+
+        return report;
     }
 }

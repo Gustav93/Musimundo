@@ -1,6 +1,8 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
+import com.musimundo.utilities.FeedStatus;
+
 import java.util.List;
 
 public interface StockDao
@@ -12,4 +14,8 @@ public interface StockDao
     List<Stock> findAll();
 
     void save(Stock stock);
+
+    Long countAll();
+
+    Long count(FeedStatus status);
 }

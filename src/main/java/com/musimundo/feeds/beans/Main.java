@@ -10,7 +10,7 @@ public class Main
         Product p = new Product();
 
         p.setBrand("asd");
-        p.setCodigoProducto("1234");
+        p.setProductCode("1234");
 
         ProductDao dao = new ProductDaoImpl();
 

@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.musimundo.feeds.beans.Product;
-import com.musimundo.feeds.beans.ProductReport;
-import com.musimundo.feeds.service.ProductService;
+import com.musimundo.feeds.beans.*;
+import com.musimundo.feeds.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -71,7 +70,21 @@ public class AppController {
 
 	@Autowired
 	ProductService productService;
-	
+
+	@Autowired
+	PriceService priceService;
+
+	@Autowired
+	StockService stockService;
+
+	@Autowired
+	MediaService mediaService;
+
+	@Autowired
+	MerchandiseService merchandiseService;
+
+	@Autowired
+	ClassificationService classificationService;
 	
 	/**
 	 * This method will list all existing users.
@@ -85,14 +98,14 @@ public class AppController {
 
 		Product p = new Product();
 		p.setBrand("aaaa");
-		p.setCodigoProducto("123456");
+		p.setProductCode("123456");
 
 		productService.save(p);
 
 		List<Product> res = productService.findAll();
 		res.toString();
 
-		String a = res.get(0).getEstadoProcesamiento().toString();
+		String a = res.get(0).getFeedStatus().toString();
 
 		return "userslist";
 	}
@@ -335,6 +348,61 @@ public class AppController {
 		model.addAttribute("productReport", productReport);
 
 		return "productlist";
+	}
+
+	@RequestMapping(value = {"/listaprecios"})
+	public String getPriceList(ModelMap model){
+		List<Price> priceList = priceService.findAll();
+		PriceReport priceReport = priceService.getReport();
+
+		model.addAttribute("priceList", priceList);
+		model.addAttribute("priceReport", priceReport);
+
+		return "priceList";
+	}
+
+	@RequestMapping(value = {"/listastock"})
+	public String getStockList(ModelMap model){
+		List<Stock> stockList = stockService.findAll();
+		StockReport stockReport = stockService.getReport();
+
+		model.addAttribute("stockList", stockList);
+		model.addAttribute("stockReport", stockReport);
+
+		return "stockList";
+	}
+
+	@RequestMapping(value = {"/listamedia"})
+	public String getMediaList(ModelMap model){
+		List<Media> mediaList = mediaService.findAll();
+		MediaReport mediaReport = mediaService.getReport();
+
+		model.addAttribute("mediaList", mediaList);
+		model.addAttribute("mediaReport", mediaReport);
+
+		return "mediaList";
+	}
+
+	@RequestMapping(value = {"/listamerchandise"})
+	public String getMerchandiseList(ModelMap model){
+		List<Merchandise> merchandiseList = merchandiseService.findAll();
+		MerchandiseReport merchandiseReport= merchandiseService.getReport();
+
+		model.addAttribute("merchandiseList", merchandiseList);
+		model.addAttribute("merchandiseReport", merchandiseReport);
+
+		return "merchandiseList";
+	}
+
+	@RequestMapping(value = {"/listaclasificacion"})
+	public String getCLassificationList(ModelMap model){
+		List<Classification> classificationList = classificationService.findAll();
+		ClassificationReport classificationReport= classificationService.getReport();
+
+		model.addAttribute("classificationList", classificationList);
+		model.addAttribute("classificationReport", classificationReport);
+
+		return "classificationList";
 	}
 	
 	/**

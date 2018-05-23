@@ -1,6 +1,7 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Classification;
+import com.musimundo.feeds.beans.ClassificationReport;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ClassificationService
     void save(Classification classification);
 
     void update(Classification classification);
+
+    ClassificationReport getReport();
 }
