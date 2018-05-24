@@ -358,7 +358,7 @@ public class AppController {
 		model.addAttribute("priceList", priceList);
 		model.addAttribute("priceReport", priceReport);
 
-		return "priceList";
+		return "pricelist";
 	}
 
 	@RequestMapping(value = {"/listastock"})
@@ -369,7 +369,7 @@ public class AppController {
 		model.addAttribute("stockList", stockList);
 		model.addAttribute("stockReport", stockReport);
 
-		return "stockList";
+		return "stocklist";
 	}
 
 	@RequestMapping(value = {"/listamedia"})
@@ -380,7 +380,7 @@ public class AppController {
 		model.addAttribute("mediaList", mediaList);
 		model.addAttribute("mediaReport", mediaReport);
 
-		return "mediaList";
+		return "medialist";
 	}
 
 	@RequestMapping(value = {"/listamerchandise"})
@@ -391,7 +391,7 @@ public class AppController {
 		model.addAttribute("merchandiseList", merchandiseList);
 		model.addAttribute("merchandiseReport", merchandiseReport);
 
-		return "merchandiseList";
+		return "merchandiselist";
 	}
 
 	@RequestMapping(value = {"/listaclasificacion"})
@@ -402,7 +402,7 @@ public class AppController {
 		model.addAttribute("classificationList", classificationList);
 		model.addAttribute("classificationReport", classificationReport);
 
-		return "classificationList";
+		return "classificationlist";
 	}
 	
 	/**

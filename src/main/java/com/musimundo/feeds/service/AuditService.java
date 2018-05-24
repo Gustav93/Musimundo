@@ -1,12 +1,11 @@
-package com.musimundo.feeds.dao;
+package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Audit;
 import com.musimundo.utilities.FeedType;
 
 import java.util.List;
 
-public interface AuditDao
-{
+public interface AuditService {
     Audit findById(int id);
 
     List<Audit> findByProductCode(String productCode);
@@ -14,6 +13,4 @@ public interface AuditDao
     List<Audit> findByFeedType(FeedType feedType);
 
     List<Audit> findAll();
-
-    void save(Audit audit);
 }

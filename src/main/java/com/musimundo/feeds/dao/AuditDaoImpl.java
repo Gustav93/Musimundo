@@ -1,7 +1,9 @@
 package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Audit;
+import com.musimundo.utilities.FeedType;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,15 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         crit.add(Restrictions.eq("codigoProducto", productCode));
 
         List<Audit> res = crit.list();
+
+        return res;
+    }
+
+    @Override
+    public List<Audit> findByFeedType(FeedType feedType) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("feedType", feedType));
+        List<Audit> res = criteria.list();
 
         return res;
     }

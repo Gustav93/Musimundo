@@ -34,7 +34,7 @@ public class Classification
     @Column(name = "FEED_STATUS")
     private FeedStatus feedStatus;
 
-    @Column(name = "ERROR_DESCRIPCION")
+    @Column(name = "ERROR_DESCRIPTION")
     private String errorDescription;
 
     @Column(name = "COMPANY")

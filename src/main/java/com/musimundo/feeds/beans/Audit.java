@@ -1,5 +1,7 @@
 package com.musimundo.feeds.beans;
 
+import com.musimundo.utilities.FeedType;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -26,8 +28,8 @@ public class Audit
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "EMPRESA")
-    private String empresa;
+    @Column(name = "COMPANY")
+    private String company;
 
     @Column(name = "PRODUCT_CODE")
     private String productCode;
@@ -36,7 +38,7 @@ public class Audit
     private String importOrigin;
 
     @Column(name = "FEED_TYPE")
-    private String feedType;
+    private FeedType feedType;
 
     public Audit() {
     }
@@ -89,12 +91,12 @@ public class Audit
         this.description = description;
     }
 
-    public String getEmpresa() {
-        return empresa;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getProductCode() {
@@ -113,11 +115,11 @@ public class Audit
         this.importOrigin = importOrigin;
     }
 
-    public String getFeedType() {
+    public FeedType getFeedType() {
         return feedType;
     }
 
-    public void setFeedType(String feedType) {
+    public void setFeedType(FeedType feedType) {
         this.feedType = feedType;
     }
 }

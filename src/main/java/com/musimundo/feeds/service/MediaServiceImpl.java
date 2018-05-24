@@ -44,14 +44,14 @@ public class MediaServiceImpl implements MediaService
 
         if(entity != null)
         {
-            entity.setCodigoProducto(media.getCodigoProducto());
+            entity.setProductCode(media.getProductCode());
             entity.setCodeMedia(media.getCodeMedia());
             entity.setIsDefault(media.getIsDefault());
-            entity.setOrigenImportacion(media.getOrigenImportacion());
-            entity.setFechaProcesamiento(media.getFechaProcesamiento());
+            entity.setImportOrigin(media.getImportOrigin());
+            entity.setProcessingDate(media.getProcessingDate());
             entity.setFeedStatus(media.getFeedStatus());
-            entity.setDescripcionError(media.getDescripcionError());
-            entity.setEmpresa(media.getEmpresa());
+            entity.setErrorDescription(media.getErrorDescription());
+            entity.setCompany(media.getCompany());
         }
     }
 

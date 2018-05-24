@@ -43,15 +43,15 @@ public class StockServiceImpl implements StockService {
 
         if(entity != null)
         {
-            entity.setCodigoProducto(stock.getCodigoProducto());
+            entity.setProductCode(stock.getProductCode());
             entity.setStock(stock.getStock());
             entity.setWarehouse(stock.getWarehouse());
             entity.setStatus(stock.getStatus());
-            entity.setOrigenImportacion(stock.getOrigenImportacion());
-            entity.setFechaProcesamiento(stock.getFechaProcesamiento());
+            entity.setImportOrigin(stock.getImportOrigin());
+            entity.setProcessingDate(stock.getProcessingDate());
             entity.setFeedStatus(stock.getFeedStatus());
-            entity.setDescripcionError(stock.getDescripcionError());
-            entity.setEmpresa(stock.getEmpresa());
+            entity.setErrorDescription(stock.getErrorDescription());
+            entity.setCompany(stock.getCompany());
         }
     }
 

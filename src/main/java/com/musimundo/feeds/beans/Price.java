@@ -37,7 +37,7 @@ public class Price
     @Column(name = "FEED_STATUS")
     private FeedStatus feedStatus;
 
-    @Column(name = "DESCRIPCION_ERROR")
+    @Column(name = "ERROR_DESCRIPTION")
     private String errorDescription;
 
     @Column(name = "COMPANY")

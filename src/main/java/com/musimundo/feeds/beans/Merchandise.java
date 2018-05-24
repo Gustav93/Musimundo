@@ -21,8 +21,8 @@ public class Merchandise {
     @Column(name = "TARGET")
     private String target;
 
-    @Column(name = "RELACION")
-    private String relacion;
+    @Column(name = "RELATIONSHIP")
+    private String relationship;
 
     @Column(name = "QUALIFIER")
     private String qualifier;
@@ -30,20 +30,20 @@ public class Merchandise {
     @Column(name = "PRESELECTED")
     private String preselected;
 
-    @Column(name = "ORIGEN_IMPORTACION")
-    private String origenImportacion;
+    @Column(name = "IMPORT_ORIGIN")
+    private String importOrigin;
 
-    @Column(name = "FECHA_PROCESAMIENTO")
-    private Date fechaProcesamiento;
+    @Column(name = "PROCESSING_DATE")
+    private Date processingDate;
 
-    @Column(name = "ESTADO_PROCESAMIENTO")
+    @Column(name = "FEED_STATUS")
     private FeedStatus feedStatus;
 
-    @Column(name = "DESCRIPCION_ERROR")
-    private String descripcionError;
+    @Column(name = "ERROR_DESCRIPTION")
+    private String errorDescription;
 
-    @Column(name = "EMPRESA")
-    private String empresa;
+    @Column(name = "COMPANY")
+    private String company;
 
     public Merchandise()
     {
@@ -82,12 +82,12 @@ public class Merchandise {
         this.target = target;
     }
 
-    public String getRelacion() {
-        return relacion;
+    public String getRelationship() {
+        return relationship;
     }
 
-    public void setRelacion(String relacion) {
-        this.relacion = relacion;
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
     }
 
     public String getQualifier() {
@@ -106,20 +106,20 @@ public class Merchandise {
         this.preselected = preselected;
     }
 
-    public String getOrigenImportacion() {
-        return origenImportacion;
+    public String getImportOrigin() {
+        return importOrigin;
     }
 
-    public void setOrigenImportacion(String origenImportacion) {
-        this.origenImportacion = origenImportacion;
+    public void setImportOrigin(String importOrigin) {
+        this.importOrigin = importOrigin;
     }
 
-    public Date getFechaProcesamiento() {
-        return fechaProcesamiento;
+    public Date getProcessingDate() {
+        return processingDate;
     }
 
-    public void setFechaProcesamiento(Date fechaProcesamiento) {
-        this.fechaProcesamiento = fechaProcesamiento;
+    public void setProcessingDate(Date processingDate) {
+        this.processingDate = processingDate;
     }
 
     public FeedStatus getFeedStatus() {
@@ -130,20 +130,20 @@ public class Merchandise {
         this.feedStatus = feedStatus;
     }
 
-    public String getDescripcionError() {
-        return descripcionError;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 
-    public void setDescripcionError(String descripcionError) {
-        this.descripcionError = descripcionError;
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 
-    public String getEmpresa() {
-        return empresa;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
+    public void setCompany(String company) {
+        this.company = company;
     }
 }
 

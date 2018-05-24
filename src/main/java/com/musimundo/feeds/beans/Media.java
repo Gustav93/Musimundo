@@ -13,8 +13,8 @@ public class Media
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "CODIGO_PRODUCTO")
-    private String codigoProducto;
+    @Column(name = "PRODUCT_CODE")
+    private String productCode;
 
     @Column(name = "CODE_MEDIA")
     private String codeMedia;
@@ -22,20 +22,20 @@ public class Media
     @Column(name = "IS_DEFAULT")
     private boolean isDefault;
 
-    @Column(name = "ORIGEN_IMPORTACION")
-    private String origenImportacion;
+    @Column(name = "IMPORT_ORIGIN")
+    private String importOrigin;
 
-    @Column(name = "FECHA_PROCESAMIENTO")
-    private Date fechaProcesamiento;
+    @Column(name = "PROCESSING_DATE")
+    private Date processingDate;
 
-    @Column(name = "ESTADO_PROCESAMIENTO")
+    @Column(name = "FEED_STATUS")
     private FeedStatus feedStatus;
 
-    @Column(name = "DESCRIPCION_ERROR")
-    private String descripcionError;
+    @Column(name = "ERROR_DESCRIPTION")
+    private String errorDescription;
 
-    @Column(name = "EMPRESA")
-    private String empresa;
+    @Column(name = "COMPANY")
+    private String company;
 
     public Media()
     {
@@ -50,12 +50,12 @@ public class Media
         this.id = id;
     }
 
-    public String getCodigoProducto() {
-        return codigoProducto;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public String getCodeMedia() {
@@ -74,20 +74,20 @@ public class Media
         isDefault = aDefault;
     }
 
-    public String getOrigenImportacion() {
-        return origenImportacion;
+    public String getImportOrigin() {
+        return importOrigin;
     }
 
-    public void setOrigenImportacion(String origenImportacion) {
-        this.origenImportacion = origenImportacion;
+    public void setImportOrigin(String importOrigin) {
+        this.importOrigin = importOrigin;
     }
 
-    public Date getFechaProcesamiento() {
-        return fechaProcesamiento;
+    public Date getProcessingDate() {
+        return processingDate;
     }
 
-    public void setFechaProcesamiento(Date fechaProcesamiento) {
-        this.fechaProcesamiento = fechaProcesamiento;
+    public void setProcessingDate(Date processingDate) {
+        this.processingDate = processingDate;
     }
 
     public FeedStatus getFeedStatus() {
@@ -98,19 +98,19 @@ public class Media
         this.feedStatus = feedStatus;
     }
 
-    public String getDescripcionError() {
-        return descripcionError;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 
-    public void setDescripcionError(String descripcionError) {
-        this.descripcionError = descripcionError;
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 
-    public String getEmpresa() {
-        return empresa;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
+    public void setCompany(String company) {
+        this.company = company;
     }
 }

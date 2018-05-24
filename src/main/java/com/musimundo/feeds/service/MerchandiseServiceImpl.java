@@ -47,14 +47,14 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             entity.setSource(merchandise.getSource());
             entity.setRefType(merchandise.getRefType());
             entity.setTarget(merchandise.getTarget());
-            entity.setRelacion(merchandise.getRelacion());
+            entity.setRelationship(merchandise.getRelationship());
             entity.setQualifier(merchandise.getQualifier());
             entity.setPreselected(merchandise.getPreselected());
-            entity.setOrigenImportacion(merchandise.getOrigenImportacion());
-            entity.setFechaProcesamiento(merchandise.getFechaProcesamiento());
+            entity.setImportOrigin(merchandise.getImportOrigin());
+            entity.setProcessingDate(merchandise.getProcessingDate());
             entity.setFeedStatus(merchandise.getFeedStatus());
-            entity.setDescripcionError(merchandise.getDescripcionError());
-            entity.setEmpresa(merchandise.getEmpresa());
+            entity.setErrorDescription(merchandise.getErrorDescription());
+            entity.setCompany(merchandise.getCompany());
         }
     }
 
