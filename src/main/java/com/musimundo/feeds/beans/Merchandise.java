@@ -12,7 +12,7 @@ public class Merchandise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "SOURCE")
+    @Column(name = "SOURCE", nullable = false)
     private String source;
 
     @Column(name = "REF_TYPE")
@@ -30,13 +30,13 @@ public class Merchandise {
     @Column(name = "PRESELECTED")
     private String preselected;
 
-    @Column(name = "IMPORT_ORIGIN")
+    @Column(name = "IMPORT_ORIGIN", nullable = false)
     private String importOrigin;
 
     @Column(name = "PROCESSING_DATE")
     private Date processingDate;
 
-    @Column(name = "FEED_STATUS")
+    @Column(name = "FEED_STATUS", nullable = false)
     private FeedStatus feedStatus;
 
     @Column(name = "ERROR_DESCRIPTION")
@@ -45,9 +45,13 @@ public class Merchandise {
     @Column(name = "COMPANY")
     private String company;
 
+    @Column(name = "PROCESSED", nullable = false)
+    private boolean processed;
+
     public Merchandise()
     {
         this.feedStatus = FeedStatus.NOT_PROCESSED;
+        this.processed = false;
     }
 
     public Integer getId() {
@@ -144,6 +148,14 @@ public class Merchandise {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 }
 

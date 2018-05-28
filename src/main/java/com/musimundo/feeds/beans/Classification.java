@@ -13,7 +13,7 @@ public class Classification
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "PRODUCT_CODE")
+    @Column(name = "PRODUCT_CODE", nullable = false)
     private String productCode;
 
     @Column(name = "ATT_CODE")
@@ -25,13 +25,13 @@ public class Classification
     @Column(name = "ATT_VALUE")
     private String attValue;
 
-    @Column(name = "IMPORT_ORIGIN")
+    @Column(name = "IMPORT_ORIGIN", nullable = false)
     private String importOrigin;
 
     @Column(name = "PROCESSING_DATE")
     private Date processingDate;
 
-    @Column(name = "FEED_STATUS")
+    @Column(name = "FEED_STATUS", nullable = false)
     private FeedStatus feedStatus;
 
     @Column(name = "ERROR_DESCRIPTION")
@@ -40,9 +40,13 @@ public class Classification
     @Column(name = "COMPANY")
     private String company;
 
+    @Column(name = "PROCESSED", nullable = false)
+    private boolean processed;
+
     public Classification()
     {
         this.feedStatus = FeedStatus.NOT_PROCESSED;
+        this.processed = false;
     }
 
     public Integer getId() {
@@ -123,5 +127,13 @@ public class Classification
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 }

@@ -13,7 +13,7 @@ public class Product
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "PRODUCT_CODE")
+    @Column(name = "PRODUCT_CODE", nullable = false)
     private String productCode;
 
     @Column(name = "EAN")
@@ -43,13 +43,13 @@ public class Product
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "IMPORT_ORIGIN")
+    @Column(name = "IMPORT_ORIGIN", nullable = false)
     private String importOrigin;
 
     @Column(name = "PROCESSING_DATE")
     private Date processingDate;
 
-    @Column(name = "FEED_STATUS")
+    @Column(name = "FEED_STATUS", nullable = false)
     private FeedStatus feedStatus;
 
     @Column(name = "ERROR_DESCRIPTION")
@@ -58,9 +58,13 @@ public class Product
     @Column(name = "COMPANY")
     private String company;
 
+    @Column(name = "PROCESSED", nullable = false)
+    private boolean processed;
+
     public Product()
     {
         this.feedStatus = FeedStatus.NOT_PROCESSED;
+        this.processed = false;
     }
 
     public Integer getId() {
@@ -191,25 +195,11 @@ public class Product
         this.company = company;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", productCode=" + productCode +
-                ", ean=" + ean +
-                ", brand='" + brand + '\'' +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                ", weight=" + weight +
-                ", onlineDateTime=" + onlineDateTime +
-                ", offlineDateTime=" + offlineDateTime +
-                ", approvalStatus='" + approvalStatus + '\'' +
-                ", description='" + description + '\'' +
-                ", importOrigin='" + importOrigin + '\'' +
-                ", processingDate=" + processingDate +
-                ", feedStatus='" + feedStatus + '\'' +
-                ", errorDescription='" + errorDescription + '\'' +
-                ", company='" + company + '\'' +
-                '}';
+    public boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 }

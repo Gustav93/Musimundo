@@ -68,24 +68,6 @@ public class AppController {
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
 
-	@Autowired
-	ProductService productService;
-
-	@Autowired
-	PriceService priceService;
-
-	@Autowired
-	StockService stockService;
-
-	@Autowired
-	MediaService mediaService;
-
-	@Autowired
-	MerchandiseService merchandiseService;
-
-	@Autowired
-	ClassificationService classificationService;
-	
 	/**
 	 * This method will list all existing users.
 	 */
@@ -95,17 +77,6 @@ public class AppController {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
-
-		Product p = new Product();
-		p.setBrand("aaaa");
-		p.setProductCode("123456");
-
-		productService.save(p);
-
-		List<Product> res = productService.findAll();
-		res.toString();
-
-		String a = res.get(0).getFeedStatus().toString();
 
 		return "userslist";
 	}
@@ -338,72 +309,16 @@ public class AppController {
 		return "consultacarro";
 	}
 
-	@RequestMapping(value = {"/listaproductos"})
-	public String getProductList(ModelMap model){
 
-		List<Product> productList = productService.findAll();
-		ProductReport productReport = productService.getReport();
 
-		model.addAttribute("productList", productList);
-		model.addAttribute("productReport", productReport);
-
-		return "productlist";
-	}
-
-	@RequestMapping(value = {"/listaprecios"})
-	public String getPriceList(ModelMap model){
-		List<Price> priceList = priceService.findAll();
-		PriceReport priceReport = priceService.getReport();
-
-		model.addAttribute("priceList", priceList);
-		model.addAttribute("priceReport", priceReport);
-
-		return "pricelist";
-	}
-
-	@RequestMapping(value = {"/listastock"})
-	public String getStockList(ModelMap model){
-		List<Stock> stockList = stockService.findAll();
-		StockReport stockReport = stockService.getReport();
-
-		model.addAttribute("stockList", stockList);
-		model.addAttribute("stockReport", stockReport);
-
-		return "stocklist";
-	}
-
-	@RequestMapping(value = {"/listamedia"})
-	public String getMediaList(ModelMap model){
-		List<Media> mediaList = mediaService.findAll();
-		MediaReport mediaReport = mediaService.getReport();
-
-		model.addAttribute("mediaList", mediaList);
-		model.addAttribute("mediaReport", mediaReport);
-
-		return "medialist";
-	}
-
-	@RequestMapping(value = {"/listamerchandise"})
-	public String getMerchandiseList(ModelMap model){
-		List<Merchandise> merchandiseList = merchandiseService.findAll();
-		MerchandiseReport merchandiseReport= merchandiseService.getReport();
-
-		model.addAttribute("merchandiseList", merchandiseList);
-		model.addAttribute("merchandiseReport", merchandiseReport);
-
-		return "merchandiselist";
-	}
-
-	@RequestMapping(value = {"/listaclasificacion"})
-	public String getCLassificationList(ModelMap model){
-		List<Classification> classificationList = classificationService.findAll();
-		ClassificationReport classificationReport= classificationService.getReport();
-
-		model.addAttribute("classificationList", classificationList);
-		model.addAttribute("classificationReport", classificationReport);
-
-		return "classificationlist";
-	}
+//	@RequestMapping(value = {"/listaauditoria"})
+//	public String getAuditList(ModelMap model)
+//	{
+//		List<Audit> auditList = auditService.findAll();
+//		model.addAttribute("auditList", auditList);
+//
+//		return "auditlist";
+//	}
 	
 	/**
 	 * This method will list all shop cars of the day.

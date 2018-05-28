@@ -22,25 +22,29 @@ public class Audit
     @Column(name = "AUDIT_DATE")
     private Date auditDate;
 
-    @Column(name = "ERROR_CODE")
+    @Column(name = "ERROR_CODE", nullable = false)
     private String errorCode;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "COMPANY")
+    @Column(name = "COMPANY", nullable = false)
     private String company;
 
-    @Column(name = "PRODUCT_CODE")
+    @Column(name = "PRODUCT_CODE", nullable = false)
     private String productCode;
 
-    @Column(name = "IMPORT_ORIGIN")
+    @Column(name = "IMPORT_ORIGIN", nullable = false)
     private String importOrigin;
 
-    @Column(name = "FEED_TYPE")
+    @Column(name = "FEED_TYPE", nullable = false)
     private FeedType feedType;
 
+    @Column(name = "PROCESSED", nullable = false)
+    private boolean processed;
+
     public Audit() {
+        this.processed = false;
     }
 
     public Integer getId() {
@@ -121,5 +125,13 @@ public class Audit
 
     public void setFeedType(FeedType feedType) {
         this.feedType = feedType;
+    }
+
+    public boolean getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 }

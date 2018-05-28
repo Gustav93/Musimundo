@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override //agregar urls para que los tome el autenticador de springs
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/list", "/bifurcacion", "/getcarritos", "/consultarcarro", "/listservice", "/getcarritosperiodo", "/consultastock", "/listaproductos")
+		http.authorizeRequests().antMatchers("/", "/list", "/bifurcacion", "/getcarritos", "/consultarcarro", "/listservice", "/getcarritosperiodo", "/consultastock", "/listaproductos", "/listaprecios", "/listastock", "/listamedia", "/listamerchandise", "/listaclasificacion", "/listaauditoria")
 				.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
 				.antMatchers("/newuser/**", "/delete-user-*").access("hasRole('ADMIN')").antMatchers("/edit-user-*")
 				.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")
