@@ -1,7 +1,10 @@
 package com.musimundo.feeds.controller;
 
 import com.musimundo.feeds.beans.*;
+import com.musimundo.feeds.dao.OldPriceDaoImpl;
+import com.musimundo.feeds.dao.OldProductDaoImpl;
 import com.musimundo.feeds.service.*;
+import com.musimundo.utilities.FeedStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,9 +39,57 @@ public class FeedsController {
     @Autowired
     AuditService auditService;
 
+    @Autowired
+    OldProductDaoImpl dao;
+
+    @Autowired
+    OldPriceDaoImpl priceDao;
+
+
     @RequestMapping(value = {"/listaproductos"})
     public String getProductList(ModelMap model){
 
+//        List<OldProduct> res = dao.findAll();
+//
+//        OldProduct oldProduct = res.get(1);
+//        Product product = new Product();
+//
+//        product.setProductCode(oldProduct.getCodigoProducto());
+//        product.setEan(oldProduct.getEan());
+//        product.setBrand(oldProduct.getBrand());
+//        product.setName(oldProduct.getName());
+//        product.setCategory(Integer.parseInt(oldProduct.getCategory()));
+//        product.setWeight(Integer.parseInt(oldProduct.getWeight()));
+//        product.setApprovalStatus(oldProduct.getApprovalStatus());
+//        product.setDescription(oldProduct.getDescription());
+//        product.setImportOrigin(oldProduct.getOrigenImportacion());
+//        product.setErrorDescription(oldProduct.getDescription());
+//        product.setFeedStatus(parseFeedStatus(oldProduct.getEstadoProcesamiento()));
+//        product.setCompany(oldProduct.getEmpresa());
+//        product.setProcessed(true);
+//
+//        productService.save(product);
+//        System.out.println(res);
+
+
+        List<OldPrice> res = priceDao.findAll();
+
+        System.out.println(res);
+
+        OldPrice oldPrice = res.get(0);
+        Price price = new Price();
+
+        price.setProductCode(oldPrice.getCodigoProducto());
+        price.setOnlinePrice(Double.parseDouble(oldPrice.getOnlinePrice()));
+        price.setCurrency(oldPrice.getCurrency());
+        price.setStorePrice(Double.parseDouble(oldPrice.getStorePrice()));
+        price.setHasPriority(Boolean.parseBoolean(oldPrice.getHasPriority()));
+        price.setImportOrigin(oldPrice.getOrigenImportacion());
+        price.setFeedStatus(parseFeedStatus(oldPrice.getEstadoProcesamiento()));
+        price.setErrorDescription(oldPrice.getDescripcionError());
+        price.setCompany(oldPrice.getEmpresa());
+
+        priceService.save(price);
         List<Product> productList = productService.findAll();
         ProductReport productReport = productService.getReport();
 
@@ -110,5 +161,21 @@ public class FeedsController {
         model.addAttribute("auditList", auditList);
 
         return "auditlist";
+    }
+
+    private FeedStatus parseFeedStatus(String status)
+    {
+        if(status.equals("Procesado"))
+            return FeedStatus.OK;
+
+        else if(status.equals("Procesado con error"))
+            return FeedStatus.ERROR;
+
+        else if(status.equals("Procesado con warning"))
+            return FeedStatus.WARNING;
+
+        else
+            return FeedStatus.NOT_PROCESSED;
+
     }
 }
