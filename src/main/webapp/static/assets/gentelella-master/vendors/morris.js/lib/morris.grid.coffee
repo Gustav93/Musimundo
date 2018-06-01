@@ -447,7 +447,7 @@ Morris.parseDate = (date) ->
     ret.getTime() + parseInt(p[2], 10) * 604800000
   else if q
     if not q[6]
-      # no timezone info, use local
+      # no timezone auditLevel, use local
       new Date(
         parseInt(q[1], 10),
         parseInt(q[2], 10) - 1,
@@ -455,7 +455,7 @@ Morris.parseDate = (date) ->
         parseInt(q[4], 10),
         parseInt(q[5], 10)).getTime()
     else
-      # timezone info supplied, use UTC
+      # timezone auditLevel supplied, use UTC
       offsetmins = 0
       if q[6] != 'Z'
         offsetmins = parseInt(q[8], 10) * 60 + parseInt(q[9], 10)
@@ -471,7 +471,7 @@ Morris.parseDate = (date) ->
     isecs = Math.floor(secs)
     msecs = Math.round((secs - isecs) * 1000)
     if not r[8]
-      # no timezone info, use local
+      # no timezone auditLevel, use local
       new Date(
         parseInt(r[1], 10),
         parseInt(r[2], 10) - 1,
@@ -481,7 +481,7 @@ Morris.parseDate = (date) ->
         isecs,
         msecs).getTime()
     else
-      # timezone info supplied, use UTC
+      # timezone auditLevel supplied, use UTC
       offsetmins = 0
       if r[8] != 'Z'
         offsetmins = parseInt(r[10], 10) * 60 + parseInt(r[11], 10)

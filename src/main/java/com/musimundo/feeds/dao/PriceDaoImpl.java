@@ -37,6 +37,13 @@ public class PriceDaoImpl extends AbstractDao <Integer, Price> implements PriceD
         return res;
     }
 
+//    @Override
+//    public List<Price> findNotProcessed() {
+//        Criteria criteria = createEntityCriteria();
+//        List<Price> res = criteria.list();
+//        return res;
+//    }
+
     @Override
     public void save(Price price) {
         persist(price);

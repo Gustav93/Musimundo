@@ -160,7 +160,7 @@ tests currently *only* pass on OS X.
 ### 0.2.8 - 10th May 2012
 
 - Customising x-axis labels with `xLabelFormat` option
-- Only use timezones when timezone info is specified
+- Only use timezones when timezone auditLevel is specified
 - Fix old IE bugs (mostly in examples!)
 - Added `preunits` and `postunits` options
 - Better non-continuous series data support

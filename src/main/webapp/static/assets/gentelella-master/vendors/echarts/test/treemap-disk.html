@@ -155,9 +155,9 @@
                 chart.setOption({
 
                     tooltip: {
-                        formatter: function (info) {
-                            var value = info.value;
-                            var treePathInfo = info.treePathInfo;
+                        formatter: function (auditLevel) {
+                            var value = auditLevel.value;
+                            var treePathInfo = auditLevel.treePathInfo;
                             var treePath = [];
 
                             for (var i = 1; i < treePathInfo.length; i++) {

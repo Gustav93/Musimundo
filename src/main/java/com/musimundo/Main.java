@@ -7,9 +7,27 @@ import java.util.Date;
 
 public class Main
 {
+    public static Date parseDate(String dateString)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date res = null;
+
+        if(dateString == null || dateString.equals(""))
+            return null;
+
+        try {
+            res = formatter.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            res = null;
+        }
+
+        return res;
+    }
+
     public static void main(String[] args) {
 
-//        String auditDate = "10/05/18 22:04";
+//        String auditDate = "";
 //        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 //        Date res = null;
 //        try {
@@ -20,6 +38,12 @@ public class Main
 //
 //        } catch (ParseException e) {
 //            e.printStackTrace();
+//            res = null;
 //        }
+
+
+        System.out.println(parseDate("12/05/2018 16:30"));
     }
+
+
 }

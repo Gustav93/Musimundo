@@ -13,6 +13,8 @@ public interface ProductDao
 
     List<Product> findAll();
 
+    List<Product> findNotProcessed();
+
     void save(Product product);
 
     Long countAll();

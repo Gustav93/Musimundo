@@ -53,8 +53,8 @@ a.label {
   @include label-variant($label-success-bg);
 }
 
-.label-info {
-  @include label-variant($label-info-bg);
+.label-auditLevel {
+  @include label-variant($label-auditLevel-bg);
 }
 
 .label-warning {

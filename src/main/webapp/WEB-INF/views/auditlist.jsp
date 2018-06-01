@@ -94,7 +94,7 @@
                                     <tbody>
                                     <c:forEach items="${auditList}" var="audit">
                                         <tr role="row">
-                                            <td>${audit.info}</td>
+                                            <td>${audit.auditLevel}</td>
                                             <td>${audit.auditType}</td>
                                             <td>${audit.auditDate}</td>
                                             <td>${audit.errorCode}</td>

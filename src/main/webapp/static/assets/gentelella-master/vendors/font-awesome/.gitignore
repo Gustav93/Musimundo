@@ -1,5 +1,5 @@
 *.pyc
-*.egg-info
+*.egg-auditLevel
 *.db
 *.db.old
 *.swp

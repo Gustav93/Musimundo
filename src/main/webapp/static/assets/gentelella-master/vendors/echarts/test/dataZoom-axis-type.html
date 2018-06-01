@@ -32,7 +32,7 @@
                 width: 800px;
                 height: 240px;
             }
-            .block .info {
+            .block .auditLevel {
                 display: block;
                 text-align: left;
                 background: #eee;
@@ -41,7 +41,7 @@
                 line-height: 18px;
                 padding: 0 5px;
             }
-            .block .info td {
+            .block .auditLevel td {
                 font-size: 12px;
                 border: 1px solid #bbb;
                 padding: 1px 3px;
@@ -176,7 +176,7 @@ chart.setOption({
                 var containerEl = document.getElementById('main');
                 var el = document.createElement('div');
                 el.className = 'block';
-                el.innerHTML = '<div class="ec"></div><div class="info"></div>';
+                el.innerHTML = '<div class="ec"></div><div class="auditLevel"></div>';
                 containerEl.appendChild(el);
 
                 var chart = echarts.init(el.firstChild, null, {renderer: 'canvas'});

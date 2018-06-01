@@ -28,9 +28,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        Long r = dao.count(FeedStatus.NOT_PROCESSED);
-        System.out.println(r);
+//        Long r = dao.count(FeedStatus.NOT_PROCESSED);
+//        System.out.println(r);
         return dao.findAll();
+    }
+
+    @Override
+    public List<Product> findNotProcessed() {
+        return dao.findNotProcessed();
     }
 
     @Override

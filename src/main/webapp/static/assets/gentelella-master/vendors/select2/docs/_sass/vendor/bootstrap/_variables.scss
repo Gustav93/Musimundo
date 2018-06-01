@@ -17,7 +17,7 @@ $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
 $brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
 $brand-success:         #5cb85c !default;
-$brand-info:            #5bc0de !default;
+$brand-auditLevel:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
 $brand-danger:          #d9534f !default;
 
@@ -161,9 +161,9 @@ $btn-success-color:              #fff !default;
 $btn-success-bg:                 $brand-success !default;
 $btn-success-border:             darken($btn-success-bg, 5%) !default;
 
-$btn-info-color:                 #fff !default;
-$btn-info-bg:                    $brand-info !default;
-$btn-info-border:                darken($btn-info-bg, 5%) !default;
+$btn-auditLevel-color:                 #fff !default;
+$btn-auditLevel-bg:                    $brand-auditLevel !default;
+$btn-auditLevel-border:                darken($btn-auditLevel-bg, 5%) !default;
 
 $btn-warning-color:              #fff !default;
 $btn-warning-bg:                 $brand-warning !default;
@@ -505,9 +505,9 @@ $state-success-text:             #3c763d !default;
 $state-success-bg:               #dff0d8 !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:                #31708f !default;
-$state-info-bg:                  #d9edf7 !default;
-$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+$state-auditLevel-text:                #31708f !default;
+$state-auditLevel-bg:                  #d9edf7 !default;
+$state-auditLevel-border:              darken(adjust-hue($state-auditLevel-bg, -10), 7%) !default;
 
 $state-warning-text:             #8a6d3b !default;
 $state-warning-bg:               #fcf8e3 !default;
@@ -576,7 +576,7 @@ $label-primary-bg:            $brand-primary !default;
 //** Success label background color
 $label-success-bg:            $brand-success !default;
 //** Info label background color
-$label-info-bg:               $brand-info !default;
+$label-auditLevel-bg:               $brand-auditLevel !default;
 //** Warning label background color
 $label-warning-bg:            $brand-warning !default;
 //** Danger label background color
@@ -633,9 +633,9 @@ $alert-success-bg:            $state-success-bg !default;
 $alert-success-text:          $state-success-text !default;
 $alert-success-border:        $state-success-border !default;
 
-$alert-info-bg:               $state-info-bg !default;
-$alert-info-text:             $state-info-text !default;
-$alert-info-border:           $state-info-border !default;
+$alert-auditLevel-bg:               $state-auditLevel-bg !default;
+$alert-auditLevel-text:             $state-auditLevel-text !default;
+$alert-auditLevel-border:           $state-auditLevel-border !default;
 
 $alert-warning-bg:            $state-warning-bg !default;
 $alert-warning-text:          $state-warning-text !default;
@@ -666,7 +666,7 @@ $progress-bar-warning-bg:     $brand-warning !default;
 //** Danger progress bar color
 $progress-bar-danger-bg:      $brand-danger !default;
 //** Info progress bar color
-$progress-bar-info-bg:        $brand-info !default;
+$progress-bar-auditLevel-bg:        $brand-auditLevel !default;
 
 
 //== List group
@@ -729,9 +729,9 @@ $panel-success-text:          $state-success-text !default;
 $panel-success-border:        $state-success-border !default;
 $panel-success-heading-bg:    $state-success-bg !default;
 
-$panel-info-text:             $state-info-text !default;
-$panel-info-border:           $state-info-border !default;
-$panel-info-heading-bg:       $state-info-bg !default;
+$panel-auditLevel-text:             $state-auditLevel-text !default;
+$panel-auditLevel-border:           $state-auditLevel-border !default;
+$panel-auditLevel-heading-bg:       $state-auditLevel-bg !default;
 
 $panel-warning-text:          $state-warning-text !default;
 $panel-warning-border:        $state-warning-border !default;

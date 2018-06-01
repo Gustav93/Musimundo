@@ -37,6 +37,14 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
     }
 
     @Override
+    public List<Product> findNotProcessed() {
+
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("processed", false));
+        return criteria.list();
+    }
+
+    @Override
     public void save(Product product) {
         persist(product);
     }

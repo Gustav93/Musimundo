@@ -929,7 +929,7 @@ Zone Atlantic/Faroe	-0:27:04 -	LMT	1908 Jan 11	# Torshavn
 # I correspond regularly with the Dansk Polarcenter, and wrote them at
 # the time to clarify the situation in Thule.  Unfortunately, I have
 # not heard back from them regarding my recent letter.  [But I have
-# info from earlier correspondence.]
+# auditLevel from earlier correspondence.]
 #
 # According to the center, a very small local time zone around Thule
 # Air Base keeps the time according to UTC-4, implementing daylight
@@ -963,7 +963,7 @@ Zone Atlantic/Faroe	-0:27:04 -	LMT	1908 Jan 11	# Torshavn
 # From Paul Eggert (2006-03-22):
 # From 1997 on the CIA map shows Danmarkshavn on GMT;
 # the 1995 map as like Godthab.
-# For lack of better info, assume they were like Godthab before 1996.
+# For lack of better auditLevel, assume they were like Godthab before 1996.
 # startkart.no says Thule does not observe DST, but this is clearly an error,
 # so go with Shanks & Pottenger for Thule transitions until this year.
 # For 2007 on assume Thule will stay in sync with US DST rules.
@@ -1862,7 +1862,7 @@ Zone	Europe/Oslo	0:43:00 -	LMT	1895 Jan  1
 # Haudegen did not surrender to the Allies until September 1945.
 #
 # All these events predate our cutoff date of 1970.  Unless we can
-# come up with more definitive info about the timekeeping during the
+# come up with more definitive auditLevel about the timekeeping during the
 # war years it's probably best just do...the following for now:
 Link	Europe/Oslo	Arctic/Longyearbyen
 
@@ -2018,7 +2018,7 @@ Zone Atlantic/Madeira	-1:07:36 -	LMT	1884		# Funchal
 # From Paul Eggert (1999-10-07):
 # <a href="http://www.nineoclock.ro/POL/1778pol.html">
 # Nine O'clock</a> (1998-10-23) reports that the switch occurred at
-# 04:00 local time in fall 1998.  For lack of better info,
+# 04:00 local time in fall 1998.  For lack of better auditLevel,
 # assume that Romania and Moldova switched to EU rules in 1997,
 # the same year as Bulgaria.
 #

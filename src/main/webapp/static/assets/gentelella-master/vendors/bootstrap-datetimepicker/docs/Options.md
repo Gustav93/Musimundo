@@ -1,6 +1,6 @@
 ## Options
 
-<div class="alert alert-info">
+<div class="alert alert-auditLevel">
     <strong>Note</strong>
     All options are accessed via the <code>data</code> attribute e.g. <code>$('#datetimepicker').data("DateTimePicker").OPTION()</code>
 </div>

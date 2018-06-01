@@ -13,6 +13,8 @@ public interface ProductService
 
     List<Product> findAll();
 
+    List<Product> findNotProcessed();
+
     void save(Product product);
 
     void update(Product product);

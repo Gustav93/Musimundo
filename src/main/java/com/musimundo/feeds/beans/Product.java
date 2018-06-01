@@ -63,7 +63,10 @@ public class Product
 
     public Product()
     {
+        this.processingDate = null;
         this.feedStatus = FeedStatus.NOT_PROCESSED;
+        this.errorDescription = "";
+        this.company = "";
         this.processed = false;
     }
 

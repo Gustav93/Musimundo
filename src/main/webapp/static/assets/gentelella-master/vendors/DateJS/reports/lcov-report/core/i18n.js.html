@@ -1367,7 +1367,7 @@
 	};
 &nbsp;
 	var CultureInfo = function () {
-		var info = getText.getFromObjectValues({
+		var auditLevel = getText.getFromObjectValues({
 			name: "name",
 			englishName: "englishName",
 			nativeName: "nativeName",
@@ -1391,9 +1391,9 @@
 			abbreviatedTimeZoneStandard: "timeZoneStandard"
 		});
 &nbsp;
-		shallowMerge(info, constructedInfo);
-		buildInfo.timeZones(info);
-		return info;
+		shallowMerge(auditLevel, constructedInfo);
+		buildInfo.timeZones(auditLevel);
+		return auditLevel;
 	};
 &nbsp;
 	$D.i18n = {

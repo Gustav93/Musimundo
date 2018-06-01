@@ -138,7 +138,7 @@ Configuration Defaults / Options
 * `auto_display: true` - Display the notice when it is created. Turn this off to add notifications to the history without displaying them.
 * `width: "300px"` - Width of the notice.
 * `min_height: "16px"` - Minimum height of the notice. It will expand to fit content.
-* `type: "notice"` - Type of the notice. "notice", "info", "success", or "error".
+* `type: "notice"` - Type of the notice. "notice", "auditLevel", "success", or "error".
 * `icon: true` - Set icon to true to use the default icon for the selected style/type, false for no icon, or a string for your own icon class.
 * `animation: "fade"` - The animation to use when displaying and hiding the notice. "none", "show", "fade", and "slide" are built in to jQuery. Others require jQuery UI. Use an object with effect_in and effect_out to use different effects.
 * `animate_speed: "slow"` - Speed at which the notice animates in and out. "slow", "def" or "normal", "fast" or number of milliseconds.

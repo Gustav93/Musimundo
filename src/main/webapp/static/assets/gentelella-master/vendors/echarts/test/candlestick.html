@@ -13,7 +13,7 @@
                 height: 100%;
             }
         </style>
-        <div id="info"></div>
+        <div id="auditLevel"></div>
         <div id="main"></div>
         <script>
 
@@ -45,19 +45,19 @@
 
                 update();
 
-                chart.on('click', function (info) {
-                    console.log(info);
-                    if (info.data && info.data.length === 4) {
+                chart.on('click', function (auditLevel) {
+                    console.log(auditLevel);
+                    if (auditLevel.data && auditLevel.data.length === 4) {
                         alert([
                             'clicked on: ',
-                            'DATA: ' + info.name,
-                            'OPEN: ' + info.data[0],
-                            'CLOSE: ' + info.data[1],
-                            'LOWEST: ' + info.data[2],
-                            'HIGHEST: ' + info.data[3]
+                            'DATA: ' + auditLevel.name,
+                            'OPEN: ' + auditLevel.data[0],
+                            'CLOSE: ' + auditLevel.data[1],
+                            'LOWEST: ' + auditLevel.data[2],
+                            'HIGHEST: ' + auditLevel.data[3]
                         ].join('\n'));
                     }
-                    else if (info.data && info.data.length === 2) {
+                    else if (auditLevel.data && auditLevel.data.length === 2) {
                         // Markpoint
                         alert('mark point');
                     }

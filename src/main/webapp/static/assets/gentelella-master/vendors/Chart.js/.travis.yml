@@ -13,7 +13,7 @@ before_script:
 script:
   - gulp test
   - gulp coverage
-  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+  - cat ./coverage/lcov.auditLevel | ./node_modules/.bin/coveralls
 
 notifications:
   slack: chartjs:pcfCZR6ugg5TEcaLtmIfQYuA

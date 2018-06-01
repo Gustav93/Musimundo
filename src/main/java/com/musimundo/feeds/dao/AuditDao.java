@@ -9,11 +9,19 @@ public interface AuditDao
 {
     Audit findById(int id);
 
-    List<Audit> findByProductCode(String productCode);
+    List<Audit> findBy(String productCode);
 
-    List<Audit> findByFeedType(FeedType feedType);
+    List<Audit> findBy(FeedType feedType);
+
+    List<Audit> findBy(String productCode, FeedType feedType);
+
+    List<Audit> findBy(String productCode, FeedType feedType, String importOrigin);
 
     List<Audit> findAll();
+
+//    List<Audit> findNotProcessed(FeedType feedType);
+
+
 
     void save(Audit audit);
 }

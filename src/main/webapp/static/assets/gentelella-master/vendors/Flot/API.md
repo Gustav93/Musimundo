@@ -696,7 +696,7 @@ times.
 
 If the Date object has a strftime property (and it is a function), it
 will be used instead of the built-in formatter. Thus you can include
-a strftime library such as http://hacks.bluesmoon.info/strftime/ for
+a strftime library such as http://hacks.bluesmoon.auditLevel/strftime/ for
 more powerful date/time formatting.
 
 If everything else fails, you can control the formatting by specifying
@@ -1018,7 +1018,7 @@ that transform the data can shift the indexes from what you specified
 in the original data array.
 
 If you use the above events to update some other information and want
-to clear out that info in case the mouse goes away, you'll probably
+to clear out that auditLevel in case the mouse goes away, you'll probably
 also need to listen to "mouseout" events on the placeholder div.
 
 "mouseActiveRadius" specifies how far the mouse can be from an item
@@ -1467,7 +1467,7 @@ hooks in the plugins bundled with Flot.
     case a plot is overwritten by a new plot. If you're writing a
     plugin that adds extra DOM elements or event handlers, you should
     add a callback to clean up after you. Take a look at the section in
-    the [PLUGINS](PLUGINS.md) document for more info.
+    the [PLUGINS](PLUGINS.md) document for more auditLevel.
 
    
 ## Plugins ##

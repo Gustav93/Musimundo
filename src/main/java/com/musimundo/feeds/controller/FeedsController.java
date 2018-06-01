@@ -5,6 +5,7 @@ import com.musimundo.feeds.dao.OldPriceDaoImpl;
 import com.musimundo.feeds.dao.OldProductDaoImpl;
 import com.musimundo.feeds.service.*;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.FeedType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,17 +40,23 @@ public class FeedsController {
     @Autowired
     AuditService auditService;
 
-    @Autowired
-    OldProductDaoImpl dao;
+//    @Autowired
+//    OldProductDaoImpl oldProductDao;
+//
+//    @Autowired
+//    OldPriceDaoImpl oldPriceDao;
 
     @Autowired
-    OldPriceDaoImpl priceDao;
+    FeedBuilderService feedBuilderService;
+
+    @Autowired
+    ProcessingFeedService processingFeedService;
 
 
     @RequestMapping(value = {"/listaproductos"})
     public String getProductList(ModelMap model){
 
-//        List<OldProduct> res = dao.findAll();
+//        List<OldProduct> res = oldProductDao.findAll();
 //
 //        OldProduct oldProduct = res.get(1);
 //        Product product = new Product();
@@ -72,24 +79,29 @@ public class FeedsController {
 //        System.out.println(res);
 
 
-        List<OldPrice> res = priceDao.findAll();
+//        List<OldPrice> res = oldPriceDao.findAll();
+//
+//        System.out.println(res);
+//
+//        OldPrice oldPrice = res.get(0);
+//        Price price = new Price();
+//
+//        price.setProductCode(oldPrice.getCodigoProducto());
+//        price.setOnlinePrice(Double.parseDouble(oldPrice.getOnlinePrice()));
+//        price.setCurrency(oldPrice.getCurrency());
+//        price.setStorePrice(Double.parseDouble(oldPrice.getStorePrice()));
+//        price.setHasPriority(Boolean.parseBoolean(oldPrice.getHasPriority()));
+//        price.setImportOrigin(oldPrice.getOrigenImportacion());
+//        price.setFeedStatus(parseFeedStatus(oldPrice.getEstadoProcesamiento()));
+//        price.setErrorDescription(oldPrice.getDescripcionError());
+//        price.setCompany(oldPrice.getEmpresa());
+//        priceService.save(price);
 
-        System.out.println(res);
+//        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
+//        feedBuilderService.createRegister("producto-1806010001.csv");
 
-        OldPrice oldPrice = res.get(0);
-        Price price = new Price();
+        processingFeedService.process(FeedType.PRODUCT);
 
-        price.setProductCode(oldPrice.getCodigoProducto());
-        price.setOnlinePrice(Double.parseDouble(oldPrice.getOnlinePrice()));
-        price.setCurrency(oldPrice.getCurrency());
-        price.setStorePrice(Double.parseDouble(oldPrice.getStorePrice()));
-        price.setHasPriority(Boolean.parseBoolean(oldPrice.getHasPriority()));
-        price.setImportOrigin(oldPrice.getOrigenImportacion());
-        price.setFeedStatus(parseFeedStatus(oldPrice.getEstadoProcesamiento()));
-        price.setErrorDescription(oldPrice.getDescripcionError());
-        price.setCompany(oldPrice.getEmpresa());
-
-        priceService.save(price);
         List<Product> productList = productService.findAll();
         ProductReport productReport = productService.getReport();
 

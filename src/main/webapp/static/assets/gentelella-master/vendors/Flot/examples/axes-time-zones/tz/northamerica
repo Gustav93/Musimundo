@@ -949,7 +949,7 @@ Zone America/Kentucky/Monticello -5:39:24 - LMT	1883 Nov 18 12:20:36
 # From Paul Eggert (2001-03-06):
 # Garland (1927) writes ``Cleveland and Detroit advanced their clocks
 # one hour in 1914.''  This change is not in Shanks.  We have no more
-# info, so omit this for now.
+# auditLevel, so omit this for now.
 #
 # Most of Michigan observed DST from 1973 on, but was a bit late in 1975.
 # Rule	NAME	FROM	TO	TYPE	IN	ON	AT	SAVE	LETTER
@@ -1354,7 +1354,7 @@ Zone America/Moncton	-4:19:08 -	LMT	1883 Dec  9
 # the residents of the Native facilities along the lower North Shore."
 # <http://www.assnat.qc.ca/eng/37legislature2/Projets-loi/Publics/06-a002.htm>
 # says this common practice was codified into law as of 2007.
-# For lack of better info, guess this practice began around 1970, contra to
+# For lack of better auditLevel, guess this practice began around 1970, contra to
 # Shanks & Pottenger who have this region observing AST/ADT.
 
 # Rule	NAME	FROM	TO	TYPE	IN	ON	AT	SAVE	LETTER/S
@@ -1997,7 +1997,7 @@ Zone America/Creston	-7:46:04 -	LMT	1884
 # back to three time zones (mountain, central, and eastern).  Of the
 # cities in Nunavut, Coral Harbor is the only one that I know of that
 # has said it will not observe dst, staying on EST year round.  I'm
-# checking for more info, and will get back to you if I come up with
+# checking for more auditLevel, and will get back to you if I come up with
 # more.
 # [Also see <http://www.nunatsiaq.com/nunavut/nvt10309_06.html> (2001-03-09).]
 
@@ -2063,7 +2063,7 @@ Zone America/Creston	-7:46:04 -	LMT	1884
 # somebody that might be able to tell me exactly when Resolute Bay went
 # off Eastern Standard Time. I stumbled on the name "Aziz Kheraj." Aziz
 # used to be the mayor of Resolute Bay and he apparently owns half the
-# businesses including "South Camp Inn." This website has some info on
+# businesses including "South Camp Inn." This website has some auditLevel on
 # Aziz:
 # <a href="http://www.uphere.ca/node/493">
 # http://www.uphere.ca/node/493
@@ -2764,7 +2764,7 @@ Zone America/Costa_Rica	-5:36:20 -	LMT	1890		# San Jose
 # http://granma.co.cu/2011/03/08/nacional/artic01.html
 # </a>
 #
-# Our info:
+# Our auditLevel:
 # <a href="http://www.timeanddate.com/news/time/cuba-starts-dst-2011.html">
 # http://www.timeanddate.com/news/time/cuba-starts-dst-2011.html
 # </a>
@@ -2787,12 +2787,12 @@ Zone America/Costa_Rica	-5:36:20 -	LMT	1890		# San Jose
 # According to Radio Reloj, Cuba will start DST on Midnight between March
 # 31 and April 1.
 #
-# Radio Reloj has the following info (Spanish):
+# Radio Reloj has the following auditLevel (Spanish):
 # <a href="http://www.radioreloj.cu/index.php/noticias-radio-reloj/71-miscelaneas/7529-cuba-aplicara-el-horario-de-verano-desde-el-1-de-abril">
 # http://www.radioreloj.cu/index.php/noticias-radio-reloj/71-miscelaneas/7529-cuba-aplicara-el-horario-de-verano-desde-el-1-de-abril
 # </a>
 #
-# Our info on it:
+# Our auditLevel on it:
 # <a href="http://www.timeanddate.com/news/time/cuba-starts-dst-2012.html">
 # http://www.timeanddate.com/news/time/cuba-starts-dst-2012.html
 # </a>
@@ -2974,7 +2974,7 @@ Zone America/Guatemala	-6:02:04 -	LMT	1918 Oct 5
 # The reason seems to be an energy crisis.
 
 # From Stephen Colebourne (2007-02-22):
-# Some IATA info: Haiti won't be having DST in 2007.
+# Some IATA auditLevel: Haiti won't be having DST in 2007.
 
 # From Steffen Thorsen (2012-03-11):
 # According to several news sources, Haiti will observe DST this year,

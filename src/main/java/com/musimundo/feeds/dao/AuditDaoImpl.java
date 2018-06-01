@@ -19,9 +19,9 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
     }
 
     @Override
-    public List<Audit> findByProductCode(String productCode) {
+    public List<Audit> findBy(String productCode) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("codigoProducto", productCode));
+        crit.add(Restrictions.eq("productCode", productCode));
 
         List<Audit> res = crit.list();
 
@@ -29,12 +29,34 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
     }
 
     @Override
-    public List<Audit> findByFeedType(FeedType feedType) {
+    public List<Audit> findBy(FeedType feedType) {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("feedType", feedType));
+        criteria.add(Restrictions.eq("processed", false));
         List<Audit> res = criteria.list();
 
         return res;
+    }
+
+    @Override
+    public List<Audit> findBy(String productCode, FeedType feedType) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("productCode", productCode));
+        criteria.add(Restrictions.eq("feedType", feedType));
+        criteria.add(Restrictions.eq("processed", false));
+
+        return criteria.list();
+    }
+
+    @Override
+    public List<Audit> findBy(String productCode, FeedType feedType, String importOrigin) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("productCode", productCode));
+        criteria.add(Restrictions.eq("feedType", feedType));
+        criteria.add(Restrictions.eq("importOrigin", importOrigin));
+        criteria.add(Restrictions.eq("processed", false));
+
+        return criteria.list();
     }
 
     @Override
@@ -44,6 +66,18 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
 
         return res;
     }
+
+//    @Override
+//    public List<Audit> findNotProcessed(FeedType feedType) {
+//
+//        Criteria criteria = createEntityCriteria();
+//        criteria.add(Restrictions.eq("processed", false));
+//
+//        if(feedType.equals(FeedType.PRODUCT))
+//            criteria.add(Restrictions.eq("feedType", FeedType.PRODUCT));
+//
+//        return criteria.list();
+//    }
 
     @Override
     public void save(Audit audit) {

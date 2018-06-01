@@ -76,8 +76,8 @@ a.btn {
   @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
 }
 // Info appears as blue-green
-.btn-info {
-  @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+.btn-auditLevel {
+  @include button-variant($btn-auditLevel-color, $btn-auditLevel-bg, $btn-auditLevel-border);
 }
 // Warning appears as orange
 .btn-warning {

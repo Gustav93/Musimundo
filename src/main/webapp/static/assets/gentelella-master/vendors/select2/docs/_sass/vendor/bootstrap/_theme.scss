@@ -20,7 +20,7 @@
 .btn-default,
 .btn-primary,
 .btn-success,
-.btn-info,
+.btn-auditLevel,
 .btn-warning,
 .btn-danger {
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
@@ -91,7 +91,7 @@
 .btn-default { @include btn-styles($btn-default-bg); text-shadow: 0 1px 0 #fff; border-color: #ccc; }
 .btn-primary { @include btn-styles($btn-primary-bg); }
 .btn-success { @include btn-styles($btn-success-bg); }
-.btn-info    { @include btn-styles($btn-info-bg); }
+.btn-auditLevel    { @include btn-styles($btn-auditLevel-bg); }
 .btn-warning { @include btn-styles($btn-warning-bg); }
 .btn-danger  { @include btn-styles($btn-danger-bg); }
 
@@ -202,7 +202,7 @@
 
 // Apply the mixin to the alerts
 .alert-success    { @include alert-styles($alert-success-bg); }
-.alert-info       { @include alert-styles($alert-info-bg); }
+.alert-auditLevel       { @include alert-styles($alert-auditLevel-bg); }
 .alert-warning    { @include alert-styles($alert-warning-bg); }
 .alert-danger     { @include alert-styles($alert-danger-bg); }
 
@@ -224,7 +224,7 @@
 // Apply the mixin to the progress bars
 .progress-bar            { @include progress-bar-styles($progress-bar-bg); }
 .progress-bar-success    { @include progress-bar-styles($progress-bar-success-bg); }
-.progress-bar-info       { @include progress-bar-styles($progress-bar-info-bg); }
+.progress-bar-auditLevel       { @include progress-bar-styles($progress-bar-auditLevel-bg); }
 .progress-bar-warning    { @include progress-bar-styles($progress-bar-warning-bg); }
 .progress-bar-danger     { @include progress-bar-styles($progress-bar-danger-bg); }
 
@@ -274,7 +274,7 @@
 .panel-default > .panel-heading   { @include panel-heading-styles($panel-default-heading-bg); }
 .panel-primary > .panel-heading   { @include panel-heading-styles($panel-primary-heading-bg); }
 .panel-success > .panel-heading   { @include panel-heading-styles($panel-success-heading-bg); }
-.panel-info > .panel-heading      { @include panel-heading-styles($panel-info-heading-bg); }
+.panel-auditLevel > .panel-heading      { @include panel-heading-styles($panel-auditLevel-heading-bg); }
 .panel-warning > .panel-heading   { @include panel-heading-styles($panel-warning-heading-bg); }
 .panel-danger > .panel-heading    { @include panel-heading-styles($panel-danger-heading-bg); }
 

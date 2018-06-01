@@ -2,6 +2,8 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Audit;
 import com.musimundo.feeds.dao.AuditDao;
+import com.musimundo.utilities.ErrorType;
+import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.FeedType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,65 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public List<Audit> findByProductCode(String productCode) {
-        return dao.findByProductCode(productCode);
+        return dao.findBy(productCode);
     }
 
     @Override
-    public List<Audit> findByFeedType(FeedType feedType) {
-        return dao.findByFeedType(feedType);
+    public List<Audit> findBy(FeedType feedType) {
+        return dao.findBy(feedType);
+    }
+
+    @Override
+    public List<Audit> findBy(String productCode, FeedType feedType) {
+        return dao.findBy(productCode, feedType);
+    }
+
+    @Override
+    public List<Audit> findBy(String productCode, FeedType feedType, String importOrigin) {
+        return dao.findBy(productCode, feedType, importOrigin);
     }
 
     @Override
     public List<Audit> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public void save(Audit audit) {
+        dao.save(audit);
+    }
+
+    @Override
+    public ErrorType getErrorType(Audit audit)
+    {
+        String errorCode = audit.getErrorCode();
+
+        if(errorCode.contains("E"))
+            return ErrorType.ERROR;
+
+        else if(errorCode.contains("W"))
+            return ErrorType.WARNING;
+
+        else if(errorCode.contains("I"))
+            return  ErrorType.SUCCESS;
+
+        else
+            throw new IllegalArgumentException("illegal error type");
+    }
+
+    @Override
+    public void update(Audit audit) {
+        Audit entity = dao.findById(audit.getId());
+
+        entity.setAuditLevel(audit.getAuditLevel());
+        entity.setAuditType(audit.getAuditType());
+        entity.setAuditDate(audit.getAuditDate());
+        entity.setErrorCode(audit.getErrorCode());
+        entity.setDescription(audit.getDescription());
+        entity.setCompany(audit.getCompany());
+        entity.setProductCode(audit.getProductCode());
+        entity.setImportOrigin(audit.getImportOrigin());
+        entity.setFeedType(audit.getFeedType());
+        entity.setProcessed(audit.getProcessed());
     }
 }

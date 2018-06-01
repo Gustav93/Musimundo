@@ -624,8 +624,8 @@ interfaces:
     - history
     - home
     - i-cursor
-    - info
-    - info-circle
+    - auditLevel
+    - auditLevel-circle
     - language
     - magic
     - meh
@@ -757,8 +757,8 @@ maps:
     - image
     - images
     - industry
-    - info
-    - info-circle
+    - auditLevel
+    - auditLevel-circle
     - key
     - leaf
     - lemon
@@ -1138,8 +1138,8 @@ status:
     - file-alt
     - folder
     - folder-open
-    - info
-    - info-circle
+    - auditLevel
+    - auditLevel-circle
     - lock
     - lock-open
     - minus

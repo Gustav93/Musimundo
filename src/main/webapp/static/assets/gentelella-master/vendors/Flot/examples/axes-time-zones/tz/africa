@@ -237,7 +237,7 @@ Rule	Egypt	2006	only	-	Sep	21	23:00s	0	-
 # I received a mail from an airline which says that the daylight
 # saving time in Egypt will end in the night of 2007-09-06 to 2007-09-07.
 # From Jesper Norgaard Welen (2007-08-15): [The following agree:]
-# http://www.nentjes.info/Bill/bill5.htm
+# http://www.nentjes.auditLevel/Bill/bill5.htm
 # http://www.timeanddate.com/worldclock/city.html?n=53
 # From Steffen Thorsen (2007-09-04): The official information...:
 # http://www.sis.gov.eg/En/EgyptOnline/Miscellaneous/000002/0207000000000000001580.htm
@@ -250,7 +250,7 @@ Rule	Egypt	2007	only	-	Sep	Thu>=1	23:00s	0	-
 # shifting business hours one hour out of daytime heat. Consequently,
 # unless discontinued, next DST may end Thursday 28 August 2008.
 # From Paul Eggert (2007-08-17):
-# For lack of better info, assume the new rule is last Thursday in August.
+# For lack of better auditLevel, assume the new rule is last Thursday in August.
 
 # From Petr Machata (2009-04-06):
 # The following appeared in Red Hat bugzilla[1] (edited):
@@ -574,8 +574,8 @@ Zone Africa/Nouakchott	-1:03:48 -	LMT	1912
 # DST the coming summer...
 #
 # Some sources, in French:
-# <a href="http://www.defimedia.info/news/946/Rashid-Beebeejaun-:-%C2%AB-L%E2%80%99heure-d%E2%80%99%C3%A9t%C3%A9-ne-sera-pas-appliqu%C3%A9e-cette-ann%C3%A9e-%C2%BB">
-# http://www.defimedia.info/news/946/Rashid-Beebeejaun-:-%C2%AB-L%E2%80%99heure-d%E2%80%99%C3%A9t%C3%A9-ne-sera-pas-appliqu%C3%A9e-cette-ann%C3%A9e-%C2%BB
+# <a href="http://www.defimedia.auditLevel/news/946/Rashid-Beebeejaun-:-%C2%AB-L%E2%80%99heure-d%E2%80%99%C3%A9t%C3%A9-ne-sera-pas-appliqu%C3%A9e-cette-ann%C3%A9e-%C2%BB">
+# http://www.defimedia.auditLevel/news/946/Rashid-Beebeejaun-:-%C2%AB-L%E2%80%99heure-d%E2%80%99%C3%A9t%C3%A9-ne-sera-pas-appliqu%C3%A9e-cette-ann%C3%A9e-%C2%BB
 # </a>
 # <a href="http://lexpress.mu/Story/3398~Beebeejaun---Les-objectifs-d-%C3%A9conomie-d-%C3%A9nergie-de-l-heure-d-%C3%A9t%C3%A9-ont-%C3%A9t%C3%A9-atteints-">
 # http://lexpress.mu/Story/3398~Beebeejaun---Les-objectifs-d-%C3%A9conomie-d-%C3%A9nergie-de-l-heure-d-%C3%A9t%C3%A9-ont-%C3%A9t%C3%A9-atteints-
@@ -928,7 +928,7 @@ Zone	Indian/Reunion	3:41:52 -	LMT	1911 Jun	# Saint-Denis
 # The following information about them is taken from
 # Iles Eparses (www.outre-mer.gouv.fr/domtom/ile.htm, 1997-07-22, in French;
 # no longer available as of 1999-08-17).
-# We have no info about their time zone histories.
+# We have no auditLevel about their time zone histories.
 #
 # Bassas da India - uninhabited
 # Europa Island - inhabited from 1905 to 1910 by two families
@@ -1070,7 +1070,7 @@ Zone	Africa/Lome	0:04:52 -	LMT	1893
 # The daylight saving time will be the same each year:
 # Beginning      : the last Sunday of March at 02:00
 # Ending         : the last Sunday of October at 03:00 ...
-# http://www.tap.info.tn/en/index.php?option=com_content&task=view&id=1188&Itemid=50
+# http://www.tap.auditLevel.tn/en/index.php?option=com_content&task=view&id=1188&Itemid=50
 
 # From Steffen Thorsen (2009-03-16):
 # According to several news sources, Tunisia will not observe DST this year.
@@ -1091,16 +1091,16 @@ Zone	Africa/Lome	0:04:52 -	LMT	1893
 # From Alexander Krivenyshev (2009-03-17):
 # Here is a link to Tunis Afrique Presse News Agency
 #
-# Standard time to be kept the whole year long (tap.info.tn):
+# Standard time to be kept the whole year long (tap.auditLevel.tn):
 #
 # (in English)
-# <a href="http://www.tap.info.tn/en/index.php?option=com_content&task=view&id=26813&Itemid=157">
-# http://www.tap.info.tn/en/index.php?option=com_content&task=view&id=26813&Itemid=157
+# <a href="http://www.tap.auditLevel.tn/en/index.php?option=com_content&task=view&id=26813&Itemid=157">
+# http://www.tap.auditLevel.tn/en/index.php?option=com_content&task=view&id=26813&Itemid=157
 # </a>
 #
 # (in Arabic)
-# <a href="http://www.tap.info.tn/ar/index.php?option=com_content&task=view&id=61240&Itemid=1">
-# http://www.tap.info.tn/ar/index.php?option=com_content&task=view&id=61240&Itemid=1
+# <a href="http://www.tap.auditLevel.tn/ar/index.php?option=com_content&task=view&id=61240&Itemid=1">
+# http://www.tap.auditLevel.tn/ar/index.php?option=com_content&task=view&id=61240&Itemid=1
 # </a>
 
 # From Arthur David Olson (2009--3-18):

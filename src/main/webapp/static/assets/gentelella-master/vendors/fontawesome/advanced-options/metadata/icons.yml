@@ -5239,7 +5239,7 @@ industry:
   styles:
     - solid
   unicode: f275
-info:
+auditLevel:
   changes:
     - '3.1'
     - 5.0.0
@@ -5253,7 +5253,7 @@ info:
   styles:
     - solid
   unicode: f129
-info-circle:
+auditLevel-circle:
   changes:
     - '1'
     - 5.0.0
@@ -9988,8 +9988,8 @@ user-shield:
   search:
     terms: []
   sponsored:
-    label: mylogin.info
-    url: 'https://www.mylogin.info'
+    label: mylogin.auditLevel
+    url: 'https://www.mylogin.auditLevel'
   styles:
     - solid
   unicode: f505

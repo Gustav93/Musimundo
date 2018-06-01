@@ -13,8 +13,8 @@ public class Audit
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "INFO")
-    private String info;
+    @Column(name = "AUDIT_LEVEL")
+    private String auditLevel;
 
     @Column(name = "AUDIT_TYPE")
     private String auditType;
@@ -55,12 +55,12 @@ public class Audit
         this.id = id;
     }
 
-    public String getInfo() {
-        return info;
+    public String getAuditLevel() {
+        return auditLevel;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setAuditLevel(String auditLevel) {
+        this.auditLevel = auditLevel;
     }
 
     public String getAuditType() {

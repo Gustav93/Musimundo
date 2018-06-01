@@ -1,6 +1,6 @@
 #Bootstrap 3 Datepicker v4 Docs
 
-<div class="alert alert-info">
+<div class="alert alert-auditLevel">
     <strong>Note</strong>
     All functions are accessed via the <code>data</code> attribute e.g. <code>$('#datetimepicker').data("DateTimePicker").FUNCTION()</code>
 </div>

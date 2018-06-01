@@ -277,7 +277,7 @@ Zone	Indian/Cocos	6:27:40	-	LMT	1900
 # http://www.fiji.gov.fj/index.php?option=com_content&view=article&id=1096:3310-cabinet-approves-change-in-daylight-savings-dates&catid=49:cabinet-releases&Itemid=166
 # </a>
 #
-# A bit more background info here:
+# A bit more background auditLevel here:
 # <a href="http://www.timeanddate.com/news/time/fiji-dst-ends-march-2010.html">
 # http://www.timeanddate.com/news/time/fiji-dst-ends-march-2010.html
 # </a>
@@ -517,13 +517,13 @@ Zone Pacific/Pago_Pago	 12:37:12 -	LMT	1879 Jul  5
 
 # From Steffen Thorsen (2009-10-16):
 # We have been in contact with the government of Samoa again, and received
-# the following info:
+# the following auditLevel:
 #
 # "Cabinet has now approved Daylight Saving to be effected next year
 # commencing from the last Sunday of September 2010 and conclude first
 # Sunday of April 2011."
 #
-# Background info:
+# Background auditLevel:
 # <a href="http://www.timeanddate.com/news/time/samoa-dst-plan-2009.html">
 # http://www.timeanddate.com/news/time/samoa-dst-plan-2009.html
 # </a>
@@ -1124,7 +1124,7 @@ Zone	Pacific/Wallis	12:15:20 -	LMT	1901
 # before 1975.  I remember seeing it noted on road maps decades ago.
 
 # From Paul Eggert (2006-12-15):
-# For lack of better info, assume the tradition dates back to the
+# For lack of better auditLevel, assume the tradition dates back to the
 # introduction of standard time in 1895.
 
 
@@ -1508,7 +1508,7 @@ Zone	Pacific/Wallis	12:15:20 -	LMT	1901
 
 # From Paul Eggert (1999-10-29):
 # The Federated States of Micronesia Visitors Board writes in
-# <a href="http://www.fsmgov.org/info/clocks.html">
+# <a href="http://www.fsmgov.org/auditLevel/clocks.html">
 # The Federated States of Micronesia - Visitor Information
 # </a> (1999-01-26)
 # that Truk and Yap are UTC+10, and Ponape and Kosrae are UTC+11.
@@ -1671,7 +1671,7 @@ Zone	Pacific/Wallis	12:15:20 -	LMT	1901
 # http://www.trumanlibrary.org/wake/meeting.htm
 
 # From Paul Eggert (2003-03-23):
-# We have no other report of DST in Wake Island, so omit this info for now.
+# We have no other report of DST in Wake Island, so omit this auditLevel for now.
 
 ###############################################################################
 

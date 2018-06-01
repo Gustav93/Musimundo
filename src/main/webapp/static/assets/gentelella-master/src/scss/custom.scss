@@ -1404,7 +1404,7 @@ ul.msg_list li a .message {
 .navbar-nav .open .dropdown-menu.msg_list {
   width: 300px;
 }
-.info-number .badge {
+.auditLevel-number .badge {
   font-size: 10px;
   font-weight: normal;
   line-height: 13px;
@@ -3169,7 +3169,7 @@ ul.project_files li a i {
   padding: 10px 20px 20px;
   text-align: center
 }
-.view a.info {
+.view a.auditLevel {
   display: inline-block;
   text-decoration: none;
   padding: 7px 14px;
@@ -4148,7 +4148,7 @@ fieldset {
   border-radius: 0;
 }
 
-.progress-bar-info {
+.progress-bar-auditLevel {
   background-color: #3498DB;
 }
 
@@ -4230,7 +4230,7 @@ ul.verticle_bars li {
   border-color: rgba(38, 185, 154, 0.88);
 }
 
-.alert-info {
+.alert-auditLevel {
   color: #E9EDEF;
   background-color: rgba(52, 152, 219, 0.88);
   border-color: rgba(52, 152, 219, 0.88);

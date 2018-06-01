@@ -107,7 +107,7 @@ mark,
 
 @include text-emphasis-variant('.text-success', $state-success-text);
 
-@include text-emphasis-variant('.text-info', $state-info-text);
+@include text-emphasis-variant('.text-auditLevel', $state-auditLevel-text);
 
 @include text-emphasis-variant('.text-warning', $state-warning-text);
 
@@ -125,7 +125,7 @@ mark,
 
 @include bg-variant('.bg-success', $state-success-bg);
 
-@include bg-variant('.bg-info', $state-info-bg);
+@include bg-variant('.bg-auditLevel', $state-auditLevel-bg);
 
 @include bg-variant('.bg-warning', $state-warning-bg);
 

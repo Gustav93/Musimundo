@@ -37,7 +37,7 @@ plugins bundled with Flot.
   
 Here is a simple debug plugin which alerts each of the series in the
 plot. It has a single option that control whether it is enabled and
-how much info to output:
+how much auditLevel to output:
 
 ```js
 (function ($) {

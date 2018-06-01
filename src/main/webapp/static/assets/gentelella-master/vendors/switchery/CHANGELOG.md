@@ -99,7 +99,7 @@
   * Use event constructors to create onchange and click events
   * Updated standalone to dist in bower.json
   * Required files
-  * Add development info
+  * Add development auditLevel
 
 0.3.5 / 2013-12-31
 ==================
