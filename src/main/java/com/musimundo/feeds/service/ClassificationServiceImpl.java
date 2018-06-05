@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("classificacionService")
@@ -30,6 +33,11 @@ public class ClassificationServiceImpl implements ClassificationService {
     @Override
     public List<Classification> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public List<Classification> findNotProcessed() {
+        return dao.findNotProcessed();
     }
 
     @Override
@@ -63,4 +71,48 @@ public class ClassificationServiceImpl implements ClassificationService {
 
         return report;
     }
+    
+    @Override
+    public ClassificationReport getReportByDate(Date fechaDesde, Date fechaHasta) {
+    	ClassificationReport report = new ClassificationReport();
+        //control si fechahasta es nula o igual a fecha desde
+        if(fechaHasta == null || fechaHasta.equals(fechaDesde)) {
+        	Calendar dateAfter = Calendar.getInstance(); 
+        	dateAfter.setTime(fechaDesde); 
+        	dateAfter.add(Calendar.DATE, 1);
+        	fechaHasta = dateAfter.getTime();
+        }
+        
+        report.setCountTotal(dao.countAllByDate(fechaDesde, fechaHasta));
+        report.setCountOk(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.OK));
+        report.setCountWarning(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.WARNING));
+        report.setCountError(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.NOT_PROCESSED));
+
+        return report;
+    }
+    
+    @Override
+    public ClassificationReport getReportByCode(String code) {
+    	ClassificationReport report = new ClassificationReport();
+        report.setCountTotal(dao.countAllByCode(code));
+        report.setCountOk(dao.countByCode(code, FeedStatus.OK));
+        report.setCountWarning(dao.countByCode(code, FeedStatus.WARNING));
+        report.setCountError(dao.countByCode(code, FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.countByCode(code, FeedStatus.NOT_PROCESSED));
+
+        return report;
+    }
+
+	@Override
+	public List<Classification> findClassificationByDate(Date desde, Date hasta) {
+		//control si fechahasta es nula o igual a fecha desde
+        if(hasta == null || hasta.equals(desde)) {
+        	Calendar dateAfter = Calendar.getInstance(); 
+        	dateAfter.setTime(desde); 
+        	dateAfter.add(Calendar.DATE, 1);
+        	hasta = dateAfter.getTime();
+        }
+		return dao.findClassificationByDate(desde, hasta);
+	}
 }

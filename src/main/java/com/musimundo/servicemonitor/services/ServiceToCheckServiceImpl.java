@@ -67,5 +67,14 @@ public class ServiceToCheckServiceImpl implements ServiceToCheckService{
 		ServiceToCheck serviceToCheck = findByUrl(url);
 		return ( serviceToCheck == null || ((id != null) && (serviceToCheck.getId() == id)));
 	}
+	
+	public void updateStateLastCheckServiceToCheck(ServiceToCheck service) {
+		ServiceToCheck entity = dao.findById(service.getId());
+		if(entity!=null){
+			entity.setLastCheckTime(service.getLastCheckTime());
+			entity.setState(service.getState());
+			entity.setElapsedTime(service.getElapsedTime());
+		}
+	}
 
 }

@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Carritos</title>
 
@@ -55,7 +56,6 @@
 	
 	<!-- Custom Theme Scripts -->
 	<script src="<c:url value='/static/assets/gentelella-master/build/js/custom.js'/>"></script>
-	<!--  <script src="<c:url value='/static/assets/js/Main.js'/>"></script>-->
 
 </head>
 <body class="nav-md">
@@ -139,16 +139,6 @@
                                             <h3>Total Productos Emsa</h3>
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="tile-stats">
-                                            <!--<div class="well">-->
-                                                <div class=" display text-center">
-                                                    Tiempo transcurrido desde el ultimo carrito: <span id="hor">00</span>:<span id="min">00</span>:<span id="seg">00</span>
-                                                </div>
-                                            <!--</div>-->
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +173,7 @@
 												<td>${carroCerrado.medioPago}</td>
 												<td>${carroCerrado.tarjeta}</td>
 												<td>${carroCerrado.cuotas}</td>
-												<td>${carroCerrado.company}</td>
+												<td>${carroCerrado.empresa}</td>
 												<td>${carroCerrado.total}</td>
 											</tr>
 										</c:forEach>
@@ -213,15 +203,13 @@
 </script>
 
 <script>
-$('.calendarioDesde').datepicker({
-    format: "dd-mm-yyyy",
-    language: "es"
+$(document).ready(function () {
+    setInterval(updateCarros, 20000);
 });
 
-$('.calendarioHasta').datepicker({
-    format: "dd-mm-yyyy",
-    language: "es"
-});  
+function updateCarros(){
+	location.reload();
+}
 
    
 </script>

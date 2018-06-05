@@ -1,5 +1,6 @@
 package com.musimundo.configuration;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -22,6 +25,8 @@ import com.musimundo.converter.RoleToUserProfileConverter;
 
 @Configuration
 @EnableWebMvc
+@EnableScheduling
+@EnableAsync
 @ComponentScan(basePackages = "com.musimundo")
 public class AppConfig extends WebMvcConfigurerAdapter{
 	
@@ -91,6 +96,6 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 			mediaType("html", MediaType.TEXT_HTML).
 			mediaType("xml", MediaType.APPLICATION_XML).
 			mediaType("json", MediaType.APPLICATION_JSON);
-	}
+	}    
 }
 

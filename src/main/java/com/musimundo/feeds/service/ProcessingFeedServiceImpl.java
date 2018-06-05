@@ -1,7 +1,6 @@
 package com.musimundo.feeds.service;
 
-import com.musimundo.feeds.beans.Audit;
-import com.musimundo.feeds.beans.Product;
+import com.musimundo.feeds.beans.*;
 import com.musimundo.utilities.ErrorType;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.FeedType;
@@ -22,6 +21,21 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    PriceService priceService;
+
+    @Autowired
+    StockService stockService;
+
+    @Autowired
+    MediaService mediaService;
+
+    @Autowired
+    MerchandiseService merchandiseService;
+
+    @Autowired
+    ClassificationService classificationService;
+
     @Override
     public void process(FeedType feedType) {
 
@@ -33,26 +47,172 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
             {
                 List<Audit> auditList = auditService.findBy(product.getProductCode(),FeedType.PRODUCT, product.getImportOrigin());
 
-                for(Audit audit : auditList)
-                {
-                    product.setProcessingDate(new Date());
+                if(auditList == null || auditList.size()== 0)
+                    continue;
 
-                    if(auditService.getErrorType(audit).equals(ErrorType.SUCCESS))
-                        product.setFeedStatus(FeedStatus.OK);
+                Audit audit = auditList.get(0);
 
-                    product.setErrorDescription(audit.getDescription());
-                    product.setProcessed(true);
-                    product.setCompany(audit.getCompany());
-                    audit.setProcessed(true);
+                product.setProcessingDate(new Date());
+                product.setFeedStatus(getFeedStatus(audit));
+                product.setErrorDescription(audit.getDescription());
+                product.setProcessed(true);
+                product.setCompany(audit.getCompany());
+                audit.setProcessed(true);
 
-                    auditService.save(audit);
-                    productService.save(product);
-
-                    break;
-                }
+                auditService.save(audit);
+                productService.save(product);
             }
 
         }
 
+        else if(feedType.equals(FeedType.PRICE))
+        {
+            List<Price> priceNotProcessed = priceService.findNotProcessed();
+
+            for(Price price : priceNotProcessed)
+            {
+                List<Audit> auditList = auditService.findBy(price.getProductCode(),FeedType.PRICE, price.getImportOrigin());
+                price.setProcessed(true);
+
+                if(auditList == null || auditList.size()== 0)
+                {
+                    priceService.save(price);
+                    continue;
+                }
+
+                Audit audit = auditList.get(0);
+                audit.setProcessed(true);
+                price.setProcessingDate(new Date());
+                price.setFeedStatus(getFeedStatus(audit));
+                price.setErrorDescription(audit.getDescription());
+                price.setCompany(audit.getCompany());
+
+                auditService.save(audit);
+                priceService.save(price);
+            }
+        }
+
+        else if(feedType.equals(FeedType.STOCK))
+        {
+            List<Stock> stockNotProcessed = stockService.findNotProcessed();
+
+            for(Stock stock : stockNotProcessed)
+            {
+                List<Audit> auditList = auditService.findBy(stock.getProductCode(),FeedType.STOCK, stock.getImportOrigin());
+                stock.setProcessed(true);
+
+                if(auditList == null || auditList.size()== 0)
+                {
+                    stockService.save(stock);
+                    continue;
+                }
+
+                Audit audit = auditList.get(0);
+                audit.setProcessed(true);
+                stock.setProcessingDate(new Date());
+                stock.setFeedStatus(getFeedStatus(audit));
+                stock.setErrorDescription(audit.getDescription());
+                stock.setCompany(audit.getCompany());
+
+                auditService.save(audit);
+                stockService.save(stock);
+            }
+        }
+
+        else if(feedType.equals(FeedType.MEDIA))
+        {
+            List<Media> mediaNotProcessed = mediaService.findNotProcessed();
+
+            for(Media media : mediaNotProcessed)
+            {
+                List<Audit> auditList = auditService.findBy(media.getProductCode(),FeedType.MEDIA, media.getImportOrigin());
+                media.setProcessed(true);
+
+                if(auditList == null || auditList.size()== 0)
+                {
+                    mediaService.save(media);
+                    continue;
+                }
+
+                Audit audit = auditList.get(0);
+                audit.setProcessed(true);
+                media.setProcessingDate(new Date());
+                media.setFeedStatus(getFeedStatus(audit));
+                media.setErrorDescription(audit.getDescription());
+                media.setCompany(audit.getCompany());
+
+                auditService.save(audit);
+                mediaService.save(media);
+            }
+        }
+
+        else if(feedType.equals(FeedType.MERCHANDISE))
+        {
+            List<Merchandise> merchandiseNotProcessed = merchandiseService.findNotProcessed();
+
+            for(Merchandise merchandise : merchandiseNotProcessed)
+            {
+                List<Audit> auditList = auditService.findBy(merchandise.getSource(),FeedType.MERCHANDISE, merchandise.getImportOrigin());
+                merchandise.setProcessed(true);
+
+                if(auditList == null || auditList.size()== 0)
+                {
+                    merchandiseService.save(merchandise);
+                    continue;
+                }
+
+                Audit audit = auditList.get(0);
+                audit.setProcessed(true);
+                merchandise.setProcessingDate(new Date());
+                merchandise.setFeedStatus(getFeedStatus(audit));
+                merchandise.setErrorDescription(audit.getDescription());
+                merchandise.setCompany(audit.getCompany());
+
+                auditService.save(audit);
+                merchandiseService.save(merchandise);
+            }
+        }
+
+        else if(feedType.equals(FeedType.CLASSIFICATION))
+        {
+            List<Classification> classificationNotProcessed = classificationService.findNotProcessed();
+
+            for(Classification classification : classificationNotProcessed)
+            {
+                List<Audit> auditList = auditService.findBy(classification.getProductCode(),FeedType.CLASSIFICATION, classification.getImportOrigin());
+                classification.setProcessed(true);
+
+                if(auditList == null || auditList.size()== 0)
+                {
+                    classificationService.save(classification);
+                    continue;
+                }
+
+                Audit audit = auditList.get(0);
+                audit.setProcessed(true);
+                classification.setProcessingDate(new Date());
+                classification.setFeedStatus(getFeedStatus(audit));
+                classification.setErrorDescription(audit.getDescription());
+                classification.setCompany(audit.getCompany());
+
+                auditService.save(audit);
+                classificationService.save(classification);
+            }
+        }
+    }
+
+    private FeedStatus getFeedStatus(Audit audit)
+    {
+        if(auditService.getErrorType(audit).equals(ErrorType.SUCCESS))
+            return FeedStatus.OK;
+
+        else if(auditService.getErrorType(audit).equals(ErrorType.WARNING))
+            return FeedStatus.WARNING;
+
+        else if(auditService.getErrorType(audit).equals(ErrorType.ERROR))
+           return FeedStatus.ERROR;
+
+        else
+            return FeedStatus.NOT_PROCESSED;
     }
 }

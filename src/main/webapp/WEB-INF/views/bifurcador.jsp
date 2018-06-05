@@ -7,11 +7,13 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Seleccion de Aplicacion</title>
 	    <!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
     <!-- Font Awesome -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/font-awesome/css/font-awesome.min.css'/>" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
     <!-- NProgress -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/nprogress/nprogress.css'/>" rel="stylesheet"></link>
     <!-- iCheck -->
@@ -70,18 +72,28 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA') or hasRole('USER')">
-                                        	<a href="<c:url value='/getcarritos' />">
+                                        	<a href="<c:url value='/indexcarritos' />">                                        	
                                         		<div class="tile-stats">
+                                        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        				<i class="fas fa-shopping-cart fa-5x green"></i>
+                                        			</div>
+                                        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             		<h3>Carritos</h3>
+                                            		</div>
                                         		</div>
                                         	</a>
 										</sec:authorize>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                                        	<a href="<c:url value='/getcarritos' />">
+                                        	<a href="<c:url value='/busquedafeed' />">
                                         		<div class="tile-stats">
+                                        		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        				<i class="fas fa-book fa-5x grey"></i>
+                                        			</div>
+                                        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             		<h3>Auditoria</h3>
+                                            		</div>
                                         		</div>
                                         	</a>
 										</sec:authorize>
@@ -92,16 +104,26 @@
 	                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
 	                                        	<a href="<c:url value='/list' />">
 	                                        		<div class="tile-stats">
+	                                        		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        				<i class="fas fa-users fa-5x blue"></i>
+                                        			</div>
+                                        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	                                            		<h3>Usuarios</h3>
+	                                            	</div>
 	                                        		</div>
 	                                        	</a>
 											</sec:authorize>
 	                                    </div>
 	                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-	                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-	                                        	<a href="<c:url value='/listservice' />">
+	                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA') or hasRole('USER')">
+	                                        	<a href="<c:url value='/servicesmonitor' />">
 	                                        		<div class="tile-stats">
+	                                        		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        				<i class="fas fa-sliders-h fa-5x black"></i>
+                                        			</div>
+                                        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	                                            		<h3>Servicios</h3>
+	                                            	</div>
 	                                        		</div>
 	                                        	</a>
 											</sec:authorize>

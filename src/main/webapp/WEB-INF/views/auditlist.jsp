@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
-    <title>Carritos</title>
+    <title>Auditorias</title>
 
     <!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
@@ -64,7 +64,7 @@
 
         <div id="actualizarReporte" style="visibility: hidden;"></div>
 
-        <%@include file="navbar.jsp" %>
+        <%@include file="navbarfeeds.jsp" %>
 
         <div class="right_col" role="main">
             <div class="">
@@ -72,7 +72,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h3>Carros de Día</h3>
+                                <h3>Auditoria</h3>
                                 <div class="row"></div>
                             </div>
                             <div class="x_content">

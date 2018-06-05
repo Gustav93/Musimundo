@@ -43,6 +43,9 @@ public class Audit
     @Column(name = "PROCESSED", nullable = false)
     private boolean processed;
 
+    @Column(name = "WAREHOUSE_STOCK")
+    private String warehouseStock;
+
     public Audit() {
         this.processed = false;
     }
@@ -133,5 +136,13 @@ public class Audit
 
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+
+    public String getWarehouseStock() {
+        return warehouseStock;
+    }
+
+    public void setWarehouseStock(String warehouseStock) {
+        this.warehouseStock = warehouseStock;
     }
 }

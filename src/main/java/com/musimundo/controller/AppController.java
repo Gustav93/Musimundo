@@ -15,6 +15,8 @@ import com.musimundo.feeds.beans.*;
 import com.musimundo.feeds.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,18 +31,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.musimundo.carritos.beans.CarroCerrado;
 import com.musimundo.carritos.beans.ListaCarrosCerrados;
+import com.musimundo.carritos.beans.StockJSON;
 import com.musimundo.carritos.beans.TotalesCarritos;
 import com.musimundo.carritos.service.ReporteCarrosService;
+import com.musimundo.carritos.service.StockCarritosService;
 import com.musimundo.model.User;
 import com.musimundo.model.UserProfile;
 import com.musimundo.service.UserProfileService;
 import com.musimundo.service.UserService;
+import com.musimundo.servicemonitor.beans.ServiceCheck;
 import com.musimundo.servicemonitor.beans.ServiceToCheck;
+import com.musimundo.servicemonitor.services.ServiceChecker;
 import com.musimundo.servicemonitor.services.ServiceToCheckService;
+
+
+
 
 @Controller
 @RequestMapping("/")
@@ -51,7 +61,13 @@ public class AppController {
 	UserService userService;
 	
 	@Autowired
+	StockCarritosService stockService;
+	
+	@Autowired
 	ServiceToCheckService servicesToCheckService;
+	
+	@Autowired
+	ServiceChecker servicesChecker;
 	
 	@Autowired
 	ReporteCarrosService reporteCarrosService;
@@ -67,7 +83,19 @@ public class AppController {
 	
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
-
+	
+	@Autowired
+	static TotalesCarritos totalesCarritos = new TotalesCarritos();
+	
+	@Autowired
+	static List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
+	
+	@Autowired
+	static List<ServiceToCheck> servicesToCheck = new ArrayList<ServiceToCheck>();
+	
+	@Autowired
+	static List<ServiceCheck> serviceChecks = new ArrayList<ServiceCheck>();
+	
 	/**
 	 * This method will list all existing users.
 	 */
@@ -76,8 +104,8 @@ public class AppController {
 
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
+		model.addAttribute("liActivo", "liListUsuarios");
 		model.addAttribute("loggedinuser", getPrincipal());
-
 		return "userslist";
 	}
 	
@@ -98,29 +126,20 @@ public class AppController {
 	 * This method will list all existing service to check.
 	 */
 	@RequestMapping(value = {"/servicesmonitor" }, method = RequestMethod.GET)
-	public String servicesMonitor(ModelMap model) {
-
-		List<ServiceToCheck> servicesToCheck = servicesToCheckService.findAllServiceToCheck();
+	public String servicesMonitor(ModelMap model) {				
+		
 		model.addAttribute("servicesToCheck", servicesToCheck);
+		model.addAttribute("serviceChecks", serviceChecks);
 		model.addAttribute("liActivo", "liMonitorServicios");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "servicemonitor";
 	}
-	
+		
 	/**
 	 * This method will list all shop carts of the day.
 	 */
-	@RequestMapping(value = {"/getcarritos" }, method = RequestMethod.GET)
-	public String getcarritos(ModelMap model) {
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaActual = dateFormat.format(Calendar.getInstance().getTime());
-        List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
-        TotalesCarritos totalesCarritos = new TotalesCarritos();        
-	    //obtener carritos del servicio
-		ListaCarrosCerrados listaCarrosCerrados = reporteCarrosService.getAllCarrosByDate(Calendar.getInstance());
-		//obtener carros aprobados y totales para mostrar.
-		listaCarritos = getCarrosAprobadosYTotales(fechaActual, listaCarrosCerrados, totalesCarritos);
+	@RequestMapping(value = {"/indexcarritos" }, method = RequestMethod.GET)
+	public String indexcarritos(ModelMap model) {		
 		
 		model.addAttribute("totalesCarritos", totalesCarritos);
 		model.addAttribute("carritos", listaCarritos);
@@ -142,6 +161,98 @@ public class AppController {
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "registration";
 	}
+	
+	/**
+	 * This method will provide the medium to add a new user.
+	 */
+	@RequestMapping(value = { "/newservice" }, method = RequestMethod.GET)
+	public String newservice(ModelMap model) {
+		ServiceToCheck serviceToCheck = new ServiceToCheck();
+		model.addAttribute("serviceToCheck", serviceToCheck);
+		model.addAttribute("edit", false);
+		model.addAttribute("liActivo", "liListServicios");
+		model.addAttribute("loggedinuser", getUser());
+		return "serviceregistration";
+	}
+	
+	/**
+	 * This method will provide the medium to add a new user.
+	 */
+	@RequestMapping(value = { "/edit-service-{IdService}" }, method = RequestMethod.GET)
+	public String editservice(@PathVariable int IdService, ModelMap model) {
+		ServiceToCheck service = servicesToCheckService.findById(IdService);
+		model.addAttribute("serviceToCheck", service);
+		model.addAttribute("edit", true);
+		model.addAttribute("liActivo", "");
+		model.addAttribute("loggedinuser", getUser());
+		return "serviceregistration";
+	}
+	
+	@RequestMapping(value = { "/edit-service-{IdService}" }, method = RequestMethod.POST)
+	public String updateservice(@Valid ServiceToCheck service, BindingResult result, ModelMap model) {
+		
+		if (result.hasErrors() && !result.getFieldError().getField().equals("user")) {
+			return "serviceregistration";
+		}
+		
+		service.setUser(getUser());
+		
+		servicesToCheckService.updateServiceToCheck(service);
+		
+		model.addAttribute("success", "service " + service.getName() + " "+ service.getUrl() + " registrado exitosamente");
+		model.addAttribute("loggedinuser", getPrincipal());
+		//return "success";
+		return "registrationsuccess";
+	}
+	
+	@RequestMapping(value = { "/newservice" }, method = RequestMethod.POST)
+	public String saveservice(@Valid ServiceToCheck service, BindingResult result, ModelMap model) {
+		
+		if (result.hasErrors() && !result.getFieldError().getField().equals("user")) {
+			return "serviceregistration";
+		}
+		
+		if(!servicesToCheckService.isServiceToCheckURLUnique(service.getId(), service.getUrl())) {
+			FieldError ssoError =new FieldError("url","name",messageSource.getMessage("non.unique.ssoId", new String[]{service.getUrl()}, Locale.getDefault()));
+		    result.addError(ssoError);
+			return "serviceregistration";
+		}
+		
+		service.setUser(getUser());
+		
+		servicesToCheckService.saveServiceToCheck(service);
+		
+		model.addAttribute("success", "service " + service.getName() + " "+ service.getUrl() + " registrado exitosamente");
+		model.addAttribute("loggedinuser", getPrincipal());
+		//return "success";
+		return "registrationsuccess";
+	}
+	
+	/**
+	 * This method will provide the medium to update an existing user.
+	 */
+	@RequestMapping(value = { "/show-service-{IdService}" }, method = RequestMethod.GET)
+	public String showService(@PathVariable int IdService, ModelMap model) {
+		ServiceToCheck service = servicesToCheckService.findById(IdService);
+		List<ServiceCheck> listChecks = servicesChecker.findAllServicesByIdService(service);
+		String classActive = "panel-success";
+		if(service.getState().equals("DOWN")) {
+			classActive = "panel-danger";
+		}
+		
+		if(service.getState().equals("LATE")) {
+			classActive = "panel-warning";
+		}
+		
+		model.addAttribute("service", service);
+		model.addAttribute("listChecks", listChecks);
+		model.addAttribute("edit", false);
+		model.addAttribute("classActive", classActive);
+		model.addAttribute("liActivo", "liMonitorServicios");
+		model.addAttribute("loggedinuser", getUser());
+		
+		return "serviceshow";
+	}	
 
 	/**
 	 * This method will be called on form submission, handling POST request for
@@ -153,8 +264,7 @@ public class AppController {
 
 		if (result.hasErrors()) {
 			return "registration";
-		}
-
+		}		
 		/*
 		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
 		 * and applying it on field [sso] of Model class [User].
@@ -284,13 +394,16 @@ public class AppController {
 	}
 	
 	/**
-	 * This method will StockService.
+	 * This method will Stock.
 	 */
 	@RequestMapping(value = {"/consultastock" }, method = RequestMethod.GET)
 	public String consultastock(ModelMap model) {
-
+		
+		
 		/*List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);*/
+		model.addAttribute("stockDisponible", "");
+		model.addAttribute("cantStock", "");
 		model.addAttribute("liActivo", "liConsultaStock");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "consultastockcarro";
@@ -308,17 +421,6 @@ public class AppController {
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "consultacarro";
 	}
-
-
-
-//	@RequestMapping(value = {"/listaauditoria"})
-//	public String getAuditList(ModelMap model)
-//	{
-//		List<Audit> auditList = auditService.findAll();
-//		model.addAttribute("auditList", auditList);
-//
-//		return "auditlist";
-//	}
 	
 	/**
 	 * This method will list all shop cars of the day.
@@ -326,22 +428,12 @@ public class AppController {
 	 */
 	@RequestMapping(value = {"/getcarritosperiodo" }, method = RequestMethod.GET)
 	public String getcarritosperiodo(@RequestParam String fechaDesde, @RequestParam String fechaHasta, ModelMap model) throws Exception {
-		
-		System.out.println(fechaDesde);
-		System.out.println(fechaHasta);
-		
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar calDesde = Calendar.getInstance();
-		Calendar calHasta = Calendar.getInstance();
-		calDesde.setTime(dateFormat.parse(fechaDesde));
-		calHasta.setTime(dateFormat.parse(fechaHasta));
-        List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
-        TotalesCarritos totalesCarritos = new TotalesCarritos();        
-	    //obtener carritos del servicio
-		ListaCarrosCerrados listaCarrosCerrados = reporteCarrosService.getAllCarrosByPerdiod(fechaDesde, fechaHasta);
-		//obtener carros aprobados y totales para mostrar.
-		listaCarritos = getCarrosAprobadosYTotalesPeriodo(calDesde.getTime(), calHasta.getTime(), listaCarrosCerrados, totalesCarritos);
+				        
+		List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
+        TotalesCarritos totalesCarritos = new TotalesCarritos();
+        
+        //obtener carros aprobados y totales para mostrar.
+		listaCarritos = reporteCarrosService.getCarrosAprobadosYTotalesPeriodo(fechaDesde, fechaHasta, totalesCarritos);
 		
 		model.addAttribute("totalesCarritos", totalesCarritos);
 		model.addAttribute("carritos", listaCarritos);
@@ -349,7 +441,41 @@ public class AppController {
 		model.addAttribute("fechaHasta", fechaHasta);
 		model.addAttribute("liActivo", "liCarritosPeriodo");
 		model.addAttribute("loggedinuser", getPrincipal());
+		
 		return "carrosporperiodo";
+	}
+	
+	/**
+	 * This method will list all shop cars of the day.
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = {"/getstock" }, method = RequestMethod.GET)
+	public String getstock(@RequestParam String empresa, @RequestParam String codigo, ModelMap model) throws Exception {
+		
+		System.out.println(empresa);
+		System.out.println(codigo);
+		String stockDisponible = "";
+		int cantStock = 0;
+		
+		if(empresa != null && codigo != null) {
+			StockJSON stockJson = stockService.getStock(codigo, empresa);
+			if(stockJson.getStockLevels().get(1).getInStockStatus().equals("forceInStock")) {
+				stockDisponible = "Si";
+			}else {
+				stockDisponible = "No";
+			}
+			
+			if(stockJson.getStockLevels().get(0).getAvailable() != null) {
+				cantStock = stockJson.getStockLevels().get(0).getAvailable();
+			}
+			
+		}
+		
+		model.addAttribute("stockDisponible", stockDisponible);
+		model.addAttribute("cantStock", cantStock);
+		model.addAttribute("liActivo", "liConsultaStock");
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "consultastockcarro";
 	}
 
 	/**
@@ -383,87 +509,27 @@ public class AppController {
 	}
 	
 	/**
+	 * This method returns the principal[user-name] of logged-in user.
+	 */
+	private User getUser(){
+		String userName = null;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails)principal).getUsername();
+		} else {
+			userName = principal.toString();
+		}
+		User user = userService.findBySSO(userName);		
+		
+		return user;
+	}
+	
+	/**
 	 * This method returns true if users is already authenticated [logged-in], else false.
 	 */
 	private boolean isCurrentAuthenticationAnonymous() {
 	    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    return authenticationTrustResolver.isAnonymous(authentication);
 	}
-	
-	/**
-	 * This method returns approved shop carts and totals.
-	 */
-	private List<CarroCerrado> getCarrosAprobadosYTotales(String fechaActual,
-			ListaCarrosCerrados listaCarrosCerrados, TotalesCarritos totalesCarritos) {
-		List<CarroCerrado> res = new ArrayList<CarroCerrado>();
-		if(listaCarrosCerrados != null) {
-									
-	        for (CarroCerrado carro : listaCarrosCerrados.getClosedOrders()) {
-	            if (carro.getEstadoPago().equals("APPROVED") && carro.getFechaCierrePedido().contains(fechaActual)) {
-	            	if (carro.getEmpresa().equals("CARSA")||carro.getEmpresa().equals("EMSA")){
-	    	        	totalesCarritos.setTotalCarros(totalesCarritos.getTotalCarros()+1);
-	    	        	totalesCarritos.setTotalRecaudado(totalesCarritos.getTotalRecaudado()+ carro.getTotal());
-	    	        	totalesCarritos.setTotalProductos(totalesCarritos.getTotalProductos()+carro.getCantProductosVendidos());
-
-	    	            if (carro.getEmpresa().equals("CARSA")) {
-	    	            	totalesCarritos.setTotalCarrosCarsa(totalesCarritos.getTotalCarrosCarsa()+1);
-	    		        	totalesCarritos.setTotalRecaudadoCarsa(totalesCarritos.getTotalRecaudadoCarsa()+ carro.getTotal());
-	    		        	totalesCarritos.setTotalProductosCarsa(totalesCarritos.getTotalProductosCarsa()+carro.getCantProductosVendidos());
-
-	    	            } else if (carro.getEmpresa().equals("EMSA")) {
-	    	            	totalesCarritos.setTotalCarrosEmsa(totalesCarritos.getTotalCarrosEmsa()+1);
-	    		        	totalesCarritos.setTotalRecaudadoEmsa(totalesCarritos.getTotalRecaudadoEmsa()+ carro.getTotal());
-	    		        	totalesCarritos.setTotalProductosEmsa(totalesCarritos.getTotalProductosEmsa()+carro.getCantProductosVendidos());
-	    	            }
-	    	        }	     
-	            	res.add(carro);
-	            }
-	        }
-		}
-		return res;
-	}
-	
-	/**
-	 * This method returns approved shop carts and totals.
-	 * @throws Exception 
-	 */
-	private List<CarroCerrado> getCarrosAprobadosYTotalesPeriodo(Date fechaDesde, Date fechaHasta,
-			ListaCarrosCerrados listaCarrosCerrados, TotalesCarritos totalesCarritos) throws Exception {
-		List<CarroCerrado> res = new ArrayList<CarroCerrado>();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		Calendar calUtil = Calendar.getInstance();
-		if(listaCarrosCerrados != null) {
-									
-	        for (CarroCerrado carro : listaCarrosCerrados.getClosedOrders()) {
-	        	
-	        	if(carro.getFechaCierrePedido() != null && !carro.getFechaCierrePedido().isEmpty()) {
-	        		calUtil.setTime(dateFormat.parse(carro.getFechaCierrePedido()));	        	
-	        	
-		        	if(calUtil.getTime().after(fechaDesde) && calUtil.getTime().before(fechaHasta)) {
-			            if (carro.getEstadoPago().equals("APPROVED")) {
-			            	if (carro.getEmpresa().equals("CARSA")||carro.getEmpresa().equals("EMSA")){
-			    	        	totalesCarritos.setTotalCarros(totalesCarritos.getTotalCarros()+1);
-			    	        	totalesCarritos.setTotalRecaudado(totalesCarritos.getTotalRecaudado()+ carro.getTotal());
-			    	        	totalesCarritos.setTotalProductos(totalesCarritos.getTotalProductos()+carro.getCantProductosVendidos());
-		
-			    	            if (carro.getEmpresa().equals("CARSA")) {
-			    	            	totalesCarritos.setTotalCarrosCarsa(totalesCarritos.getTotalCarrosCarsa()+1);
-			    		        	totalesCarritos.setTotalRecaudadoCarsa(totalesCarritos.getTotalRecaudadoCarsa()+ carro.getTotal());
-			    		        	totalesCarritos.setTotalProductosCarsa(totalesCarritos.getTotalProductosCarsa()+carro.getCantProductosVendidos());
-		
-			    	            } else if (carro.getEmpresa().equals("EMSA")) {
-			    	            	totalesCarritos.setTotalCarrosEmsa(totalesCarritos.getTotalCarrosEmsa()+1);
-			    		        	totalesCarritos.setTotalRecaudadoEmsa(totalesCarritos.getTotalRecaudadoEmsa()+ carro.getTotal());
-			    		        	totalesCarritos.setTotalProductosEmsa(totalesCarritos.getTotalProductosEmsa()+carro.getCantProductosVendidos());
-			    	            }
-			    	        }	     
-			            	res.add(carro);
-			            }
-		        	}
-	        	}
-	        }
-		}
-		return res;
-	}
-
 }

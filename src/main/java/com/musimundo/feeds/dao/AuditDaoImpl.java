@@ -67,18 +67,6 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         return res;
     }
 
-//    @Override
-//    public List<Audit> findNotProcessed(FeedType feedType) {
-//
-//        Criteria criteria = createEntityCriteria();
-//        criteria.add(Restrictions.eq("processed", false));
-//
-//        if(feedType.equals(FeedType.PRODUCT))
-//            criteria.add(Restrictions.eq("feedType", FeedType.PRODUCT));
-//
-//        return criteria.list();
-//    }
-
     @Override
     public void save(Audit audit) {
         persist(audit);

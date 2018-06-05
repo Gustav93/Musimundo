@@ -3,6 +3,7 @@ package com.musimundo.feeds.service;
 import com.musimundo.feeds.beans.Price;
 import com.musimundo.feeds.beans.PriceReport;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PriceService {
@@ -13,9 +14,17 @@ public interface PriceService {
 
     List<Price> findAll();
 
+    List<Price> findNotProcessed();
+
     void save(Price price);
 
     void update(Price price);
 
     PriceReport getReport();
+
+	PriceReport getReportByDate(Date fechaDesde, Date fechaHasta);
+
+	PriceReport getReportByCode(String code);
+
+	List<Price> findPriceByDate(Date desde, Date hasta);
 }

@@ -19,9 +19,5 @@ public interface AuditDao
 
     List<Audit> findAll();
 
-//    List<Audit> findNotProcessed(FeedType feedType);
-
-
-
     void save(Audit audit);
 }

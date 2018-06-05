@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service("auditService")
 @Transactional
@@ -69,6 +71,18 @@ public class AuditServiceImpl implements AuditService {
 
         else
             throw new IllegalArgumentException("illegal error type");
+    }
+
+    @Override
+    public String getWarehouse(Audit audit) {
+        String res = null;
+        Pattern pattern = Pattern.compile("(carsa_\\w{1,4})|(emsa_\\w{1,4})");
+        Matcher matcher = pattern.matcher(audit.getErrorCode());
+
+        if(matcher.find())
+            res = matcher.group();
+
+        return res;
     }
 
     @Override

@@ -36,9 +36,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override //agregar urls para que los tome el autenticador de springs
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/list", "/bifurcacion", "/getcarritos", "/consultarcarro", "/listservice", "/getcarritosperiodo", "/consultastock", "/listaproductos", "/listaprecios", "/listastock", "/listamedia", "/listamerchandise", "/listaclasificacion", "/listaauditoria")
+		http.authorizeRequests().antMatchers("/", "/list", "/bifurcacion","/indexcarritos", 
+				"/getcarritos",	"/consultarcarro", "/listservice", "/servicesmonitor", 
+				"/getcarritosperiodo", "/consultastock",	"/getstock", "/show-service-*", 
+				"/listaproductos", "/listaprecios", "/listastock", "/listamedia", 
+				"/listamerchandise", "/listaclasificacion", "/listaauditoria", "/feedMenu", 
+				"/busquedafeed", "/historico", "/productbyfecha", "/pricebyfecha", "/stockbyfecha", 
+				"/mediabyfecha", "/merchandisebyfecha", "/clasificacionbyfecha", "/product", "/precios", 
+				"/stock", "/media", "/merchandise", "/clasificacion")
 				.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-				.antMatchers("/newuser/**", "/delete-user-*").access("hasRole('ADMIN')").antMatchers("/edit-user-*")
+				.antMatchers("/newuser/**", "/delete-user-*", "/newservice/**").access("hasRole('ADMIN')").antMatchers("/edit-user-*", "/edit-service-*")
 				.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")
 				.loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password").and()
 				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
@@ -60,8 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
-				"remember-me", userDetailsService, tokenRepository);
+		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices("remember-me", userDetailsService, tokenRepository);
 		return tokenBasedservice;
 	}
 

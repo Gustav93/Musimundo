@@ -1,8 +1,11 @@
 package com.musimundo.servicemonitor.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -48,20 +52,41 @@ public class ServiceToCheck implements Serializable{
 	@Column(name="TIME_OUT", nullable=false)
 	private String timeOut;
 
-	@NotEmpty
+	
 	@Column(name="CREATE_TIME", nullable=false)
 	private Date createTime;
 	
-	@NotEmpty
+	
 	@Column(name="LAST_CHECK_TIME", nullable=false)
 	private Date lastCheckTime;
 	
-	@NotEmpty
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
-
 	
+	@NotEmpty
+	@Column(name="STATE", nullable=false)
+	private String state;	
+	
+	@Column(name="ELAPSED_TIME", nullable=false)
+	private String elapsedTime;	
+	
+	public String getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(String elapsedTime) {
+		this.elapsedTime = elapsedTime;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public Integer getId() {
 		return id;
 	}

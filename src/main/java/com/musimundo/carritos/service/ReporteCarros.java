@@ -68,7 +68,7 @@ public class ReporteCarros {
             return res;
 
         for (CarroCerrado carro : closedOrders.getClosedOrders()) {
-            if (carro.getEstadoPago().equals("APPROVED") && fechaCierreValida(carro))
+            if (carro.getEstadoPago().toUpperCase().equals("APPROVED") && fechaCierreValida(carro))
                 res.add(carro);
         }
 

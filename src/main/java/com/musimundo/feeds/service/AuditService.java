@@ -26,4 +26,6 @@ public interface AuditService {
 
     ErrorType getErrorType(Audit audit);
 
+    String getWarehouse(Audit audit);
+
 }

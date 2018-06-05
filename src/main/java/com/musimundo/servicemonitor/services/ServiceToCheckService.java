@@ -15,6 +15,8 @@ public interface ServiceToCheckService {
 	void updateServiceToCheck(ServiceToCheck serviceToCheck);
 	
 	void deleteServiceToCheckByUrl(String url);
+	
+	void updateStateLastCheckServiceToCheck(ServiceToCheck service);
 
 	List<ServiceToCheck> findAllServiceToCheck(); 
 	

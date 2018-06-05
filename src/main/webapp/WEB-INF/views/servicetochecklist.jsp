@@ -7,7 +7,8 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Users List</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Lista de servicios</title>
 	<!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
     <!-- Font Awesome -->

@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Consulta Stock</title>
 
@@ -62,12 +63,12 @@
 <script>
     function consultarStock()
     {
-        var company = document.getElementById("company").value;
+        var empresa = document.getElementById("empresa").value;
         var codigo = document.getElementById("codigo").value;
 
         $("#stockDisponible").text("");
         $("#cantStock").text("");
-        $.get("/consultar_retiro_tienda?codigo="+ codigo + "&" + "company=" + company, function (data) {
+        $.get("/consultar_retiro_tienda?codigo="+ codigo + "&" + "empresa=" + empresa, function (data) {
             if(data == "true")
                 $("#stockDisponible").text("Si");
 
@@ -78,7 +79,7 @@
                 alert("El producto no existe");
         });
 
-        $.get("/consultar_cant_stock?codigo="+ codigo + "&" + "company=" + company, function (cantStock) {
+        $.get("/consultar_cant_stock?codigo="+ codigo + "&" + "empresa=" + empresa, function (cantStock) {
             if(cantStock != "null")
                 $("#cantStock").text(cantStock);
         });
@@ -104,13 +105,14 @@
 
                 <div class="clearfix"></div>
                 <div class="container">
+                <form name="formularioHistorico" class="form-horizontal form-label-left" action="<c:url value='/getstock' />" method="get">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="col-md-2 col-sm-0 col-xs-0"></div>
                         <div class="col-md-1 col-sm-12 col-xs-12">
                             Empresa:
                         </div>
                         <div class="col-md-2 col-sm-12 col-xs-12">
-                            <select class = "col-sm-12 form-control d-inline" name="company" id="company" onchange="almacenarEmpresa()">
+                        	 <select class = "col-sm-12 form-control d-inline" name="empresa" id="empresa">
                                 <option value="Emsa">Emsa</option>
                                 <option value="Carsa">Carsa</option>
                             </select>
@@ -123,30 +125,25 @@
                             <div class="input-group">
                                 <input id="codigo" name="codigo" type="text" class="form-control" placeholder="Codigo de producto">
                                 <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary" onclick="consultarStock()">Buscar</button>
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
                                 </span>
                             </div>
                         </div>
                         <div class="col-md-2 col-sm-0 col-xs-0"></div>
                     </div>
+                     </form>
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="col-md-3 col-sm-0 col-xs-0"></div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
-                            <div class="col-md-6 col-sm-6 col-xs-12" style="font-weight: bold">Tiene Retiro en Tienda: <span id="stockDisponible" style="font-weight: normal"></span></div>
-                            <div class="col-md-6 col-sm-6 col-xs-12" style="font-weight: bold">Stock para Envio a Domicilio: <span id="cantStock" style="font-weight: normal"></span></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12" style="font-weight: bold">Tiene Retiro en Tienda: <span id="stockDisponible" style="font-weight: normal">${stockDisponible}</span></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12" style="font-weight: bold">Stock para Envio a Domicilio: <span id="cantStock" style="font-weight: normal">${cantStock}</span></div>
                         </div>
                         <div class="col-md-3 col-sm-0 col-xs-0"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- footer content -->
-        <footer>
-            <div class="pull-right">
-            </div>
-        </footer>
     </div>
 </div>
 

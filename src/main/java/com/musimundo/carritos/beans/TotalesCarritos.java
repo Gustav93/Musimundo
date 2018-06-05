@@ -84,6 +84,18 @@ public class TotalesCarritos {
 	public void setTotalRecaudadoEmsa(Double totalRecaudadoEmsa) {
 		this.totalRecaudadoEmsa = totalRecaudadoEmsa;
 	}
+
+	public void limpiarTotales() {
+		setTotalCarros(0);
+		setTotalCarrosCarsa(0);
+		setTotalCarrosEmsa(0);
+		setTotalProductos(0);
+		setTotalProductosCarsa(0);
+		setTotalProductosEmsa(0);
+		setTotalRecaudado(0.0);
+		setTotalRecaudadoCarsa(0.0);
+		setTotalRecaudadoEmsa(0.0);		
+	}
 	
 	
 

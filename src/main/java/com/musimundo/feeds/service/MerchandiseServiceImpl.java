@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("merchandiseService")
@@ -30,6 +32,11 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     @Override
     public List<Merchandise> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public List<Merchandise> findNotProcessed() {
+        return dao.findNotProcessed();
     }
 
     @Override
@@ -70,4 +77,48 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
         return report;
     }
+    
+    @Override
+    public MerchandiseReport getReportByDate(Date fechaDesde, Date fechaHasta) {
+    	MerchandiseReport report = new MerchandiseReport();
+        //control si fechahasta es nula o igual a fecha desde
+        if(fechaHasta == null || fechaHasta.equals(fechaDesde)) {
+        	Calendar dateAfter = Calendar.getInstance(); 
+        	dateAfter.setTime(fechaDesde); 
+        	dateAfter.add(Calendar.DATE, 1);
+        	fechaHasta = dateAfter.getTime();
+        }
+        
+        report.setCountTotal(dao.countAllByDate(fechaDesde, fechaHasta));
+        report.setCountOk(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.OK));
+        report.setCountWarning(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.WARNING));
+        report.setCountError(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.countByDate(fechaDesde, fechaHasta, FeedStatus.NOT_PROCESSED));
+
+        return report;
+    }
+    
+    @Override
+    public MerchandiseReport getReportByCode(String code) {
+    	MerchandiseReport report = new MerchandiseReport();
+        report.setCountTotal(dao.countAllByCode(code));
+        report.setCountOk(dao.countByCode(code, FeedStatus.OK));
+        report.setCountWarning(dao.countByCode(code, FeedStatus.WARNING));
+        report.setCountError(dao.countByCode(code, FeedStatus.ERROR));
+        report.setCountNotProcessed(dao.countByCode(code, FeedStatus.NOT_PROCESSED));
+
+        return report;
+    }
+
+	@Override
+	public List<Merchandise> findMerchandiseByDate(Date desde, Date hasta) {
+		//control si fechahasta es nula o igual a fecha desde
+        if(hasta == null || hasta.equals(desde)) {
+        	Calendar dateAfter = Calendar.getInstance(); 
+        	dateAfter.setTime(desde); 
+        	dateAfter.add(Calendar.DATE, 1);
+        	hasta = dateAfter.getTime();
+        }
+		return dao.findMerchandiseByDate(desde, hasta);
+	}
 }

@@ -14,9 +14,9 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav menu-list">
-                    <li id=liBifurcador><a href="<c:url value='/bifurcacion' />">Seleccion de aplicacion</a></li>
-                        <li id=liCarritos><a href="<c:url value='/getcarritos' />">Carritos del dia</a></li>
-                        <li id=liCarritosPeriodo><a href="<c:url value='/consultarcarro' />">Buscar Carros Por Per�odo</a></li>
+                    <li id=liBifurcador><a href="<c:url value='/bifurcacion' />">Seleccion de aplicacion</span></a></li>
+                        <li id=liCarritos><a href="<c:url value='/indexcarritos' />">Carritos del dia</span></a></li>
+                        <li id=liCarritosPeriodo><a href="<c:url value='/consultarcarro' />">Buscar Carros Por Período</a></li>
                         <li id=liConsultaStock><a href="<c:url value='/consultastock' />">Consultar Stock de un Producto</a></li>                		
                     </ul>
                     <ul class="nav navbar-nav menu-list" style="float:right;">
