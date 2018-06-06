@@ -98,7 +98,7 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
 
             for(Stock stock : stockNotProcessed)
             {
-                List<Audit> auditList = auditService.findBy(stock.getProductCode(),FeedType.STOCK, stock.getImportOrigin());
+                List<Audit> auditList = auditService.findBy(stock.getProductCode(),FeedType.STOCK, stock.getImportOrigin(), stock.getWarehouse());
                 stock.setProcessed(true);
 
                 if(auditList == null || auditList.size()== 0)

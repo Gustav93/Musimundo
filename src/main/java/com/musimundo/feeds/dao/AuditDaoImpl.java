@@ -60,6 +60,18 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
     }
 
     @Override
+    public List<Audit> findBy(String productCode, FeedType feedType, String importOrigin, String warehouse) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("productCode", productCode));
+        criteria.add(Restrictions.eq("feedType", feedType));
+        criteria.add(Restrictions.eq("importOrigin", importOrigin));
+        criteria.add(Restrictions.eq("warehouseStock", warehouse));
+        criteria.add(Restrictions.eq("processed", false));
+
+        return criteria.list();
+    }
+
+    @Override
     public List<Audit> findAll() {
         Criteria crit = createEntityCriteria();
         List<Audit> res = crit.list();

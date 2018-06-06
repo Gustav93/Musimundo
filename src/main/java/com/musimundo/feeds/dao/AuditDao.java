@@ -17,6 +17,8 @@ public interface AuditDao
 
     List<Audit> findBy(String productCode, FeedType feedType, String importOrigin);
 
+    List<Audit> findBy(String productCode, FeedType feedType, String importOrigin, String warehouse);
+
     List<Audit> findAll();
 
     void save(Audit audit);

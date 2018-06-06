@@ -16,6 +16,8 @@ public interface AuditService {
 
     List<Audit> findBy(String productCode, FeedType feedType);
 
+    List<Audit> findBy(String productCode, FeedType feedType, String importOrigin, String warehouse);
+
     List<Audit> findBy(String productCode, FeedType feedType, String importOrigin);
 
     List<Audit> findAll();
@@ -26,6 +28,6 @@ public interface AuditService {
 
     ErrorType getErrorType(Audit audit);
 
-    String getWarehouse(Audit audit);
+    void setWarehouseStock(Audit audit);
 
 }

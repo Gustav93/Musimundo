@@ -107,10 +107,11 @@ public class FeedsController {
 //        feedBuilderService.createRegister("merchandise-1806040001.csv");
 //        feedBuilderService.createRegister("merchandise-1806020001.csv");
 //        feedBuilderService.createRegister("merchandise-1806010004.csv");
-        feedBuilderService.createRegister("stock-1806030001.csv");
+//        feedBuilderService.createRegister("stock-1806030001.csv");
         feedBuilderService.createRegister("stock-1806030001_aud.csv");
+        feedBuilderService.createRegister("stock-1806030001.csv");
 
-//        processingFeedService.process(FeedType.STOCK);
+        processingFeedService.process(FeedType.STOCK);
 
         List<Product> productList = productService.findAll();
         ProductReport productReport = productService.getReport();

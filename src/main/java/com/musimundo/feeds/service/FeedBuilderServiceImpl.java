@@ -76,119 +76,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         else if(isAudit())
             createAuditRegister(reader);
 
-//        if (isAudit())
-//            reader.setDelimiter(';');
-//
-//        try {
-//            while (reader.readRecord()) {
-//
-//                if (isProduct()) {
-//                    Product product = new Product();
-//                    product.setProductCode(reader.get(0));
-//                    product.setEan(reader.get(1));
-//                    product.setBrand(reader.get(2));
-//                    product.setName(reader.get(3));
-//                    product.setCategory(Integer.parseInt(reader.get(4)));
-//                    product.setWeight(Integer.parseInt(reader.get(5)));
-//                    product.setOnlineDateTime(parseDate(reader.get(6)));
-//                    product.setOfflineDateTime(parseDate(reader.get(7)));
-//                    product.setApprovalStatus(reader.get(8));
-//                    product.setDescription(reader.get(9));
-//                    product.setImportOrigin(getImportOrigin(path));
-//
-//                    productService.save(product);
-//                } else if (isPrice()) {
-//                    Price price = new Price();
-//
-//                    price.setProductCode(reader.get(0));
-//                    price.setOnlinePrice(Double.parseDouble(reader.get(1)));
-//                    price.setCurrency(reader.get(2));
-//                    price.setStorePrice(Double.parseDouble(reader.get(3)));
-//                    price.setHasPriority(Boolean.parseBoolean(reader.get(4)));
-//                    price.setImportOrigin(getImportOrigin(path));
-//
-//                    priceService.save(price);
-//
-//                } else if (isStock()) {
-//                    Stock stock = new Stock();
-//
-//                    stock.setProductCode(reader.get(0));
-//                    stock.setStock(parseStock(reader.get(1)));
-//                    stock.setWarehouse(reader.get(2));
-//                    stock.setStatus(reader.get(3));
-//                    stock.setImportOrigin(path);
-//
-//                    stockService.save(stock);
-//                } else if (isMedia()) {
-//                    Media media = new Media();
-//
-//                    media.setProductCode(reader.get(0));
-//                    media.setCodeMedia(reader.get(1));
-//                    media.setIsDefault(Boolean.parseBoolean(reader.get(2)));
-//                    media.setImportOrigin(getImportOrigin(path));
-//
-//                    mediaService.save(media);
-//                } else if (isMerchandise()) {
-//                    Merchandise merchandise = new Merchandise();
-//
-//                    merchandise.setSource(reader.get(0));
-//                    merchandise.setRefType(reader.get(1));
-//                    merchandise.setTarget(reader.get(2));
-//                    merchandise.setRelationship(reader.get(3));
-//                    merchandise.setQualifier(reader.get(4));
-//                    merchandise.setPreselected(reader.get(5));
-//                    merchandise.setImportOrigin(getImportOrigin(path));
-//
-//                    merchandiseService.save(merchandise);
-//                } else if (isClassification()) {
-//                    Classification classification = new Classification();
-//
-//                    classification.setProductCode(reader.get(0));
-//                    classification.setAttCode(reader.get(1));
-//                    classification.setCategoryCode(reader.get(2));
-//                    classification.setAttValue(reader.get(3));
-//                    classification.setImportOrigin(getImportOrigin(path));
-//
-//                    classificationService.save(classification);
-//                } else if (isAudit()) {
-//                    Audit audit = new Audit();
-//
-//                    String errorCode = reader.get(3);
-//                    String feedType = reader.get(8).toLowerCase();
-//
-//                    if (checkFeedType(feedType) || errorCode.contains("E37"))
-//                    {
-//                        audit.setAuditLevel(reader.get(0));
-//                        audit.setAuditType(reader.get(1));
-//                        audit.setAuditDate(parseDate(reader.get(2)));
-//                        audit.setErrorCode(errorCode);
-//                        audit.setDescription(reader.get(4));
-//                        audit.setCompany(reader.get(5));
-//                        audit.setProductCode(reader.get(6));
-//                        audit.setFeedType(parseFeedType(feedType));
-//
-//                        String importOrigin = reader.get(7).toLowerCase();
-//
-//                        if (importOrigin.contains("stock"))
-//                            audit.setImportOrigin(getImportOrigin(importOrigin));
-//
-//                        else if (importOrigin.contains("classification"))
-//                            importOrigin.replaceAll("classification", "clasificacion");
-//
-//                        audit.setImportOrigin(importOrigin);
-//
-//                        if (errorCode.equals("E37")) {
-//                            fixAudit(audit);
-//                            if (audit.getProductCode().equals(""))
-//                                continue;
-//                        }
-//                        auditService.save(audit);
-//                    }
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        reader.close();
     }
 
     private boolean isProduct() {
@@ -584,8 +472,11 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                     String importOrigin = reader.get(7).toLowerCase();
 
                     if (importOrigin.contains("stock"))
+                    {
                         importOrigin = getImportOrigin(path);
-//                        audit.setImportOrigin(getImportOrigin(path));
+                        auditService.setWarehouseStock(audit);
+                    }
+
 
                     else if (importOrigin.contains("classification"))
                         importOrigin.replaceAll("classification", "clasificacion");
@@ -597,7 +488,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                         if (audit.getProductCode().equals(""))
                             continue;
                     }
-                    audit.setWarehouseStock(auditService.getWarehouse(audit));
+
+//                    String warehouse = auditService.setWarehouseStock(audit);
+//                    audit.setWarehouseStock(warehouse);
                     auditService.save(audit);
                 }
             }

@@ -41,6 +41,11 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
+    public List<Audit> findBy(String productCode, FeedType feedType, String importOrigin, String warehouse) {
+        return dao.findBy(productCode, feedType, importOrigin, warehouse);
+    }
+
+    @Override
     public List<Audit> findBy(String productCode, FeedType feedType, String importOrigin) {
         return dao.findBy(productCode, feedType, importOrigin);
     }
@@ -74,15 +79,20 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public String getWarehouse(Audit audit) {
+    public void setWarehouseStock(Audit audit) {
+
+        if(!audit.getFeedType().equals(FeedType.STOCK))
+            return;
+
         String res = null;
         Pattern pattern = Pattern.compile("(carsa_\\w{1,4})|(emsa_\\w{1,4})");
-        Matcher matcher = pattern.matcher(audit.getErrorCode());
+        Matcher matcher = pattern.matcher(audit.getDescription());
 
         if(matcher.find())
             res = matcher.group();
 
-        return res;
+        audit.setWarehouseStock(res);
+//        return res;
     }
 
     @Override
