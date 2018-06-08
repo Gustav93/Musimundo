@@ -1,13 +1,20 @@
 package com.musimundo.feeds.service;
 
+import com.csvreader.CsvWriter;
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.feeds.beans.StockReport;
 import com.musimundo.feeds.dao.StockDao;
+import com.musimundo.utilities.Calendario;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -93,7 +100,90 @@ public class StockServiceImpl implements StockService {
 
         return report;
     }
-    
+
+    @Override
+    public File getCsv(List<Stock> stockList, Filter filter) {
+        File file = null;
+        String fileName;
+        CsvWriter writer = null;
+
+        if(filter.equals(Filter.ALL_REGISTERS))
+            fileName = nombreArchivoNoProcesadoCorrectamenteStock();
+
+        else
+            fileName = nombreArchivoNoProcesadoCorrectamenteStock();
+
+        try
+        {
+
+            file = new File(fileName);
+            FileWriter fileWriter = new FileWriter(file, true);
+            writer = new CsvWriter(fileWriter, ',');
+
+            writer.write("Product Code");
+            writer.write("Stock");
+            writer.write("Warehouse");
+            writer.write("Status");
+            writer.write("Import Origin");
+            writer.write("Processing Date");
+            writer.write("Feed Status");
+            writer.write("Error Description");
+            writer.write("Empresa");
+//            writer.write("processed");
+            writer.endRecord();
+
+            if(filter.equals(Filter.ALL_REGISTERS))
+            {
+                for (Stock stock : stockList)
+                {
+                    writer.write(stock.getProductCode());
+                    writer.write(stock.getStock().toString());
+                    writer.write(stock.getWarehouse());
+                    writer.write(stock.getStatus());
+                    writer.write(stock.getImportOrigin());
+                    writer.write(dateToString(stock.getProcessingDate()));
+                    writer.write(stock.getFeedStatus().name());
+                    writer.write(stock.getErrorDescription());
+                    writer.write(stock.getCompany());
+                    writer.endRecord();
+                }
+            }
+
+            else if(filter.equals(Filter.ONLY_NOT_OK))
+            {
+                for (Stock stock : stockList)
+                {
+                    FeedStatus status = stock.getFeedStatus();
+                    if(status.equals(FeedStatus.WARNING) || status.equals(FeedStatus.ERROR) || status.equals(FeedStatus.NOT_PROCESSED))
+                    {
+                        writer.write(stock.getProductCode());
+                        writer.write(stock.getStock().toString());
+                        writer.write(stock.getWarehouse());
+                        writer.write(stock.getStatus());
+                        writer.write(stock.getImportOrigin());
+                        writer.write(dateToString(stock.getProcessingDate()));
+                        writer.write(stock.getFeedStatus().name());
+                        writer.write(stock.getErrorDescription());
+                        writer.write(stock.getCompany());
+                        writer.endRecord();
+                    }
+                }
+            }
+
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            writer.close();
+        }
+
+        return file;
+    }
+
     @Override
     public StockReport getReportByCode(String code) {
     	StockReport report = new StockReport();
@@ -117,4 +207,28 @@ public class StockServiceImpl implements StockService {
         }
 		return dao.findStockByDate(desde, hasta);
 	}
+
+    private String nombreArchivoProcesadoStock()
+    {
+        Calendario calendario = new Calendario();
+
+        return "stock-procesado-" + calendario.getFechaYHora() + ".csv";
+    }
+
+    private String nombreArchivoNoProcesadoCorrectamenteStock()
+    {
+        Calendario calendario = new Calendario();
+
+        return "stock-no-procesado-correctamente-" + calendario.getFechaYHora() + ".csv";
+    }
+
+    private String dateToString(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        if(date == null)
+            return "";
+
+        return dateFormat.format(date);
+    }
 }

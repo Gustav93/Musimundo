@@ -2,9 +2,7 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.utilities.FeedStatus;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.*;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
@@ -149,6 +147,26 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
 
         return res;
 	}
-	
-	
+
+    @Override
+    public void saveList(List<Stock> stockList) {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            for(Stock stock : stockList)
+                session.save(stock);
+
+            transaction.commit();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            transaction.rollback();
+        }
+        finally {
+            session.close();
+        }
+    }
+
+
 }

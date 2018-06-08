@@ -2,7 +2,9 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Classification;
 import com.musimundo.feeds.beans.ClassificationReport;
+import com.musimundo.utilities.Filter;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -27,4 +29,6 @@ public interface ClassificationService
 	ClassificationReport getReportByCode(String code);
 
 	ClassificationReport getReportByDate(Date fechaDesde, Date fechaHasta);
+
+	File getCsv(List<Classification> classificationList, Filter filter);
 }

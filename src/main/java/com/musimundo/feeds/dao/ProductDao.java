@@ -2,6 +2,7 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Product;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 
 import java.util.Date;
 import java.util.List;
@@ -35,4 +36,6 @@ public interface ProductDao
 	List<String> findFeedsByDate(Date desde, Date hasta, String empresa);
 
 	Long countByFeed(String feedName, FeedStatus status);
+
+    List<Product> findBy(Date desde, Date hasta, String empresa, Filter filter);
 }

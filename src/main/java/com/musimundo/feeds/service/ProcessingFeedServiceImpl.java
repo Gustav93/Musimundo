@@ -1,13 +1,12 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.*;
-import com.musimundo.utilities.ErrorType;
-import com.musimundo.utilities.FeedStatus;
-import com.musimundo.utilities.FeedType;
+import com.musimundo.utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -36,14 +35,19 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
     @Autowired
     ClassificationService classificationService;
 
+    @Autowired
+    MailService mailService;
+
+
+
     @Override
     public void process(FeedType feedType) {
 
         if(feedType.equals(FeedType.PRODUCT))
         {
-            List<Product> productNotProcessed = productService.findNotProcessed();
+            List<Product> productList = productService.findNotProcessed();
 
-            for(Product product : productNotProcessed)
+            for(Product product : productList)
             {
                 List<Audit> auditList = auditService.findBy(product.getProductCode(),FeedType.PRODUCT, product.getImportOrigin());
 
@@ -63,13 +67,19 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 productService.save(product);
             }
 
+            productService.getCsv(productList, Filter.ALL_REGISTERS);
+            File file = productService.getCsv(productList, Filter.ONLY_NOT_OK);
+            ProductReport report = productService.getReport(productList);
+
+            mailService.sendMail(report, file, Company.CARSA);
+
         }
 
         else if(feedType.equals(FeedType.PRICE))
         {
-            List<Price> priceNotProcessed = priceService.findNotProcessed();
+            List<Price> priceList = priceService.findNotProcessed();
 
-            for(Price price : priceNotProcessed)
+            for(Price price : priceList)
             {
                 List<Audit> auditList = auditService.findBy(price.getProductCode(),FeedType.PRICE, price.getImportOrigin());
                 price.setProcessed(true);
@@ -114,8 +124,8 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 stock.setErrorDescription(audit.getDescription());
                 stock.setCompany(audit.getCompany());
 
-                auditService.save(audit);
-                stockService.save(stock);
+                auditService.update(audit);
+                stockService.update(stock);
             }
         }
 
@@ -157,7 +167,7 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
 
                 if(auditList == null || auditList.size()== 0)
                 {
-                    merchandiseService.save(merchandise);
+                    merchandiseService.update(merchandise);
                     continue;
                 }
 
@@ -168,8 +178,8 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 merchandise.setErrorDescription(audit.getDescription());
                 merchandise.setCompany(audit.getCompany());
 
-                auditService.save(audit);
-                merchandiseService.save(merchandise);
+                auditService.update(audit);
+                merchandiseService.update(merchandise);
             }
         }
 

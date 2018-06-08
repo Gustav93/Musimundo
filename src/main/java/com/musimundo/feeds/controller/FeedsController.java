@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,14 +106,19 @@ public class FeedsController {
 //        feedBuilderService.createRegister("merchandise-1806040001.csv");
 //        feedBuilderService.createRegister("merchandise-1806020001.csv");
 //        feedBuilderService.createRegister("merchandise-1806010004.csv");
-//        feedBuilderService.createRegister("stock-1806030001.csv");
-        feedBuilderService.createRegister("stock-1806030001_aud.csv");
-        feedBuilderService.createRegister("stock-1806030001.csv");
 
-        processingFeedService.process(FeedType.STOCK);
+//        feedBuilderService.createRegister("stock-1806030001.csv");
+
+        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
+        feedBuilderService.createRegister("producto-1806010001.csv");
+
+        processingFeedService.process(FeedType.PRODUCT);
 
         List<Product> productList = productService.findAll();
         ProductReport productReport = productService.getReport();
+
+//        File f = productService.getCsv(Filter.ONLY_NOT_OK, "C");
+//        System.out.println(f.getAbsolutePath());
 
         model.addAttribute("productList", productList);
         model.addAttribute("productReport", productReport);

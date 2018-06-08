@@ -1,14 +1,21 @@
 package com.musimundo.feeds.service;
 
+import com.csvreader.CsvWriter;
 import com.musimundo.feeds.beans.Classification;
 import com.musimundo.feeds.beans.ClassificationReport;
 import com.musimundo.feeds.dao.ClassificationDao;
+import com.musimundo.utilities.Calendario;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -91,7 +98,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 
         return report;
     }
-    
+
     @Override
     public ClassificationReport getReportByCode(String code) {
     	ClassificationReport report = new ClassificationReport();
@@ -115,4 +122,110 @@ public class ClassificationServiceImpl implements ClassificationService {
         }
 		return dao.findClassificationByDate(desde, hasta);
 	}
+
+    @Override
+    public File getCsv(List<Classification> classificationList, Filter filter) {
+        File file = null;
+        String fileName;
+        CsvWriter writer = null;
+
+        if(filter.equals(Filter.ALL_REGISTERS))
+            fileName = nombreArchivoProcesadoClasificacion();
+
+        else
+            fileName = nombreArchivoNoProcesadoCorrectamenteClasificacion();
+
+        try
+        {
+
+            file = new File(fileName);
+            FileWriter fileWriter = new FileWriter(file, true);
+            writer = new CsvWriter(fileWriter, ',');
+
+            writer.write("Product Code");
+            writer.write("Att Code");
+            writer.write("Category Code");
+            writer.write("Att Value");
+            writer.write("Import Origin");
+            writer.write("Processing Date");
+            writer.write("Feed Status");
+            writer.write("Error Description");
+            writer.write("Empresa");
+//            writer.write("processed");
+            writer.endRecord();
+
+            if(filter.equals(Filter.ALL_REGISTERS))
+            {
+                for (Classification classification : classificationList)
+                {
+                    FeedStatus status = classification.getFeedStatus();
+                    if(status.equals(FeedStatus.WARNING) || status.equals(FeedStatus.ERROR) || status.equals(FeedStatus.NOT_PROCESSED))
+                    {
+                        writer.write(classification.getProductCode());
+                        writer.write(classification.getAttCode());
+                        writer.write(classification.getCategoryCode());
+                        writer.write(classification.getAttValue());
+                        writer.write(classification.getImportOrigin());
+                        writer.write(dateToString(classification.getProcessingDate()));
+                        writer.write(classification.getFeedStatus().name());
+                        writer.write(classification.getErrorDescription());
+                        writer.write(classification.getCompany());
+                        writer.endRecord();
+                    }
+                }
+            }
+
+            else if(filter.equals(Filter.ONLY_NOT_OK))
+            {
+                for (Classification classification : classificationList)
+                {
+                    writer.write(classification.getProductCode());
+                    writer.write(classification.getAttCode());
+                    writer.write(classification.getCategoryCode());
+                    writer.write(classification.getAttValue());
+                    writer.write(classification.getImportOrigin());
+                    writer.write(dateToString(classification.getProcessingDate()));
+                    writer.write(classification.getFeedStatus().name());
+                    writer.write(classification.getErrorDescription());
+                    writer.write(classification.getCompany());
+                    writer.endRecord();
+                }
+            }
+
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            writer.close();
+        }
+
+        return file;
+    }
+
+    public static String nombreArchivoProcesadoClasificacion()
+    {
+        Calendario calendario = new Calendario();
+
+        return "clasificacion-procesado" + calendario.getFechaYHora() + ".csv";
+    }
+
+    public static String nombreArchivoNoProcesadoCorrectamenteClasificacion()
+    {
+        Calendario calendario = new Calendario();
+        return "clasificacion-no-procesado-correctamente-" + calendario.getFechaYHora() + ".csv";
+    }
+
+    private String dateToString(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        if(date == null)
+            return "";
+
+        return dateFormat.format(date);
+    }
 }

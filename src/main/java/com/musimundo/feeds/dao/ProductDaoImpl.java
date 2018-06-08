@@ -2,7 +2,9 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Product;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -144,4 +146,33 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
 
         return res;
 	}
+
+	@Override
+    public List<Product> findBy(Date desde, Date hasta, String empresa, Filter filter) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("company", empresa));
+
+//        criteria.add(Restrictions.between("processingDate", desde, hasta));
+
+        if(filter.equals(Filter.ONLY_NOT_OK))
+        {
+//            criteria.add(Restrictions.eq("feedStatus", FeedStatus.WARNING));
+//            criteria.add(Restrictions.eq("feedStatus", FeedStatus.ERROR));
+//            criteria.add(Restrictions.eq("feedStatus", FeedStatus.NOT_PROCESSED));
+
+            Criterion criterion1 = Restrictions.and(Restrictions.eq("feedStatus", FeedStatus.WARNING));
+            Criterion criterion2 = Restrictions.and(Restrictions.eq("feedStatus", FeedStatus.ERROR));
+            Criterion criterion3 = Restrictions.and(Restrictions.eq("feedStatus", FeedStatus.NOT_PROCESSED));
+
+            criteria.add(Restrictions.or(criterion1,criterion2,criterion3));
+        }
+
+//        criteria.setProjection(Projections.property("importOrigin"));
+//        criteria.addOrder(Order.asc("importOrigin"));
+//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        List<Product> res = criteria.list();
+
+        return res;
+    }
 }

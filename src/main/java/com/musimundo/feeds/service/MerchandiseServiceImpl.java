@@ -1,13 +1,21 @@
 package com.musimundo.feeds.service;
 
+import com.csvreader.CsvWriter;
+import com.musimundo.feeds.beans.Media;
 import com.musimundo.feeds.beans.Merchandise;
 import com.musimundo.feeds.beans.MerchandiseReport;
 import com.musimundo.feeds.dao.MerchandiseDao;
+import com.musimundo.utilities.Calendario;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -97,7 +105,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
         return report;
     }
-    
+
     @Override
     public MerchandiseReport getReportByCode(String code) {
     	MerchandiseReport report = new MerchandiseReport();
@@ -121,4 +129,116 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         }
 		return dao.findMerchandiseByDate(desde, hasta);
 	}
+
+    @Override
+    public File getCsv(List<Merchandise> merchandiseList, Filter filter) {
+        File file = null;
+        String fileName;
+        CsvWriter writer = null;
+
+        if(filter.equals(Filter.ALL_REGISTERS))
+            fileName = nombreArchivoProcesadoMerchandise();
+
+        else
+            fileName = nombreArchivoNoProcesadoCorrectamenteMerchandise();
+
+        try
+        {
+
+            file = new File(fileName);
+            FileWriter fileWriter = new FileWriter(file, true);
+            writer = new CsvWriter(fileWriter, ',');
+
+            writer.write("Source");
+            writer.write("Ref Type");
+            writer.write("Target");
+            writer.write("Relationship");
+            writer.write("Qualifier");
+            writer.write("Preselected");
+            writer.write("Import Origin");
+            writer.write("Processing Date");
+            writer.write("Feed Status");
+            writer.write("Error Description");
+            writer.write("Empresa");
+//            writer.write("processed");
+            writer.endRecord();
+
+            if(filter.equals(Filter.ALL_REGISTERS))
+            {
+                for (Merchandise merchandise : merchandiseList)
+                {
+                    writer.write(merchandise.getSource());
+                    writer.write(merchandise.getRefType());
+                    writer.write(merchandise.getTarget());
+                    writer.write(merchandise.getRelationship());
+                    writer.write(merchandise.getQualifier());
+                    writer.write(merchandise.getPreselected());
+                    writer.write(merchandise.getImportOrigin());
+                    writer.write(dateToString(merchandise.getProcessingDate()));
+                    writer.write(merchandise.getFeedStatus().name());
+                    writer.write(merchandise.getErrorDescription());
+                    writer.write(merchandise.getCompany());
+                    writer.endRecord();
+                }
+            }
+
+            else if(filter.equals(Filter.ONLY_NOT_OK))
+            {
+                for (Merchandise merchandise : merchandiseList)
+                {
+                    FeedStatus status = merchandise.getFeedStatus();
+                    if(status.equals(FeedStatus.WARNING) || status.equals(FeedStatus.ERROR) || status.equals(FeedStatus.NOT_PROCESSED))
+                    {
+                        writer.write(merchandise.getSource());
+                        writer.write(merchandise.getRefType());
+                        writer.write(merchandise.getTarget());
+                        writer.write(merchandise.getRelationship());
+                        writer.write(merchandise.getQualifier());
+                        writer.write(merchandise.getPreselected());
+                        writer.write(merchandise.getImportOrigin());
+                        writer.write(dateToString(merchandise.getProcessingDate()));
+                        writer.write(merchandise.getFeedStatus().name());
+                        writer.write(merchandise.getErrorDescription());
+                        writer.write(merchandise.getCompany());
+                        writer.endRecord();
+                    }
+                }
+            }
+
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            writer.close();
+        }
+
+        return file;
+    }
+
+    private String nombreArchivoProcesadoMerchandise()
+    {
+        Calendario calendario = new Calendario();
+
+        return "merchandise-procesado" + calendario.getFechaYHora() + ".csv";
+    }
+
+    private String nombreArchivoNoProcesadoCorrectamenteMerchandise()
+    {
+        Calendario calendario = new Calendario();
+        return "merchandise-no-procesado-correctamente-" + calendario.getFechaYHora() + ".csv";
+    }
+
+    private String dateToString(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        if(date == null)
+            return "";
+
+        return dateFormat.format(date);
+    }
 }

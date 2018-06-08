@@ -55,6 +55,8 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         criteria.add(Restrictions.eq("feedType", feedType));
         criteria.add(Restrictions.eq("importOrigin", importOrigin));
         criteria.add(Restrictions.eq("processed", false));
+//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        criteria.setMaxResults(1);
 
         return criteria.list();
     }
@@ -67,6 +69,7 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         criteria.add(Restrictions.eq("importOrigin", importOrigin));
         criteria.add(Restrictions.eq("warehouseStock", warehouse));
         criteria.add(Restrictions.eq("processed", false));
+        criteria.setMaxResults(1);
 
         return criteria.list();
     }

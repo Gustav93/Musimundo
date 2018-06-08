@@ -2,7 +2,10 @@ package com.musimundo.feeds.service;
 
 import com.csvreader.CsvReader;
 import com.musimundo.feeds.beans.*;
+import com.musimundo.feeds.dao.StockDao;
 import com.musimundo.utilities.FeedType;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,6 +44,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
     @Autowired
     AuditService auditService;
+
+    @Autowired
+    StockDao stockDao;
 
     private CsvReader reader;
 
@@ -371,6 +379,8 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
     }
 
     private void createStockRegister(CsvReader reader){
+        List<Stock> stockList = new ArrayList<>();
+
         try {
             while (reader.readRecord())
             {
@@ -382,11 +392,28 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 stock.setStatus(reader.get(3));
                 stock.setImportOrigin(path);
 
-                stockService.save(stock);
+                stockList.add(stock);
+//                stockService.save(stock);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        for(Stock stock : stockList)
+//            stockService.save(stock);
+
+
+
+//        {
+//            for(Stock stocks : stockList)
+//                if(stock.equals(stocks)){
+//                    System.out.println("1");
+//                }
+//        }
+
+        stockDao.saveList(stockList);
+
+        int a = 1;
     }
 
     private void createMediaRegister(CsvReader reader){
@@ -498,4 +525,5 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
             e.printStackTrace();
         }
     }
+
 }

@@ -2,7 +2,9 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Price;
 import com.musimundo.feeds.beans.PriceReport;
+import com.musimundo.utilities.Filter;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -27,4 +29,6 @@ public interface PriceService {
 	PriceReport getReportByCode(String code);
 
 	List<Price> findPriceByDate(Date desde, Date hasta);
+
+	File getCsv(List<Price> priceList, Filter filter);
 }

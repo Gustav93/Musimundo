@@ -35,4 +35,6 @@ public interface StockDao
 	Long countByFeed(String feedName, FeedStatus status);
 
 	List<String> findFeedsByDate(Date desde, Date hasta, String empresa);
+
+	void saveList(List<Stock> stockList);
 }

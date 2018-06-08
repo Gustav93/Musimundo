@@ -1,13 +1,21 @@
 package com.musimundo.feeds.service;
 
+import com.csvreader.CsvWriter;
 import com.musimundo.feeds.beans.Media;
 import com.musimundo.feeds.beans.MediaReport;
+import com.musimundo.feeds.beans.Stock;
 import com.musimundo.feeds.dao.MediaDao;
+import com.musimundo.utilities.Calendario;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -117,4 +125,108 @@ public class MediaServiceImpl implements MediaService
         }
 		return dao.findMediaByDate(desde, hasta);
 	}
+
+    @Override
+    public File getCsv(List<Media> mediaList, Filter filter) {
+        File file = null;
+        String fileName;
+        CsvWriter writer = null;
+
+        if(filter.equals(Filter.ALL_REGISTERS))
+            fileName = nombreArchivoProcesadoMedia();
+
+        else
+            fileName = nombreArchivoNoProcesadoCorrectamenteMedia();
+
+        try
+        {
+
+            file = new File(fileName);
+            FileWriter fileWriter = new FileWriter(file, true);
+            writer = new CsvWriter(fileWriter, ',');
+
+            writer.write("Product Code");
+            writer.write("Code Media");
+            writer.write("Is Default");
+            writer.write("Import Origin");
+            writer.write("Processing Date");
+            writer.write("Feed Status");
+            writer.write("Error Description");
+            writer.write("Empresa");
+//            writer.write("processed");
+            writer.endRecord();
+
+            if(filter.equals(Filter.ALL_REGISTERS))
+            {
+                for (Media media : mediaList)
+                {
+                    writer.write(media.getProductCode());
+                    writer.write(media.getCodeMedia());
+                    writer.write(Boolean.toString(media.getIsDefault()));
+                    writer.write(media.getImportOrigin());
+                    writer.write(dateToString(media.getProcessingDate()));
+                    writer.write(media.getFeedStatus().name());
+                    writer.write(media.getErrorDescription());
+                    writer.write(media.getCompany());
+                    writer.endRecord();
+                }
+            }
+
+            else if(filter.equals(Filter.ONLY_NOT_OK))
+            {
+                for (Media media : mediaList)
+                {
+                    FeedStatus status = media.getFeedStatus();
+                    if(status.equals(FeedStatus.WARNING) || status.equals(FeedStatus.ERROR) || status.equals(FeedStatus.NOT_PROCESSED))
+                    {
+                        writer.write(media.getProductCode());
+                        writer.write(media.getCodeMedia());
+                        writer.write(Boolean.toString(media.getIsDefault()));
+                        writer.write(media.getImportOrigin());
+                        writer.write(dateToString(media.getProcessingDate()));
+                        writer.write(media.getFeedStatus().name());
+                        writer.write(media.getErrorDescription());
+                        writer.write(media.getCompany());
+                        writer.endRecord();
+                    }
+                }
+            }
+
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            writer.close();
+        }
+
+        return file;
+    }
+
+    private String dateToString(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        if(date == null)
+            return "";
+
+        return dateFormat.format(date);
+    }
+
+    public static String nombreArchivoNoProcesadoCorrectamenteMedia()
+    {
+        Calendario calendario = new Calendario();
+
+        return "media-no-procesado-correctamente-" + calendario.getFechaYHora() + ".csv";
+    }
+
+    public static String nombreArchivoProcesadoMedia()
+    {
+        Calendario calendario = new Calendario();
+
+        return "media-procesado-" + calendario.getFechaYHora() + ".csv";
+    }
 }
