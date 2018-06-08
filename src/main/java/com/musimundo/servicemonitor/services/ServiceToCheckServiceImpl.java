@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.musimundo.servicemonitor.beans.ServiceToCheck;
 import com.musimundo.servicemonitor.dao.ServiceToCheckDao;
+import com.musimundo.utilities.FeedType;
 
 @Service("serviceToCheckService")
 @Transactional

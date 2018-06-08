@@ -2,6 +2,7 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.FeedType;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,8 @@ public interface StockDao
 	Long countByFeed(String feedName, FeedStatus status);
 
 	List<String> findFeedsByDate(Date desde, Date hasta, String empresa);
+
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
 
 	void saveList(List<Stock> stockList);
 }

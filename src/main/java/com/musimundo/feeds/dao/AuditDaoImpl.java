@@ -3,6 +3,8 @@ package com.musimundo.feeds.dao;
 import com.musimundo.feeds.beans.Audit;
 import com.musimundo.utilities.FeedType;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -86,4 +88,22 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
     public void save(Audit audit) {
         persist(audit);
     }
+    
+    @Override
+	public boolean updateStateByTypeAndImport(FeedType feedType, String importOrigin) {
+		Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createQuery("UPDATE Audit SET processed = 1 where processed=0 and "+"FEED_TYPE="+feedType.ordinal()+" and IMPORT_ORIGIN='"+importOrigin+"'");
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;		
+	}
+    
 }

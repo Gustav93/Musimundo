@@ -2,7 +2,12 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.utilities.FeedStatus;
-import org.hibernate.*;
+import com.musimundo.utilities.FeedType;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
@@ -167,6 +172,22 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
             session.close();
         }
     }
-
+	
+	@Override
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+		Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createQuery("UPDATE Stock SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;		
+	}
 
 }

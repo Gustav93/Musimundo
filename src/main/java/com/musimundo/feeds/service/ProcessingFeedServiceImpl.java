@@ -1,7 +1,12 @@
 package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.*;
-import com.musimundo.utilities.*;
+import com.musimundo.utilities.Company;
+import com.musimundo.utilities.ErrorType;
+import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.FeedType;
+import com.musimundo.utilities.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

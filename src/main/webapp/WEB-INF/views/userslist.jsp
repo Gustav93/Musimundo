@@ -9,12 +9,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Usuarios</title>
-	 <!-- Bootstrap -->
+	<!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
     <!-- Font Awesome -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/font-awesome/css/font-awesome.min.css'/>" rel="stylesheet"></link>
-    <!-- NProgress -->
-    <link href="<c:url value='/static/assets/gentelella-master/vendors/nprogress/nprogress.css'/>" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css">
+   	<link href="<c:url value='/static/assets/gentelella-master/vendors/nprogress/nprogress.css'/>" rel="stylesheet"></link>
     <!-- iCheck -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/iCheck/skins/flat/green.css'/>" rel="stylesheet"></link>
     <!-- Datatables -->
@@ -54,8 +54,12 @@
 	<script src="<c:url value='/static/assets/gentelella-master/vendors/pdfmake/build/pdfmake.min.js'/>"></script>
 	<script src="<c:url value='/static/assets/gentelella-master/vendors/pdfmake/build/vfs_fonts.js'/>"></script>
 	
+	<script src="<c:url value='/static/assets/bootstrap/bootstrap-datepicker-1.6.4/js/bootstrap-datepicker.js'/>"></script>
+	<script src="<c:url value='/static/assets/bootstrap/bootstrap-datepicker-1.6.4/locales/bootstrap-datepicker.es.min.js'/>"></script>
+			
 	<!-- Custom Theme Scripts -->
 	<script src="<c:url value='/static/assets/gentelella-master/build/js/custom.js'/>"></script>
+
 </head>
 
 <body>
@@ -106,6 +110,15 @@
 							    	</tbody>
                                 </table>
                             </div>
+                            <div class="x_footer">
+							    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+									<sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+										<a href="<c:url value='/newuser' />" title="Agregar Usuario">
+											<i class="fas fa-plus-circle fa-3x blue"></i>
+										</a>
+									</sec:authorize>
+								</div>
+							</div>
                         </div>
                     </div>
                 	</div>
@@ -114,4 +127,8 @@
 					 
 		</div>
 	</div>
+	<script type="text/javascript">
+	
+	$('#datatable_usuarios').DataTable();
+	</script>
 </html>

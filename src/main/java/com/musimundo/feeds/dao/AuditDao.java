@@ -22,4 +22,6 @@ public interface AuditDao
     List<Audit> findAll();
 
     void save(Audit audit);
+
+	boolean updateStateByTypeAndImport(FeedType feedType, String importOrigin);
 }

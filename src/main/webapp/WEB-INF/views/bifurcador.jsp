@@ -85,7 +85,7 @@
 										</sec:authorize>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA') or hasRole('USER')">
                                         	<a href="<c:url value='/busquedafeed' />">
                                         		<div class="tile-stats">
                                         		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="row">
 	                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-	                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+	                                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA') or hasRole('USER')">
 	                                        	<a href="<c:url value='/list' />">
 	                                        		<div class="tile-stats">
 	                                        		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">

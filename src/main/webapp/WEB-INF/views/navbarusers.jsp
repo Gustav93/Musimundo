@@ -15,7 +15,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav menu-list">
                     <li id=liBifurcador><a href="<c:url value='/bifurcacion' />">Seleccion de aplicacion</span></a></li>
-                        <li id=liListUsuarios><a href="<c:url value='/listservice' />">Lista de Usuarios</span></a></li>           		
+                        <li id=liListUsuarios><a href="<c:url value='/list' />">Lista de Usuarios</span></a></li>           		
                     </ul>
                     <ul class="nav navbar-nav menu-list" style="float:right;">
                     	<li><a href="<c:url value='/logout' />">Salir</a></li>

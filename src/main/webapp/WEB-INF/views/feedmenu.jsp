@@ -84,9 +84,14 @@
 							                                <label class="col-sm-3 control-label"></label>
 							                                <div class="col-sm-6 col-xs-12">
 							                                    <div class="col-sm-12 col-xs-12 input-group">
-							                                        Seleccione el archivo: <input class = "form-control" type="file" name="archivo" onchange="subirArchivo(this)" accept="text/csv" multiple>
-							                                        <input type="hidden" name="nombreArchivo" value="">
-							                                        <input class = "form-control" type="submit" value="Subir Archivo" onclick="validarExtension(this.form.archivo.value)">
+							                                    	Seleccione el archivo: 
+							                                    	<div class="input-group">
+								                                        <input class = "form-control" type="file" name="archivo" onchange="subirArchivo(this)" accept="text/csv" multiple>
+								                                        <input type="hidden" name="nombreArchivo" value="">
+								                                        <span class="input-group-btn">
+								                                        	<button type="submit" class="btn btn-primary">Subir Archivo</button>
+								                               			</span>
+							                               			</div>							                                        
 							                                    </div>
 							                                </div>
 							                                <label class="col-sm-3 control-label"></label>
@@ -117,15 +122,20 @@
 			                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 			                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			                                    <form name="procesarDatos" method="post">
-			                                        Seleccionar el Feed a Procesar: <select class = "form-control" name="feed">
-			                                        <option value="Precios">Precios</option>
-			                                        <option value="Productos">Productos</option>
-			                                        <option value="Stock">Stock</option>
-			                                        <option value="Media">Media</option>
-			                                        <option value="Merchandise">Merchandise</option>
-			                                        <option value="Clasificacion">Clasificacion</option>
-			                                    </select>
-			                                        <input class = "form-control" type="submit" value="Procesar" onclick="goServlet('procesar')">
+			                                    	Seleccionar el Feed a Procesar:
+			                                    	<div class="input-group">
+				                                        <select class = "form-control" name="feed">
+					                                        <option value="Precios">Precios</option>
+					                                        <option value="Productos">Productos</option>
+					                                        <option value="Stock">Stock</option>
+					                                        <option value="Media">Media</option>
+					                                        <option value="Merchandise">Merchandise</option>
+					                                        <option value="Clasificacion">Clasificacion</option>
+					                                    </select>
+					                                     <span class="input-group-btn">
+								                              <button type="submit" class="btn btn-primary">Procesar</button>
+								                         </span>			                                        
+			                                        </div>
 			                                    </form>
 			                                </div>
 			                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
@@ -137,7 +147,9 @@
 			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 			                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			                            <form method="get" action="limpiar_tabla_auditoria">
-			                                <input class = "form-control" type="submit" value="Limpiar Tabla Auditoria">
+			                            	<span class="input-group-btn">
+								                  <button type="submit" class="btn btn-primary">Limpiar Tabla Auditoria</button>
+								            </span>			                                
 			                            </form>
 			                        </div>
 			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>

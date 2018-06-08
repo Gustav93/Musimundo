@@ -62,13 +62,7 @@ public class AppController {
 	
 	@Autowired
 	StockCarritosService stockService;
-	
-	@Autowired
-	ServiceToCheckService servicesToCheckService;
-	
-	@Autowired
-	ServiceChecker servicesChecker;
-	
+		
 	@Autowired
 	ReporteCarrosService reporteCarrosService;
 	
@@ -89,13 +83,7 @@ public class AppController {
 	
 	@Autowired
 	static List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
-	
-	@Autowired
-	static List<ServiceToCheck> servicesToCheck = new ArrayList<ServiceToCheck>();
-	
-	@Autowired
-	static List<ServiceCheck> serviceChecks = new ArrayList<ServiceCheck>();
-	
+		
 	/**
 	 * This method will list all existing users.
 	 */
@@ -107,32 +95,6 @@ public class AppController {
 		model.addAttribute("liActivo", "liListUsuarios");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "userslist";
-	}
-	
-	/**
-	 * This method will list all existing service to check.
-	 */
-	@RequestMapping(value = {"/listservice" }, method = RequestMethod.GET)
-	public String listServicesToCheck(ModelMap model) {
-
-		List<ServiceToCheck> servicesToCheck = servicesToCheckService.findAllServiceToCheck();
-		model.addAttribute("servicesToCheck", servicesToCheck);
-		model.addAttribute("liActivo", "liListServicios");
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "servicetochecklist";
-	}
-	
-	/**
-	 * This method will list all existing service to check.
-	 */
-	@RequestMapping(value = {"/servicesmonitor" }, method = RequestMethod.GET)
-	public String servicesMonitor(ModelMap model) {				
-		
-		model.addAttribute("servicesToCheck", servicesToCheck);
-		model.addAttribute("serviceChecks", serviceChecks);
-		model.addAttribute("liActivo", "liMonitorServicios");
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "servicemonitor";
 	}
 		
 	/**
@@ -162,97 +124,7 @@ public class AppController {
 		return "registration";
 	}
 	
-	/**
-	 * This method will provide the medium to add a new user.
-	 */
-	@RequestMapping(value = { "/newservice" }, method = RequestMethod.GET)
-	public String newservice(ModelMap model) {
-		ServiceToCheck serviceToCheck = new ServiceToCheck();
-		model.addAttribute("serviceToCheck", serviceToCheck);
-		model.addAttribute("edit", false);
-		model.addAttribute("liActivo", "liListServicios");
-		model.addAttribute("loggedinuser", getUser());
-		return "serviceregistration";
-	}
-	
-	/**
-	 * This method will provide the medium to add a new user.
-	 */
-	@RequestMapping(value = { "/edit-service-{IdService}" }, method = RequestMethod.GET)
-	public String editservice(@PathVariable int IdService, ModelMap model) {
-		ServiceToCheck service = servicesToCheckService.findById(IdService);
-		model.addAttribute("serviceToCheck", service);
-		model.addAttribute("edit", true);
-		model.addAttribute("liActivo", "");
-		model.addAttribute("loggedinuser", getUser());
-		return "serviceregistration";
-	}
-	
-	@RequestMapping(value = { "/edit-service-{IdService}" }, method = RequestMethod.POST)
-	public String updateservice(@Valid ServiceToCheck service, BindingResult result, ModelMap model) {
 		
-		if (result.hasErrors() && !result.getFieldError().getField().equals("user")) {
-			return "serviceregistration";
-		}
-		
-		service.setUser(getUser());
-		
-		servicesToCheckService.updateServiceToCheck(service);
-		
-		model.addAttribute("success", "service " + service.getName() + " "+ service.getUrl() + " registrado exitosamente");
-		model.addAttribute("loggedinuser", getPrincipal());
-		//return "success";
-		return "registrationsuccess";
-	}
-	
-	@RequestMapping(value = { "/newservice" }, method = RequestMethod.POST)
-	public String saveservice(@Valid ServiceToCheck service, BindingResult result, ModelMap model) {
-		
-		if (result.hasErrors() && !result.getFieldError().getField().equals("user")) {
-			return "serviceregistration";
-		}
-		
-		if(!servicesToCheckService.isServiceToCheckURLUnique(service.getId(), service.getUrl())) {
-			FieldError ssoError =new FieldError("url","name",messageSource.getMessage("non.unique.ssoId", new String[]{service.getUrl()}, Locale.getDefault()));
-		    result.addError(ssoError);
-			return "serviceregistration";
-		}
-		
-		service.setUser(getUser());
-		
-		servicesToCheckService.saveServiceToCheck(service);
-		
-		model.addAttribute("success", "service " + service.getName() + " "+ service.getUrl() + " registrado exitosamente");
-		model.addAttribute("loggedinuser", getPrincipal());
-		//return "success";
-		return "registrationsuccess";
-	}
-	
-	/**
-	 * This method will provide the medium to update an existing user.
-	 */
-	@RequestMapping(value = { "/show-service-{IdService}" }, method = RequestMethod.GET)
-	public String showService(@PathVariable int IdService, ModelMap model) {
-		ServiceToCheck service = servicesToCheckService.findById(IdService);
-		List<ServiceCheck> listChecks = servicesChecker.findAllServicesByIdService(service);
-		String classActive = "panel-success";
-		if(service.getState().equals("DOWN")) {
-			classActive = "panel-danger";
-		}
-		
-		if(service.getState().equals("LATE")) {
-			classActive = "panel-warning";
-		}
-		
-		model.addAttribute("service", service);
-		model.addAttribute("listChecks", listChecks);
-		model.addAttribute("edit", false);
-		model.addAttribute("classActive", classActive);
-		model.addAttribute("liActivo", "liMonitorServicios");
-		model.addAttribute("loggedinuser", getUser());
-		
-		return "serviceshow";
-	}	
 
 	/**
 	 * This method will be called on form submission, handling POST request for

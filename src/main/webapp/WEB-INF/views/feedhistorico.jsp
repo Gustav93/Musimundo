@@ -75,55 +75,37 @@
                             <div class="x_title">
                                 <h3>Registro Historico</h3>  
                             </div>
-                            <div class="x_content">
-			                     <div class="main_container">							
+                            <div class="x_content">							
 							        <!-- page content -->
-							        <div class="right_col" role="main">
-							            <div class="">
-							                <div class="page-title">
-							                    <div class="title_left">
-							                    </div>
-							                </div>
-							
-							                <div class="clearfix"></div>
 							                <div class="container">
 							                	<form name="formularioHistorico" class="form-horizontal form-label-left" action="<c:url value='/historico' />" method="get">
-							                    	<div class="col-md-12 col-sm-12 col-xs-12">
-							                        <div class="col-md-2 col-sm-0 col-xs-0"></div>
-							                        <div class="col-md-1 col-sm-12 col-xs-12">
-							                            Seleccionar el Feed en donde buscar: 
-							                        </div>
-							                        <div class="col-md-2 col-sm-12 col-xs-12">
-							                        	 <select class = "col-sm-12 form-control d-inline" name="feed" id="feed">
-															<option value="Productos">Productos</option>
-															<option value="Precios">Precios</option>
-															<option value="Stock">Stock</option>
-															<option value="Media">Media</option>
-															<option value="Merchandise">Merchandise</option>
-															<option value="Clasificacion">Clasificacion</option>
-														 </select>
-							                        </div>
-							                        <div class="col-md-1 col-sm-12 col-xs-12">&nbsp</div>
-							                        <div class="col-md-1 col-sm-12 col-xs-12">
-							                            Articulo:
-							                        </div>
-							                        <div class="col-md-3 col-sm-12 col-xs-12" >
-							                            <div class="input-group">
-							                                <input id="codigo" name="codigo" type="text" class="form-control" placeholder="Codigo de producto">
-							                                <span class="input-group-btn">
-							                                        <button type="submit" class="btn btn-primary">Buscar</button>
-							                                </span>
-							                            </div>
-							                        </div>
-							                        <div class="col-md-2 col-sm-0 col-xs-0"></div>
-							                    </div>
+							                    	
+							                           
+								                        <div class="col-md-4 col-sm-6 col-xs-12">
+								                        	<h3>Feed:</h3>
+								                        	 <select class = "col-sm-12 form-control d-inline" name="feed" id="feed">
+																<option value="Productos">Productos</option>
+																<option value="Precios">Precios</option>
+																<option value="Stock">Stock</option>
+																<option value="Media">Media</option>
+																<option value="Merchandise">Merchandise</option>
+																<option value="Clasificacion">Clasificacion</option>
+															 </select>
+								                        </div>
+								                            
+								                        <div class="col-md-4 col-sm-6 col-xs-12" >
+								                        	<h3>Articulo:</h3>
+								                            <div class="input-group">
+								                                <input id="codigo" name="codigo" type="text" class="form-control" placeholder="Codigo de producto">
+								                                <span class="input-group-btn">
+								                                        <button type="submit" class="btn btn-primary">Buscar</button>
+								                                </span>
+								                            </div>
+								                        </div>
 							                     </form>
 							                    
 							                </div>
-							            </div>
-							        </div>
   
-			                </div>
                         </div>
                     </div>
                 </div>

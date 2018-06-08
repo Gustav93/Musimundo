@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
 import com.musimundo.dao.AbstractDao;
 import com.musimundo.servicemonitor.beans.ServiceToCheck;
+import com.musimundo.utilities.FeedType;
 
 @Repository("serviceToCheckDao")
 public class ServiceToCheckDaoImpl extends AbstractDao<Integer, ServiceToCheck> implements ServiceToCheckDao{
@@ -61,6 +65,7 @@ public class ServiceToCheckDaoImpl extends AbstractDao<Integer, ServiceToCheck> 
 		List<ServiceToCheck> serviceToCheck = (List<ServiceToCheck>) criteria.list();
 		
 		return serviceToCheck;
-	}
+	}	
+	
 
 }

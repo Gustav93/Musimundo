@@ -15,7 +15,9 @@
                     <ul class="nav navbar-nav menu-list">
                     	<li id=liBifurcador><a href="<c:url value='/bifurcacion' />">Seleccion de aplicacion</span></a></li>
                     	<li id=liRegistroHistorico><a href="<c:url value='/busquedafeed' />">Registro Historico</a></li>
-                    	<li id=liProcesarFeed><a href="<c:url value='/feedMenu' />">Procesar Archivos</a></li>                      	             		
+                    	<sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                    		<li id=liProcesarFeed><a href="<c:url value='/feedMenu' />">Procesar Archivos</a></li>                      	             		
+                    	</sec:authorize>
                     </ul>
                     <ul class="nav navbar-nav menu-list" style="float:right;">
                     	<li><a href="<c:url value='/logout' />">Salir</a></li>

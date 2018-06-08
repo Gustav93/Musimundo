@@ -17,6 +17,7 @@ import com.musimundo.carritos.beans.TotalesCarritos;
 import com.musimundo.carritos.service.ReporteCarrosService;
 import com.musimundo.servicemonitor.beans.ServiceCheck;
 import com.musimundo.servicemonitor.beans.ServiceToCheck;
+import com.musimundo.servicemonitor.controller.ServiceMonitorController;
 import com.musimundo.servicemonitor.services.ServiceChecker;
 import com.musimundo.servicemonitor.services.ServiceToCheckService;
 
@@ -73,8 +74,8 @@ public class CronController {
 		List<ServiceToCheck> servicesToCheck = serviceToCheckService.findAllServiceToCheck();
 		List<ServiceCheck> serviceChecks = serviceChecker.findAllServicesCheck();
         
-		AppController.servicesToCheck = servicesToCheck;
-		AppController.serviceChecks = serviceChecks;
+		ServiceMonitorController.setServicesToCheck(servicesToCheck);
+		ServiceMonitorController.setServiceChecks(serviceChecks);
 		
 		System.out.println("Servicios actualizados por schedule Por Populate Service");
 	}
