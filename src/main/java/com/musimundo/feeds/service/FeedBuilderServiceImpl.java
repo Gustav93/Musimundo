@@ -84,7 +84,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         else if(isAudit())
             createAuditRegister(reader);
 
-        reader.close();
+//        reader.close();
     }
 
     private boolean isProduct() {
@@ -323,7 +323,6 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
         else
             throw new IllegalArgumentException("invalid feed type");
-
     }
 
     private Integer parseStock(String stock) {
@@ -356,6 +355,10 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        finally {
+            reader.close();
+        }
     }
 
     private void createPriceRegister(CsvReader reader){
@@ -376,6 +379,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            reader.close();
+        }
     }
 
     private void createStockRegister(CsvReader reader){
@@ -393,10 +399,13 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 stock.setImportOrigin(path);
 
                 stockList.add(stock);
-//                stockService.save(stock);
+                stockService.save(stock);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            reader.close();
         }
 
 //        for(Stock stock : stockList)
@@ -411,9 +420,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 //                }
 //        }
 
-        stockDao.saveList(stockList);
+//        stockDao.saveList(stockList);
 
-        int a = 1;
+//        int a = 1;
     }
 
     private void createMediaRegister(CsvReader reader){
@@ -431,6 +440,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            reader.close();
         }
     }
 
@@ -453,6 +465,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            reader.close();
+        }
     }
 
     private void createClassificationRegister(CsvReader reader){
@@ -471,6 +486,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            reader.close();
         }
     }
 
@@ -516,13 +534,16 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                             continue;
                     }
 
-//                    String warehouse = auditService.setWarehouseStock(audit);
+//                    String warehouse = auditService.setWarehouseStock(audit.);
 //                    audit.setWarehouseStock(warehouse);
                     auditService.save(audit);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            reader.close();
         }
     }
 

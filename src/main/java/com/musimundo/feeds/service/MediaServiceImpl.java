@@ -1,11 +1,10 @@
 package com.musimundo.feeds.service;
 
 import com.csvreader.CsvWriter;
-import com.musimundo.feeds.beans.Media;
-import com.musimundo.feeds.beans.MediaReport;
-import com.musimundo.feeds.beans.Stock;
+import com.musimundo.feeds.beans.*;
 import com.musimundo.feeds.dao.MediaDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -204,6 +204,107 @@ public class MediaServiceImpl implements MediaService
         }
 
         return file;
+    }
+
+    @Override
+    public MediaReport getReport(List<Media> mediaList, String importOrigin) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Media media : mediaList)
+        {
+            if(media.getImportOrigin().equals(importOrigin))
+            {
+                all++;
+
+                if(media.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
+
+                else if(media.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
+
+                else if(media.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(media.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
+        }
+
+        MediaReport mediaReport = new MediaReport();
+
+        mediaReport.setImportOrigin(importOrigin);
+        mediaReport.setCountTotal(Long.valueOf(all));
+        mediaReport.setCountOk(Long.valueOf(ok));
+        mediaReport.setCountWarning(Long.valueOf(warning));
+        mediaReport.setCountError(Long.valueOf(error));
+        mediaReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return mediaReport;
+    }
+
+    @Override
+    public List<MediaReport> getReportList(List<Media> mediaList) {
+        List<String> importOriginList = getImportOrigin(mediaList);
+        List<MediaReport> mediaReportList = new ArrayList<>();
+
+        for(String importOrigin : importOriginList)
+        {
+            MediaReport mediaReport = getReport(mediaList, importOrigin);
+            mediaReportList.add(mediaReport);
+        }
+
+        return mediaReportList;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Media> mediaList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(mediaList == null)
+            return importOriginList;
+
+        for(Media media : mediaList)
+        {
+            String importOrigin = media.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Media> mediaList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Media media : mediaList)
+        {
+            if(media.getCompany() == null)
+                continue;
+
+            if(media.getCompany().equals("C"))
+                carsa++;
+
+            else if(media.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     private String dateToString(Date date)

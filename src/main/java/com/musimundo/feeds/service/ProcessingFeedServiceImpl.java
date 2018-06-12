@@ -69,9 +69,9 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
 
             productService.getCsv(productList, Filter.ALL_REGISTERS);
             File file = productService.getCsv(productList, Filter.ONLY_NOT_OK);
-            ProductReport report = productService.getReport(productList);
-
-            mailService.sendMail(report, file, Company.CARSA);
+            List<ProductReport> reportList = productService.getReportList(productList);
+            Company company = productService.getCompany(productList);
+            mailService.sendProductMail(reportList, file, company);
 
         }
 
@@ -100,20 +100,26 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 auditService.save(audit);
                 priceService.save(price);
             }
+
+            priceService.getCsv(priceList, Filter.ALL_REGISTERS);
+            File file = priceService.getCsv(priceList, Filter.ONLY_NOT_OK);
+            List<PriceReport> reportList = priceService.getReportList(priceList);
+            Company company = priceService.getCompany(priceList);
+            mailService.sendPriceMail(reportList, file, company);
         }
 
         else if(feedType.equals(FeedType.STOCK))
         {
-            List<Stock> stockNotProcessed = stockService.findNotProcessed();
+            List<Stock> stockList = stockService.findNotProcessed();
 
-            for(Stock stock : stockNotProcessed)
+            for(Stock stock : stockList)
             {
                 List<Audit> auditList = auditService.findBy(stock.getProductCode(),FeedType.STOCK, stock.getImportOrigin(), stock.getWarehouse());
                 stock.setProcessed(true);
 
                 if(auditList == null || auditList.size()== 0)
                 {
-                    stockService.save(stock);
+//                    stockService.update(stock);
                     continue;
                 }
 
@@ -127,13 +133,19 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 auditService.update(audit);
                 stockService.update(stock);
             }
+
+            stockService.getCsv(stockList, Filter.ALL_REGISTERS);
+            File file = stockService.getCsv(stockList, Filter.ONLY_NOT_OK);
+            List<StockReport> reportList = stockService.getReportList(stockList);
+            Company company = stockService.getCompany(stockList);
+            mailService.sendStockMail(reportList, file, company);
         }
 
         else if(feedType.equals(FeedType.MEDIA))
         {
-            List<Media> mediaNotProcessed = mediaService.findNotProcessed();
+            List<Media> mediaList = mediaService.findNotProcessed();
 
-            for(Media media : mediaNotProcessed)
+            for(Media media : mediaList)
             {
                 List<Audit> auditList = auditService.findBy(media.getProductCode(),FeedType.MEDIA, media.getImportOrigin());
                 media.setProcessed(true);
@@ -154,13 +166,18 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 auditService.save(audit);
                 mediaService.save(media);
             }
+            mediaService.getCsv(mediaList, Filter.ALL_REGISTERS);
+            File file = mediaService.getCsv(mediaList, Filter.ONLY_NOT_OK);
+            List<MediaReport> reportList = mediaService.getReportList(mediaList);
+            Company company = mediaService.getCompany(mediaList);
+            mailService.sendMediaMail(reportList, file, company);
         }
 
         else if(feedType.equals(FeedType.MERCHANDISE))
         {
-            List<Merchandise> merchandiseNotProcessed = merchandiseService.findNotProcessed();
+            List<Merchandise> merchandiseList = merchandiseService.findNotProcessed();
 
-            for(Merchandise merchandise : merchandiseNotProcessed)
+            for(Merchandise merchandise : merchandiseList)
             {
                 List<Audit> auditList = auditService.findBy(merchandise.getSource(),FeedType.MERCHANDISE, merchandise.getImportOrigin());
                 merchandise.setProcessed(true);
@@ -181,13 +198,19 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 auditService.update(audit);
                 merchandiseService.update(merchandise);
             }
+
+            merchandiseService.getCsv(merchandiseList, Filter.ALL_REGISTERS);
+            File file = merchandiseService.getCsv(merchandiseList, Filter.ONLY_NOT_OK);
+            List<MerchandiseReport> reportList = merchandiseService.getReportList(merchandiseList);
+            Company company = merchandiseService.getCompany(merchandiseList);
+            mailService.sendMerchandiseMail(reportList, file, company);
         }
 
         else if(feedType.equals(FeedType.CLASSIFICATION))
         {
-            List<Classification> classificationNotProcessed = classificationService.findNotProcessed();
+            List<Classification> classificationList = classificationService.findNotProcessed();
 
-            for(Classification classification : classificationNotProcessed)
+            for(Classification classification : classificationList)
             {
                 List<Audit> auditList = auditService.findBy(classification.getProductCode(),FeedType.CLASSIFICATION, classification.getImportOrigin());
                 classification.setProcessed(true);
@@ -208,6 +231,11 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
                 auditService.save(audit);
                 classificationService.save(classification);
             }
+            classificationService.getCsv(classificationList, Filter.ALL_REGISTERS);
+            File file = classificationService.getCsv(classificationList, Filter.ONLY_NOT_OK);
+            List<ClassificationReport> reportList = classificationService.getReportList(classificationList);
+            Company company = classificationService.getCompany(classificationList);
+            mailService.sendClassificationMail(reportList, file, company);
         }
     }
 

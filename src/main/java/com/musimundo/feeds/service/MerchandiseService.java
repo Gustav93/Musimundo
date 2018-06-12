@@ -2,6 +2,7 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Merchandise;
 import com.musimundo.feeds.beans.MerchandiseReport;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
@@ -31,4 +32,12 @@ public interface MerchandiseService
 	MerchandiseReport getReportByDate(Date fechaDesde, Date fechaHasta);
 
 	File getCsv(List<Merchandise> merchandiseList, Filter filter);
+
+    MerchandiseReport getReport(List<Merchandise> merchandiseList, String importOrigin);
+
+    List<MerchandiseReport> getReportList(List<Merchandise> merchandiseList);
+
+    List<String> getImportOrigin(List<Merchandise> merchandiseList);
+
+    Company getCompany(List<Merchandise> merchandiseList);
 }

@@ -5,10 +5,12 @@ import com.musimundo.feeds.beans.Product;
 import com.musimundo.feeds.beans.ProductReport;
 import com.musimundo.feeds.dao.ProductDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -89,11 +92,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductReport getReport(List<Product> productList) {
+    public List<ProductReport> getReportList(List<Product> productList) {
+        List<String> importOriginList = getImportOrigin(productList);
+        List<ProductReport> productReportList = new ArrayList<>();
 
-        ProductReport report = new ProductReport();
+        for(String importOrigin : importOriginList)
+        {
+            ProductReport productReport = getReport(productList, importOrigin);
+            productReportList.add(productReport);
+        }
 
-        int all = productList.size();
+        return productReportList;
+    }
+
+    @Override
+    public ProductReport getReport(List<Product> productList, String importOrigin)
+    {
+        int all = 0;
         int ok = 0;
         int warning = 0;
         int error = 0;
@@ -101,26 +116,81 @@ public class ProductServiceImpl implements ProductService {
 
         for(Product product : productList)
         {
-            if(product.getFeedStatus().equals(FeedStatus.OK))
-                ok++;
+            if(product.getImportOrigin().equals(importOrigin))
+            {
+                all++;
 
-            else if(product.getFeedStatus().equals(FeedStatus.WARNING))
-                warning++;
+                if(product.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
 
-            else if(product.getFeedStatus().equals(FeedStatus.ERROR))
-                error++;
+                else if(product.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
 
-            else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
-                notProcessed++;
+                else if(product.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
         }
 
-        report.setCountTotal(dao.countAll());
-        report.setCountOk(dao.count(FeedStatus.OK));
-        report.setCountWarning(dao.count(FeedStatus.WARNING));
-        report.setCountError(dao.count(FeedStatus.ERROR));
-        report.setCountNotProcessed(dao.count(FeedStatus.NOT_PROCESSED));
+        ProductReport productReport = new ProductReport();
 
-        return report;
+        productReport.setImportOrigin(importOrigin);
+        productReport.setCountTotal(Long.valueOf(all));
+        productReport.setCountOk(Long.valueOf(ok));
+        productReport.setCountWarning(Long.valueOf(warning));
+        productReport.setCountError(Long.valueOf(error));
+        productReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return productReport;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Product> productList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(productList == null)
+            return importOriginList;
+
+        for(Product product : productList)
+        {
+            String importOrigin = product.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Product> productList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Product product : productList)
+        {
+            if(product.getCompany() == null)
+                continue;
+
+            if(product.getCompany().equals("C"))
+                carsa++;
+
+            else if(product.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     @Override
@@ -254,8 +324,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return file;
-
-
     }
 
     private String nombreArchivoProcesadoProducto() {

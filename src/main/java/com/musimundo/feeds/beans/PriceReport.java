@@ -3,8 +3,10 @@ package com.musimundo.feeds.beans;
 public class PriceReport {
 
     private Long countTotal, countOk, countWarning, countError, countNotProcessed;
+    private String importOrigin;
 
     public PriceReport() {
+        importOrigin = "";
         countTotal = 0L;
         this.countOk = 0L;
         this.countWarning = 0L;
@@ -50,5 +52,18 @@ public class PriceReport {
 
     public void setCountNotProcessed(Long countNotProcessed) {
         this.countNotProcessed = countNotProcessed;
+    }
+
+    public String getImportOrigin() {
+        return importOrigin;
+    }
+
+    public void setImportOrigin(String importOrigin) {
+        this.importOrigin = importOrigin;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre del Archivo: " + importOrigin + ", Cantidad Total de Registros: " + countTotal + ", Procesados Correctamente: " + countOk + ", Procesados con Error: " + countError +", Procesados con Warning: " + countWarning + ", No Procesados: " + countNotProcessed;
     }
 }
