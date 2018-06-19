@@ -35,6 +35,8 @@ public interface ClassificationService
 
     ClassificationReport getReport(List<Classification> classificationList, String importOrigin);
 
+    ClassificationReport getReport(List<Classification> classificationList);
+
     List<ClassificationReport> getReportList(List<Classification> classificationList);
 
     List<String> getImportOrigin(List<Classification> classificationList);

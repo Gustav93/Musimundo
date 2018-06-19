@@ -156,7 +156,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 //            writer.write("processed");
             writer.endRecord();
 
-            if(filter.equals(Filter.ALL_REGISTERS))
+            if(filter.equals(Filter.ONLY_NOT_OK))
             {
                 for (Classification classification : classificationList)
                 {
@@ -177,7 +177,7 @@ public class ClassificationServiceImpl implements ClassificationService {
                 }
             }
 
-            else if(filter.equals(Filter.ONLY_NOT_OK))
+            else if(filter.equals(Filter.ALL_REGISTERS))
             {
                 for (Classification classification : classificationList)
                 {
@@ -239,6 +239,42 @@ public class ClassificationServiceImpl implements ClassificationService {
         ClassificationReport merchandiseReport = new ClassificationReport();
 
         merchandiseReport.setImportOrigin(importOrigin);
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
+    }
+
+    @Override
+    public ClassificationReport getReport(List<Classification> classificationList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Classification classification : classificationList)
+        {
+            all++;
+
+            if(classification.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        ClassificationReport merchandiseReport = new ClassificationReport();
+
         merchandiseReport.setCountTotal(Long.valueOf(all));
         merchandiseReport.setCountOk(Long.valueOf(ok));
         merchandiseReport.setCountWarning(Long.valueOf(warning));

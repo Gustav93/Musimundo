@@ -247,6 +247,42 @@ public class MediaServiceImpl implements MediaService
     }
 
     @Override
+    public MediaReport getReport(List<Media> mediaList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Media media : mediaList)
+        {
+            all++;
+
+            if(media.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(media.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(media.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(media.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        MediaReport mediaReport = new MediaReport();
+
+        mediaReport.setCountTotal(Long.valueOf(all));
+        mediaReport.setCountOk(Long.valueOf(ok));
+        mediaReport.setCountWarning(Long.valueOf(warning));
+        mediaReport.setCountError(Long.valueOf(error));
+        mediaReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return mediaReport;
+}
+
+    @Override
     public List<MediaReport> getReportList(List<Media> mediaList) {
         List<String> importOriginList = getImportOrigin(mediaList);
         List<MediaReport> mediaReportList = new ArrayList<>();

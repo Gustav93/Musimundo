@@ -84,7 +84,43 @@ public class PriceServiceImpl implements PriceService {
 
         return report;
     }
-    
+
+    @Override
+    public PriceReport getReport(List<Price> priceList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Price price : priceList)
+        {
+            all++;
+
+            if(price.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        PriceReport priceReport = new PriceReport();
+
+        priceReport.setCountTotal(Long.valueOf(all));
+        priceReport.setCountOk(Long.valueOf(ok));
+        priceReport.setCountWarning(Long.valueOf(warning));
+        priceReport.setCountError(Long.valueOf(error));
+        priceReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return priceReport;
+    }
+
     @Override
     public PriceReport getReportByDate(Date fechaDesde, Date fechaHasta) {
     	PriceReport report = new PriceReport();

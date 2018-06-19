@@ -110,7 +110,7 @@ public class StockServiceImpl implements StockService {
         CsvWriter writer = null;
 
         if(filter.equals(Filter.ALL_REGISTERS))
-            fileName = nombreArchivoNoProcesadoCorrectamenteStock();
+            fileName = nombreArchivoProcesadoStock();
 
         else
             fileName = nombreArchivoNoProcesadoCorrectamenteStock();
@@ -184,6 +184,42 @@ public class StockServiceImpl implements StockService {
         }
 
         return file;
+    }
+
+    @Override
+    public StockReport getReport(List<Stock> stockList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Stock product : stockList)
+        {
+            all++;
+
+            if(product.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+            }
+
+        StockReport stockReport = new StockReport();
+
+        stockReport.setCountTotal(Long.valueOf(all));
+        stockReport.setCountOk(Long.valueOf(ok));
+        stockReport.setCountWarning(Long.valueOf(warning));
+        stockReport.setCountError(Long.valueOf(error));
+        stockReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return stockReport;
     }
 
     @Override

@@ -33,6 +33,8 @@ public interface MerchandiseService
 
 	File getCsv(List<Merchandise> merchandiseList, Filter filter);
 
+    MerchandiseReport getReport(List<Merchandise> merchandiseList);
+
     MerchandiseReport getReport(List<Merchandise> merchandiseList, String importOrigin);
 
     List<MerchandiseReport> getReportList(List<Merchandise> merchandiseList);

@@ -4,8 +4,6 @@ import com.csvreader.CsvReader;
 import com.musimundo.feeds.beans.*;
 import com.musimundo.feeds.dao.StockDao;
 import com.musimundo.utilities.FeedType;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +21,9 @@ import java.util.regex.Pattern;
 @Transactional
 @Service("feedBuilderService")
 public class FeedBuilderServiceImpl implements FeedBuilderService {
+
+    @Autowired
+    FileNameService fileNameService;
 
     @Autowired
     ProductService productService;
@@ -56,6 +57,13 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
     public void createRegister(String path) {
 
         this.path = path;
+        String fileName = getFileName(path);
+
+        if(!fileNameService.exists(fileName))
+            fileNameService.save(new FileName(fileName));
+        else
+            return;
+
 
         try {
             reader = new CsvReader(path);
@@ -132,7 +140,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         return res;
     }
 
-    private String getImportOrigin(String path) {
+    private String getFileName(String path) {
         String patron = "";
         String importOrigin = "";
 
@@ -157,6 +165,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         else if (path.contains("_aud") && path.contains("stock"))
             patron = "stock-\\d+";
 
+        else if (path.contains("_aud"))
+            patron = "([^\\\\]*)$";
+
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(path);
 
@@ -170,7 +181,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         return importOrigin;
     }
 
-    public static boolean checkFeedType(String feedType) {
+    private boolean checkFeedType(String feedType) {
         final String[] FEED_TYPE = {"classification", "product", "price", "merchandise", "media", "stock"};
 
 
@@ -185,7 +196,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
     private void fixAudit(Audit audit) {
         fixCompany(audit);
         fixFeedType(audit);
-        fixProductCode(audit);
+//        fixProductCode(audit);
     }
 
     //para corregir el feedType se utilizan expresiones regulares para buscar el tipo de feed en la descripcion del registro
@@ -319,7 +330,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
             return FeedType.MERCHANDISE;
 
         else if (feedType.equals("classification"))
-            return FeedType.PRICE;
+            return FeedType.CLASSIFICATION;
 
         else
             throw new IllegalArgumentException("invalid feed type");
@@ -348,7 +359,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 product.setOfflineDateTime(parseDate(reader.get(7)));
                 product.setApprovalStatus(reader.get(8));
                 product.setDescription(reader.get(9));
-                product.setImportOrigin(getImportOrigin(path));
+                product.setImportOrigin(getFileName(path));
 
                 productService.save(product);
             }
@@ -372,7 +383,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 price.setCurrency(reader.get(2));
                 price.setStorePrice(Double.parseDouble(reader.get(3)));
                 price.setHasPriority(Boolean.parseBoolean(reader.get(4)));
-                price.setImportOrigin(getImportOrigin(path));
+                price.setImportOrigin(getFileName(path));
 
                 priceService.save(price);
             }
@@ -396,7 +407,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 stock.setStock(parseStock(reader.get(1)));
                 stock.setWarehouse(reader.get(2));
                 stock.setStatus(reader.get(3));
-                stock.setImportOrigin(path);
+                stock.setImportOrigin(getFileName(path));
 
                 stockList.add(stock);
                 stockService.save(stock);
@@ -434,7 +445,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 media.setProductCode(reader.get(0));
                 media.setCodeMedia(reader.get(1));
                 media.setIsDefault(Boolean.parseBoolean(reader.get(2)));
-                media.setImportOrigin(getImportOrigin(path));
+                media.setImportOrigin(getFileName(path));
 
                 mediaService.save(media);
             }
@@ -458,7 +469,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 merchandise.setRelationship(reader.get(3));
                 merchandise.setQualifier(reader.get(4));
                 merchandise.setPreselected(reader.get(5));
-                merchandise.setImportOrigin(getImportOrigin(path));
+                merchandise.setImportOrigin(getFileName(path));
 
                 merchandiseService.save(merchandise);
             }
@@ -480,7 +491,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 classification.setAttCode(reader.get(1));
                 classification.setCategoryCode(reader.get(2));
                 classification.setAttValue(reader.get(3));
-                classification.setImportOrigin(getImportOrigin(path));
+                classification.setImportOrigin(getFileName(path));
 
                 classificationService.save(classification);
             }
@@ -518,13 +529,13 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
                     if (importOrigin.contains("stock"))
                     {
-                        importOrigin = getImportOrigin(path);
+                        importOrigin = getFileName(path);
                         auditService.setWarehouseStock(audit);
                     }
 
 
                     else if (importOrigin.contains("classification"))
-                        importOrigin.replaceAll("classification", "clasificacion");
+                        importOrigin = importOrigin.replaceAll("classification", "clasificacion");
 
                     audit.setImportOrigin(importOrigin);
 
@@ -533,7 +544,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                         if (audit.getProductCode().equals(""))
                             continue;
                     }
-
+                    fixProductCode(audit);
 //                    String warehouse = auditService.setWarehouseStock(audit.);
 //                    audit.setWarehouseStock(warehouse);
                     auditService.save(audit);
@@ -546,5 +557,4 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
             reader.close();
         }
     }
-
 }

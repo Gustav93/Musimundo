@@ -34,6 +34,8 @@ public interface MediaService
 
     MediaReport getReport(List<Media> mediaList, String importOrigin);
 
+    MediaReport getReport(List<Media> mediaList);
+
     List<MediaReport> getReportList(List<Media> mediaList);
 
     List<String> getImportOrigin(List<Media> mediaList);

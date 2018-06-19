@@ -1,7 +1,6 @@
 package com.musimundo.feeds.service;
 
 import com.csvreader.CsvWriter;
-import com.musimundo.feeds.beans.Media;
 import com.musimundo.feeds.beans.Merchandise;
 import com.musimundo.feeds.beans.MerchandiseReport;
 import com.musimundo.feeds.dao.MerchandiseDao;
@@ -219,6 +218,42 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         }
 
         return file;
+    }
+
+    @Override
+    public MerchandiseReport getReport(List<Merchandise> merchandiseList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            all++;
+
+            if(merchandise.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        MerchandiseReport merchandiseReport = new MerchandiseReport();
+
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
     }
 
     @Override

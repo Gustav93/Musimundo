@@ -33,6 +33,8 @@ public interface StockService {
 
 	File getCsv(List<Stock> stockList, Filter filter);
 
+    StockReport getReport(List<Stock> stockList);
+
     StockReport getReport(List<Stock> stockList, String importOrigin);
 
     List<StockReport> getReportList(List<Stock> stockList);

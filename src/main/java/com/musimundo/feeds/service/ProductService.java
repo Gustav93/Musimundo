@@ -37,6 +37,8 @@ public interface ProductService
 
     ProductReport getReport(List<Product> productList, String importOrigin);
 
+    ProductReport getReport(List<Product> productList);
+
     List<ProductReport> getReportList(List<Product> productList);
 
     List<String> getImportOrigin(List<Product> productList);

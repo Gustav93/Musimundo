@@ -25,6 +25,8 @@ public interface PriceService {
 
     PriceReport getReport();
 
+    PriceReport getReport(List<Price> priceList);
+
 	PriceReport getReportByDate(Date fechaDesde, Date fechaHasta);
 
 	PriceReport getReportByCode(String code);

@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/listamerchandise", "/listaclasificacion", "/listaauditoria", "/feedMenu", 
 				"/busquedafeed", "/historico", "/productbyfecha", "/pricebyfecha", "/stockbyfecha", 
 				"/mediabyfecha", "/merchandisebyfecha", "/clasificacionbyfecha", "/product", "/precios", 
-				"/stock", "/media", "/merchandise", "/clasificacion")
+				"/stock", "/media", "/merchandise", "/clasificacion", "/upload")
 				.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
 				.antMatchers("/newuser/**", "/delete-user-*", "/newservice/**").access("hasRole('ADMIN')").antMatchers("/edit-user-*", "/edit-service-*")
 				.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")

@@ -134,9 +134,48 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
+
+
         ProductReport productReport = new ProductReport();
 
         productReport.setImportOrigin(importOrigin);
+        productReport.setCountTotal(Long.valueOf(all));
+        productReport.setCountOk(Long.valueOf(ok));
+        productReport.setCountWarning(Long.valueOf(warning));
+        productReport.setCountError(Long.valueOf(error));
+        productReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return productReport;
+    }
+
+    @Override
+    public ProductReport getReport(List<Product> productList)
+    {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Product product : productList)
+        {
+            all++;
+
+            if(product.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        ProductReport productReport = new ProductReport();
+
         productReport.setCountTotal(Long.valueOf(all));
         productReport.setCountOk(Long.valueOf(ok));
         productReport.setCountWarning(Long.valueOf(warning));
