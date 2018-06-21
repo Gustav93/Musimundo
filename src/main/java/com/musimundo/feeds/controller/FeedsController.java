@@ -1,17 +1,17 @@
 package com.musimundo.feeds.controller;
 
 import com.musimundo.feeds.beans.*;
+import com.musimundo.feeds.dao.FileNameDao;
 import com.musimundo.feeds.service.*;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.FeedType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +22,9 @@ import java.util.List;
 @RequestMapping("/")
 @SessionAttributes("roles")
 public class FeedsController {
+
+    @Autowired
+    FileNameDao fileNameDao;
 
     @Autowired
     ProductService productService;
@@ -55,6 +58,9 @@ public class FeedsController {
 
     @Autowired
     ProcessingFeedService processingFeedService;
+
+    @Autowired
+    FileService fileService;
 
 
     @RequestMapping(value = {"/listaproductos"})
@@ -107,12 +113,31 @@ public class FeedsController {
 //        feedBuilderService.createRegister("merchandise-1806020001.csv");
 //        feedBuilderService.createRegister("merchandise-1806010004.csv");
 
-//        feedBuilderService.createRegister("stock-1806030001.csv");
+//        feedBuilderService.createRegister("stock-1806030002_aud.csv");
+//        feedBuilderService.createRegister("stock-1806030002.csv");
+//        processingFeedService.process(FeedType.STOCK);
 
-        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
-        feedBuilderService.createRegister("producto-1806010001.csv");
+//        feedBuilderService.createRegister("Producto-20180611 090000 al 20180612 090000_aud.csv");
+//        feedBuilderService.createRegister("producto-20180611521.csv");
+//        feedBuilderService.createRegister("producto-1806110001.csv");
+//        processingFeedService.process(FeedType.PRODUCT);
 
-        processingFeedService.process(FeedType.PRODUCT);
+//        feedBuilderService.createRegister("Precio-20180611 090000 al 20180612 090000_aud.csv");
+//        feedBuilderService.createRegister("precio-1806110001.csv");
+//        feedBuilderService.createRegister("precio-1806110002.csv");
+//        processingFeedService.process(FeedType.PRICE);
+
+//        feedBuilderService.createRegister("Media-20180612 090000 al 20180613 090000_aud.csv");
+//        feedBuilderService.createRegister("media-1806120001.csv");
+//        processingFeedService.process(FeedType.MEDIA);
+
+//        feedBuilderService.createRegister("Merchandise-20180612 090000 al 20180613 090000_aud.csv");
+//        feedBuilderService.createRegister("merchandise-1806130001.csv");
+//        processingFeedService.process(FeedType.MERCHANDISE);
+
+//        feedBuilderService.createRegister("Clasificacion-20180612 090000 al 20180613 090000_aud.csv");
+//        feedBuilderService.createRegister("clasificacion-1806120001.csv");
+//        processingFeedService.process(FeedType.CLASSIFICATION);
 
         List<Product> productList = productService.findAll();
         ProductReport productReport = productService.getReport();
@@ -414,5 +439,107 @@ public class FeedsController {
         else
             return FeedStatus.NOT_PROCESSED;
 
+    }
+
+    @RequestMapping(value = {"/feedmenu"})
+    public String feedMenu(ModelMap model){
+        MultipartList multipartList = new MultipartList();
+        model.addAttribute("multipartList", multipartList);
+        return "feedmenu";
+    }
+
+//    @RequestMapping(value = {"/upload"}, method = RequestMethod.POST)
+//    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+//                                   RedirectAttributes redirectAttributes) {
+//
+////        storageService.store(file);
+//
+//        System.out.println(file.getOriginalFilename());
+////        redirectAttributes.addFlashAttribute("message",
+////                "You successfully uploaded " + file.getOriginalFilename() + "!");
+//
+//        return "redirect:/";
+//    }
+
+    @RequestMapping(value = {"/upload"}, method = RequestMethod.POST)
+    public String handleFileUpload(@Valid MultipartList multipartList) {
+
+//        storageService.store(file);
+        List<MultipartFile> multiparts = multipartList.getFiles();
+        for (MultipartFile multipart : multiparts)
+            fileService.saveFile(multipart);
+//            System.out.println(multipart.getOriginalFilename());
+//        redirectAttributes.addFlashAttribute("message",
+//                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        List<String> fileNames = fileService.getFileNames();
+
+        for(String fileName : fileNames)
+            feedBuilderService.createRegister(fileName);
+
+        fileService.deleteFiles();
+
+        return "redirect:/feedmenu";
+    }
+
+    @RequestMapping(value = {"/process"}, method = RequestMethod.GET)
+    public String processFeed(@RequestParam("feed") String feedType, ModelMap model){
+        String page = "feedmenu";
+
+        if(feedType.equals("Precios"))
+        {
+            List<Price> priceList = processingFeedService.processPrice();
+            PriceReport priceReport = priceService.getReport(priceList);
+            page = "pricelist";
+            model.addAttribute("priceList", priceList);
+            model.addAttribute("priceReport", priceReport);
+
+        }
+
+        else if(feedType.equals("Productos"))
+        {
+            List<Product> productList = processingFeedService.processProduct();
+            ProductReport productReport = productService.getReport(productList);
+            page = "productlist";
+            model.addAttribute("productList", productList);
+            model.addAttribute("productReport", productReport);
+        }
+
+        else if(feedType.equals("Stock"))
+        {
+            List<Stock> stockList = processingFeedService.processStock();
+            StockReport stockReport = stockService.getReport(stockList);
+            page = "stocklist";
+            model.addAttribute("stockList", stockList);
+            model.addAttribute("stockReport", stockReport);
+        }
+
+        else if(feedType.equals("Media"))
+        {
+            List<Media> mediaList = processingFeedService.processMedia();
+            MediaReport mediaReport = mediaService.getReport(mediaList);
+            page = "medialist";
+            model.addAttribute("mediaList", mediaList);
+            model.addAttribute("mediaReport", mediaReport);
+        }
+
+        else if(feedType.equals("Merchandise"))
+        {
+            List<Merchandise> merchandiseList = processingFeedService.processMerchandise();
+            MerchandiseReport merchandiseReport = merchandiseService.getReport();
+            page = "merchandiselist";
+            model.addAttribute("merchandiseList", merchandiseList);
+            model.addAttribute("merchandiseReport", merchandiseReport);
+        }
+
+        else if(feedType.equals("Clasificacion"))
+        {
+            List<Classification> classificationList = processingFeedService.processClassification();
+            ClassificationReport classificationReport = classificationService.getReport(classificationList);
+            page = "classificationlist";
+            model.addAttribute("classificationList", classificationList);
+            model.addAttribute("classificationReport", classificationReport);
+        }
+        return page;
     }
 }

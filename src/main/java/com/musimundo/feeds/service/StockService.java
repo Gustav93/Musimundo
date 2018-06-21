@@ -2,6 +2,7 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.feeds.beans.StockReport;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
@@ -31,4 +32,14 @@ public interface StockService {
 	StockReport getReportByDate(Date fechaDesde, Date fechaHasta);
 
 	File getCsv(List<Stock> stockList, Filter filter);
+
+    StockReport getReport(List<Stock> stockList);
+
+    StockReport getReport(List<Stock> stockList, String importOrigin);
+
+    List<StockReport> getReportList(List<Stock> stockList);
+
+    List<String> getImportOrigin(List<Stock> stockList);
+
+    Company getCompany(List<Stock> stockList);
 }

@@ -1,11 +1,11 @@
 package com.musimundo.feeds.service;
 
 import com.csvreader.CsvWriter;
-import com.musimundo.feeds.beans.Media;
 import com.musimundo.feeds.beans.Merchandise;
 import com.musimundo.feeds.beans.MerchandiseReport;
 import com.musimundo.feeds.dao.MerchandiseDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -217,6 +218,143 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         }
 
         return file;
+    }
+
+    @Override
+    public MerchandiseReport getReport(List<Merchandise> merchandiseList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            all++;
+
+            if(merchandise.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(merchandise.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        MerchandiseReport merchandiseReport = new MerchandiseReport();
+
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
+    }
+
+    @Override
+    public MerchandiseReport getReport(List<Merchandise> merchandiseList, String importOrigin) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            if(merchandise.getImportOrigin().equals(importOrigin))
+            {
+                all++;
+
+                if(merchandise.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
+
+                else if(merchandise.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
+
+                else if(merchandise.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(merchandise.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
+        }
+
+        MerchandiseReport merchandiseReport = new MerchandiseReport();
+
+        merchandiseReport.setImportOrigin(importOrigin);
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
+    }
+
+    @Override
+    public List<MerchandiseReport> getReportList(List<Merchandise> merchandiseList) {
+        List<String> importOriginList = getImportOrigin(merchandiseList);
+        List<MerchandiseReport> merchandiseReportList = new ArrayList<>();
+
+        for(String importOrigin : importOriginList)
+        {
+            MerchandiseReport merchandiseReport = getReport(merchandiseList, importOrigin);
+            merchandiseReportList.add(merchandiseReport);
+        }
+
+        return merchandiseReportList;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Merchandise> merchandiseList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(merchandiseList == null)
+            return importOriginList;
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            String importOrigin = merchandise.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Merchandise> merchandiseList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            if(merchandise.getCompany() == null)
+                continue;
+
+            if(merchandise.getCompany().equals("C"))
+                carsa++;
+
+            else if(merchandise.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     private String nombreArchivoProcesadoMerchandise()

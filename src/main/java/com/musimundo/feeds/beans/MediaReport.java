@@ -3,9 +3,11 @@ package com.musimundo.feeds.beans;
 public class MediaReport
 {
     private Long countTotal, countOk, countWarning, countError, countNotProcessed;
+    private String importOrigin;
 
     public MediaReport() {
-        countTotal = 0L;
+        this.importOrigin = "";
+        this.countTotal = 0L;
         this.countOk = 0L;
         this.countWarning = 0L;
         this.countError = 0L;
@@ -50,5 +52,18 @@ public class MediaReport
 
     public void setCountNotProcessed(Long countNotProcessed) {
         this.countNotProcessed = countNotProcessed;
+    }
+
+    public String getImportOrigin() {
+        return importOrigin;
+    }
+
+    public void setImportOrigin(String importOrigin) {
+        this.importOrigin = importOrigin;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre del Archivo: " + importOrigin + ", Cantidad Total de Registros: " + countTotal + ", Procesados Correctamente: " + countOk + ", Procesados con Error: " + countError +", Procesados con Warning: " + countWarning + ", No Procesados: " + countNotProcessed;
     }
 }

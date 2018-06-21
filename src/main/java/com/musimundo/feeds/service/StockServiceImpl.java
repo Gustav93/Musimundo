@@ -5,6 +5,7 @@ import com.musimundo.feeds.beans.Stock;
 import com.musimundo.feeds.beans.StockReport;
 import com.musimundo.feeds.dao.StockDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +82,7 @@ public class StockServiceImpl implements StockService {
 
         return report;
     }
-    
+
     @Override
     public StockReport getReportByDate(Date fechaDesde, Date fechaHasta) {
     	StockReport report = new StockReport();
@@ -108,7 +110,7 @@ public class StockServiceImpl implements StockService {
         CsvWriter writer = null;
 
         if(filter.equals(Filter.ALL_REGISTERS))
-            fileName = nombreArchivoNoProcesadoCorrectamenteStock();
+            fileName = nombreArchivoProcesadoStock();
 
         else
             fileName = nombreArchivoNoProcesadoCorrectamenteStock();
@@ -137,7 +139,7 @@ public class StockServiceImpl implements StockService {
                 for (Stock stock : stockList)
                 {
                     writer.write(stock.getProductCode());
-                    writer.write(stock.getStock().toString());
+                    writer.write(integerToString(stock.getStock()));
                     writer.write(stock.getWarehouse());
                     writer.write(stock.getStatus());
                     writer.write(stock.getImportOrigin());
@@ -157,7 +159,7 @@ public class StockServiceImpl implements StockService {
                     if(status.equals(FeedStatus.WARNING) || status.equals(FeedStatus.ERROR) || status.equals(FeedStatus.NOT_PROCESSED))
                     {
                         writer.write(stock.getProductCode());
-                        writer.write(stock.getStock().toString());
+                        writer.write(integerToString(stock.getStock()));
                         writer.write(stock.getWarehouse());
                         writer.write(stock.getStatus());
                         writer.write(stock.getImportOrigin());
@@ -182,6 +184,143 @@ public class StockServiceImpl implements StockService {
         }
 
         return file;
+    }
+
+    @Override
+    public StockReport getReport(List<Stock> stockList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Stock product : stockList)
+        {
+            all++;
+
+            if(product.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+            }
+
+        StockReport stockReport = new StockReport();
+
+        stockReport.setCountTotal(Long.valueOf(all));
+        stockReport.setCountOk(Long.valueOf(ok));
+        stockReport.setCountWarning(Long.valueOf(warning));
+        stockReport.setCountError(Long.valueOf(error));
+        stockReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return stockReport;
+    }
+
+    @Override
+    public StockReport getReport(List<Stock> stockList, String importOrigin) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Stock product : stockList)
+        {
+            if(product.getImportOrigin().equals(importOrigin))
+            {
+                all++;
+
+                if(product.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
+
+                else if(product.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
+
+                else if(product.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(product.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
+        }
+
+        StockReport stockReport = new StockReport();
+
+        stockReport.setImportOrigin(importOrigin);
+        stockReport.setCountTotal(Long.valueOf(all));
+        stockReport.setCountOk(Long.valueOf(ok));
+        stockReport.setCountWarning(Long.valueOf(warning));
+        stockReport.setCountError(Long.valueOf(error));
+        stockReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return stockReport;
+    }
+
+    @Override
+    public List<StockReport> getReportList(List<Stock> stockList) {
+        List<String> importOriginList = getImportOrigin(stockList);
+        List<StockReport> stockReportList = new ArrayList<>();
+
+        for(String importOrigin : importOriginList)
+        {
+            StockReport stockReport = getReport(stockList, importOrigin);
+            stockReportList.add(stockReport);
+        }
+
+        return stockReportList;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Stock> stockList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(stockList == null)
+            return importOriginList;
+
+        for(Stock stock : stockList)
+        {
+            String importOrigin = stock.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Stock> stockList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Stock stock : stockList)
+        {
+            if(stock.getCompany() == null)
+                continue;
+
+            if(stock.getCompany().equals("C"))
+                carsa++;
+
+            else if(stock.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     @Override
@@ -230,5 +369,13 @@ public class StockServiceImpl implements StockService {
             return "";
 
         return dateFormat.format(date);
+    }
+
+    private String integerToString(Integer integer)
+    {
+        if(integer == null)
+            return "";
+
+        return integer.toString();
     }
 }

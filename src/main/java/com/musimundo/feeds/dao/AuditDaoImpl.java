@@ -3,8 +3,7 @@ package com.musimundo.feeds.dao;
 import com.musimundo.feeds.beans.Audit;
 import com.musimundo.utilities.FeedType;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -58,7 +57,7 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         criteria.add(Restrictions.eq("importOrigin", importOrigin));
         criteria.add(Restrictions.eq("processed", false));
 //        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        criteria.setMaxResults(1);
+        criteria.addOrder(Order.desc("id")).setMaxResults(1);
 
         return criteria.list();
     }
@@ -71,7 +70,7 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
         criteria.add(Restrictions.eq("importOrigin", importOrigin));
         criteria.add(Restrictions.eq("warehouseStock", warehouse));
         criteria.add(Restrictions.eq("processed", false));
-        criteria.setMaxResults(1);
+        criteria.addOrder(Order.desc("id")).setMaxResults(1);
 
         return criteria.list();
     }

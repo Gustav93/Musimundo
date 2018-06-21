@@ -5,6 +5,7 @@ import com.musimundo.feeds.beans.Classification;
 import com.musimundo.feeds.beans.ClassificationReport;
 import com.musimundo.feeds.dao.ClassificationDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -154,7 +156,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 //            writer.write("processed");
             writer.endRecord();
 
-            if(filter.equals(Filter.ALL_REGISTERS))
+            if(filter.equals(Filter.ONLY_NOT_OK))
             {
                 for (Classification classification : classificationList)
                 {
@@ -175,7 +177,7 @@ public class ClassificationServiceImpl implements ClassificationService {
                 }
             }
 
-            else if(filter.equals(Filter.ONLY_NOT_OK))
+            else if(filter.equals(Filter.ALL_REGISTERS))
             {
                 for (Classification classification : classificationList)
                 {
@@ -204,6 +206,143 @@ public class ClassificationServiceImpl implements ClassificationService {
         }
 
         return file;
+    }
+
+    @Override
+    public ClassificationReport getReport(List<Classification> classificationList, String importOrigin) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Classification classification : classificationList)
+        {
+            if(classification.getImportOrigin().equals(importOrigin))
+            {
+                all++;
+
+                if(classification.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
+
+                else if(classification.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
+
+                else if(classification.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(classification.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
+        }
+
+        ClassificationReport merchandiseReport = new ClassificationReport();
+
+        merchandiseReport.setImportOrigin(importOrigin);
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
+    }
+
+    @Override
+    public ClassificationReport getReport(List<Classification> classificationList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Classification classification : classificationList)
+        {
+            all++;
+
+            if(classification.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(classification.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        ClassificationReport merchandiseReport = new ClassificationReport();
+
+        merchandiseReport.setCountTotal(Long.valueOf(all));
+        merchandiseReport.setCountOk(Long.valueOf(ok));
+        merchandiseReport.setCountWarning(Long.valueOf(warning));
+        merchandiseReport.setCountError(Long.valueOf(error));
+        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return merchandiseReport;
+    }
+
+    @Override
+    public List<ClassificationReport> getReportList(List<Classification> classificationList) {
+        List<String> importOriginList = getImportOrigin(classificationList);
+        List<ClassificationReport> classificationReportList = new ArrayList<>();
+
+        for(String importOrigin : importOriginList)
+        {
+            ClassificationReport classificationReport = getReport(classificationList, importOrigin);
+            classificationReportList.add(classificationReport);
+        }
+
+        return classificationReportList;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Classification> classificationList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(classificationList == null)
+            return importOriginList;
+
+        for(Classification classification : classificationList)
+        {
+            String importOrigin = classification.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Classification> classificationList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Classification classification : classificationList)
+        {
+            if(classification.getCompany() == null)
+                continue;
+
+            if(classification.getCompany().equals("C"))
+                carsa++;
+
+            else if(classification.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     public static String nombreArchivoProcesadoClasificacion()

@@ -5,6 +5,7 @@ import com.musimundo.feeds.beans.Price;
 import com.musimundo.feeds.beans.PriceReport;
 import com.musimundo.feeds.dao.PriceDao;
 import com.musimundo.utilities.Calendario;
+import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +84,43 @@ public class PriceServiceImpl implements PriceService {
 
         return report;
     }
-    
+
+    @Override
+    public PriceReport getReport(List<Price> priceList) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Price price : priceList)
+        {
+            all++;
+
+            if(price.getFeedStatus().equals(FeedStatus.OK))
+                ok++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.WARNING))
+                warning++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.ERROR))
+                error++;
+
+            else if(price.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                notProcessed++;
+        }
+
+        PriceReport priceReport = new PriceReport();
+
+        priceReport.setCountTotal(Long.valueOf(all));
+        priceReport.setCountOk(Long.valueOf(ok));
+        priceReport.setCountWarning(Long.valueOf(warning));
+        priceReport.setCountError(Long.valueOf(error));
+        priceReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return priceReport;
+    }
+
     @Override
     public PriceReport getReportByDate(Date fechaDesde, Date fechaHasta) {
     	PriceReport report = new PriceReport();
@@ -134,7 +172,7 @@ public class PriceServiceImpl implements PriceService {
         CsvWriter writer = null;
 
         if(filter.equals(Filter.ALL_REGISTERS))
-            fileName = nombreArchivoNoProcesadoCorrectamentePrecio();
+            fileName = nombreArchivoProcesadoPrecio();
 
         else
             fileName = nombreArchivoNoProcesadoCorrectamentePrecio();
@@ -211,6 +249,107 @@ public class PriceServiceImpl implements PriceService {
         }
 
         return file;
+    }
+
+    @Override
+    public PriceReport getReport(List<Price> priceList, String importOrigin) {
+        int all = 0;
+        int ok = 0;
+        int warning = 0;
+        int error = 0;
+        int notProcessed = 0;
+
+        for(Price price : priceList)
+        {
+            if(price.getImportOrigin().equals(importOrigin))
+            {
+                all++;
+
+                if(price.getFeedStatus().equals(FeedStatus.OK))
+                    ok++;
+
+                else if(price.getFeedStatus().equals(FeedStatus.WARNING))
+                    warning++;
+
+                else if(price.getFeedStatus().equals(FeedStatus.ERROR))
+                    error++;
+
+                else if(price.getFeedStatus().equals(FeedStatus.NOT_PROCESSED))
+                    notProcessed++;
+            }
+        }
+
+        PriceReport priceReport = new PriceReport();
+
+        priceReport.setImportOrigin(importOrigin);
+        priceReport.setCountTotal(Long.valueOf(all));
+        priceReport.setCountOk(Long.valueOf(ok));
+        priceReport.setCountWarning(Long.valueOf(warning));
+        priceReport.setCountError(Long.valueOf(error));
+        priceReport.setCountNotProcessed(Long.valueOf(notProcessed));
+
+        return priceReport;
+    }
+
+    @Override
+    public List<PriceReport> getReportList(List<Price> priceList) {
+        List<String> importOriginList = getImportOrigin(priceList);
+        List<PriceReport> priceReportList = new ArrayList<>();
+
+        for(String importOrigin : importOriginList)
+        {
+            PriceReport priceReport = getReport(priceList, importOrigin);
+            priceReportList.add(priceReport);
+        }
+
+        return priceReportList;
+    }
+
+    @Override
+    public List<String> getImportOrigin(List<Price> priceList) {
+        List<String> importOriginList = new ArrayList<>();
+
+        if(priceList == null)
+            return importOriginList;
+
+        for(Price price : priceList)
+        {
+            String importOrigin = price.getImportOrigin();
+            if(!importOriginList.contains(importOrigin))
+                importOriginList.add(importOrigin);
+        }
+
+        return importOriginList;
+    }
+
+    @Override
+    public Company getCompany(List<Price> priceList) {
+        int carsa = 0;
+        int emsa = 0;
+        Company res;
+
+        for(Price price : priceList)
+        {
+            if(price.getCompany() == null)
+                continue;
+
+            if(price.getCompany().equals("C"))
+                carsa++;
+
+            else if(price.getCompany().equals("E"))
+                emsa++;
+        }
+
+        if(carsa>0 && emsa<=0)
+            res = Company.CARSA;
+
+        else if(carsa<=0 && emsa > 0)
+            res = Company.EMSA;
+
+        else
+            res = Company.UNDEFINED;
+
+        return res;
     }
 
     private String nombreArchivoProcesadoPrecio()

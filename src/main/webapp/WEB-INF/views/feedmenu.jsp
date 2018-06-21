@@ -2,11 +2,12 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Pocesar</title>
+	<title>Procesar</title>
 	    <!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
     <!-- Font Awesome -->
@@ -79,24 +80,37 @@
 			                    <div class="container">			                    	
                                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA') or hasRole('USER')">
                                         	                                        	
-                                        		<form name="form" class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
-							                            <div class="form-group">
-							                                <label class="col-sm-3 control-label"></label>
-							                                <div class="col-sm-6 col-xs-12">
-							                                    <div class="col-sm-12 col-xs-12 input-group">
-							                                    	Seleccione el archivo: 
-							                                    	<div class="input-group">
-								                                        <input class = "form-control" type="file" name="archivo" onchange="subirArchivo(this)" accept="text/csv" multiple>
-								                                        <input type="hidden" name="nombreArchivo" value="">
-								                                        <span class="input-group-btn">
-								                                        	<button type="submit" class="btn btn-primary">Subir Archivo</button>
-								                               			</span>
-							                               			</div>							                                        
-							                                    </div>
-							                                </div>
-							                                <label class="col-sm-3 control-label"></label>
-							                            </div>
-							                        </form>
+                                        		<%--<form name="form" class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">--%>
+							                            <%--<div class="form-group">--%>
+							                                <%--<label class="col-sm-3 control-label"></label>--%>
+							                                <%--<div class="col-sm-6 col-xs-12">--%>
+							                                    <%--<div class="col-sm-12 col-xs-12 input-group">--%>
+							                                        <%--Seleccione el archivo: <input class = "form-control" type="file" name="archivo" onchange="subirArchivo(this)" accept="text/csv" multiple>--%>
+							                                        <%--<input type="hidden" name="nombreArchivo" value="">--%>
+							                                        <%--<input class = "form-control" type="submit" value="Subir Archivo" onclick="validarExtension(this.form.archivo.value)">--%>
+							                                    <%--</div>--%>
+							                                <%--</div>--%>
+							                                <%--<label class="col-sm-3 control-label"></label>--%>
+							                            <%--</div>--%>
+							                        <%--</form>--%>
+
+											<%--<form:form  modelAttribute="multipartList" class="form-horizontal form-label-left"  method="POST" enctype="multipart/form-data" action="/upload?${_csrf.parameterName}=${_csrf.token}">--%>
+											<form:form modelAttribute="multipartList" class="form-horizontal form-label-left"  method="POST" enctype="multipart/form-data" action="/upload?${_csrf.parameterName}=${_csrf.token}">
+											<fieldset>
+												<div class="form-group">
+													<label class="col-sm-3 control-label"></label>
+													<div class="col-sm-6 col-xs-12">
+														<div class="col-sm-12 col-xs-12 input-group">
+															Seleccione el archivo: <input class = "form-control" type="file" name="files" multiple="multiple" >
+																<%--<input type="hidden" name="nombreArchivo" value="">--%>
+															<input class = "form-control" type="submit" value="Upload">
+														</div>
+													</div>
+													<label class="col-sm-3 control-label"></label>
+												</div>
+											</fieldset>
+
+											</form:form>
                                         	
 										</sec:authorize>		                        
 			                    </div>
@@ -117,30 +131,25 @@
 			                    </div>
 			
 			                    <div class="container">
-			                        <form name="procesarDatos" class="form-horizontal form-label-left" method="post">
+			                        <form:form name="procesarDatos" class="form-horizontal form-label-left" method="get" action="/process">
 			                            <div class="form-group">
 			                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 			                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			                                    <form name="procesarDatos" method="post">
-			                                    	Seleccionar el Feed a Procesar:
-			                                    	<div class="input-group">
-				                                        <select class = "form-control" name="feed">
-					                                        <option value="Precios">Precios</option>
-					                                        <option value="Productos">Productos</option>
-					                                        <option value="Stock">Stock</option>
-					                                        <option value="Media">Media</option>
-					                                        <option value="Merchandise">Merchandise</option>
-					                                        <option value="Clasificacion">Clasificacion</option>
-					                                    </select>
-					                                     <span class="input-group-btn">
-								                              <button type="submit" class="btn btn-primary">Procesar</button>
-								                         </span>			                                        
-			                                        </div>
-			                                    </form>
+			                                    <%--<form name="procesarDatos" method="post">--%>
+			                                        Seleccionar el Feed a Procesar: <select class = "form-control" name="feed">
+			                                        <option value="Precios">Precios</option>
+			                                        <option value="Productos">Productos</option>
+			                                        <option value="Stock">Stock</option>
+			                                        <option value="Media">Media</option>
+			                                        <option value="Merchandise">Merchandise</option>
+			                                        <option value="Clasificacion">Clasificacion</option>
+			                                    </select>
+			                                        <input class = "form-control" type="submit" value="Procesar">
+			                                    <%--</form>--%>
 			                                </div>
 			                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 			                            </div>
-			                        </form>
+			                        </form:form>
 			                    </div>
 			
 			                    <div class="container">
@@ -205,7 +214,7 @@
 
             if(extensionPermitida == extensionArchivo)
             {
-                // alert("Se empezará a subir el archivo");
+                // alert("Se empezar� a subir el archivo");
                 document.form.action = "subir_archivo"
                 document.form.submit();
             }
