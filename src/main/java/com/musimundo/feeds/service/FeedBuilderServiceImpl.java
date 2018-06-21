@@ -412,12 +412,16 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 stock.setImportOrigin(getFileName(path));
 
                 stockList.add(stock);
-                stockService.save(stock);
+//                stockService.save(stock);
             }
+
+            stockService.insertValues(stockList);
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
             reader.close();
         }
 

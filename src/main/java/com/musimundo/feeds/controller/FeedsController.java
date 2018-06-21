@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -64,13 +63,30 @@ public class FeedsController {
     FileService fileService;
 
 
-    @RequestMapping(value = {"/listaproductos"})
-    public String getProductList(ModelMap model){
-
-//        List<OldProduct> res = oldProductDao.findAll();
+//    @RequestMapping(value = {"/listaproductos"})
+//    public String getProductList(ModelMap model){
 //
-//        OldProduct oldProduct = res.get(1);
-//        Product product = new Product();
+////        List<OldProduct> res = oldProductDao.findAll();
+////
+////        OldProduct oldProduct = res.get(1);
+////        Product product = new Product();
+////
+////        product.setProductCode(oldProduct.getCodigoProducto());
+////        product.setEan(oldProduct.getEan());
+////        product.setBrand(oldProduct.getBrand());
+////        product.setName(oldProduct.getName());
+////        product.setCategory(Integer.parseInt(oldProduct.getCategory()));
+////        product.setWeight(Integer.parseInt(oldProduct.getWeight()));
+////        product.setApprovalStatus(oldProduct.getApprovalStatus());
+////        product.setDescription(oldProduct.getDescription());
+////        product.setImportOrigin(oldProduct.getOrigenImportacion());
+////        product.setErrorDescription(oldProduct.getDescription());
+////        product.setFeedStatus(parseFeedStatus(oldProduct.getEstadoProcesamiento()));
+////        product.setCompany(oldProduct.getEmpresa());
+////        product.setProcessed(true);
+////
+////        productService.save(product);
+////        System.out.println(res);
 //
 //        product.setProductCode(oldProduct.getCodigoProducto());
 //        product.setEan(oldProduct.getEan());
@@ -86,17 +102,67 @@ public class FeedsController {
 //        product.setCompany(oldProduct.getEmpresa());
 //        product.setProcessed(true);
 //
-//        productService.save(product);
-//        System.out.println(res);
-
-
-//        List<OldPrice> res = oldPriceDao.findAll();
+////        List<OldPrice> res = oldPriceDao.findAll();
+////
+////        System.out.println(res);
+////
+////        OldPrice oldPrice = res.get(0);
+////        Price price = new Price();
+////
+////        price.setProductCode(oldPrice.getCodigoProducto());
+////        price.setOnlinePrice(Double.parseDouble(oldPrice.getOnlinePrice()));
+////        price.setCurrency(oldPrice.getCurrency());
+////        price.setStorePrice(Double.parseDouble(oldPrice.getStorePrice()));
+////        price.setHasPriority(Boolean.parseBoolean(oldPrice.getHasPriority()));
+////        price.setImportOrigin(oldPrice.getOrigenImportacion());
+////        price.setFeedStatus(parseFeedStatus(oldPrice.getEstadoProcesamiento()));
+////        price.setErrorDescription(oldPrice.getDescripcionError());
+////        price.setCompany(oldPrice.getEmpresa());
+////        priceService.save(price);
 //
-//        System.out.println(res);
+////        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
+////        feedBuilderService.createRegister("Merchandise-20180601 090000 al 20180604 100000_aud.csv");
+////        feedBuilderService.createRegister("merchandise-1806040001.csv");
+////        feedBuilderService.createRegister("merchandise-1806020001.csv");
+////        feedBuilderService.createRegister("merchandise-1806010004.csv");
 //
-//        OldPrice oldPrice = res.get(0);
-//        Price price = new Price();
+////        feedBuilderService.createRegister("stock-1806030002_aud.csv");
+////        feedBuilderService.createRegister("stock-1806030002.csv");
+////        processingFeedService.process(FeedType.STOCK);
 //
+////        feedBuilderService.createRegister("Producto-20180611 090000 al 20180612 090000_aud.csv");
+////        feedBuilderService.createRegister("producto-20180611521.csv");
+////        feedBuilderService.createRegister("producto-1806110001.csv");
+////        processingFeedService.process(FeedType.PRODUCT);
+//
+////        feedBuilderService.createRegister("Precio-20180611 090000 al 20180612 090000_aud.csv");
+////        feedBuilderService.createRegister("precio-1806110001.csv");
+////        feedBuilderService.createRegister("precio-1806110002.csv");
+////        processingFeedService.process(FeedType.PRICE);
+//
+////        feedBuilderService.createRegister("Media-20180612 090000 al 20180613 090000_aud.csv");
+////        feedBuilderService.createRegister("media-1806120001.csv");
+////        processingFeedService.process(FeedType.MEDIA);
+//
+////        feedBuilderService.createRegister("Merchandise-20180612 090000 al 20180613 090000_aud.csv");
+////        feedBuilderService.createRegister("merchandise-1806130001.csv");
+////        processingFeedService.process(FeedType.MERCHANDISE);
+//
+////        feedBuilderService.createRegister("Clasificacion-20180612 090000 al 20180613 090000_aud.csv");
+////        feedBuilderService.createRegister("clasificacion-1806120001.csv");
+////        processingFeedService.process(FeedType.CLASSIFICATION);
+//
+//        List<Product> productList = productService.findAll();
+//        ProductReport productReport = productService.getReport();
+//
+////        File f = productService.getCsv(Filter.ONLY_NOT_OK, "C");
+////        System.out.println(f.getAbsolutePath());
+//
+//        model.addAttribute("productList", productList);
+//        model.addAttribute("productReport", productReport);
+//
+//        return "productlist";
+//    }
 //        price.setProductCode(oldPrice.getCodigoProducto());
 //        price.setOnlinePrice(Double.parseDouble(oldPrice.getOnlinePrice()));
 //        price.setCurrency(oldPrice.getCurrency());
@@ -116,22 +182,22 @@ public class FeedsController {
 
 //        feedBuilderService.createRegister("stock-1806030001.csv");
 
-        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
-        feedBuilderService.createRegister("producto-1806010001.csv");
-
-        processingFeedService.process(FeedType.PRODUCT);
-
-        List<Product> productList = productService.findAll();
-        ProductReport productReport = productService.getReport();
-
+//        feedBuilderService.createRegister("Producto-20180531 100000 al 20180601 090000_aud.csv");
+//        feedBuilderService.createRegister("producto-1806010001.csv");
+//
+//        processingFeedService.process(FeedType.PRODUCT);
+//
+//        List<Product> productList = productService.findAll();
+//        ProductReport productReport = productService.getReport();
+//
 //        File f = productService.getCsv(Filter.ONLY_NOT_OK, "C");
 //        System.out.println(f.getAbsolutePath());
-
-        model.addAttribute("productList", productList);
-        model.addAttribute("productReport", productReport);
-
-        return "productlist";
-    }    
+//
+//        model.addAttribute("productList", productList);
+//        model.addAttribute("productReport", productReport);
+//
+//        return "productlist";
+//    }
 
     @RequestMapping(value = {"/precios"})
     public String getPrice(@RequestParam String code, ModelMap model){
@@ -175,16 +241,16 @@ public class FeedsController {
 	     return "pricelist";
     }
     
-    @RequestMapping(value = {"/listaprecios"})
-    public String getPriceList(ModelMap model){
-        List<Price> priceList = priceService.findAll();
-        PriceReport priceReport = priceService.getReport();
-
-        model.addAttribute("priceList", priceList);
-        model.addAttribute("priceReport", priceReport);
-
-        return "pricelist";
-    }
+//    @RequestMapping(value = {"/listaprecios"})
+//    public String getPriceList(ModelMap model){
+//        List<Price> priceList = priceService.findAll();
+//        PriceReport priceReport = priceService.getReport();
+//
+//        model.addAttribute("priceList", priceList);
+//        model.addAttribute("priceReport", priceReport);
+//
+//        return "pricelist";
+//    }
     
     @RequestMapping(value = {"/stock"})
     public String getStock(@RequestParam String code, ModelMap model){
@@ -228,16 +294,16 @@ public class FeedsController {
         return "stocklist";
     }
 
-    @RequestMapping(value = {"/listastock"})
-    public String getStockList(ModelMap model){
-        List<Stock> stockList = stockService.findAll();
-        StockReport stockReport = stockService.getReport();
-
-        model.addAttribute("stockList", stockList);
-        model.addAttribute("stockReport", stockReport);
-
-        return "stocklist";
-    }
+//    @RequestMapping(value = {"/listastock"})
+//    public String getStockList(ModelMap model){
+//        List<Stock> stockList = stockService.findAll();
+//        StockReport stockReport = stockService.getReport();
+//
+//        model.addAttribute("stockList", stockList);
+//        model.addAttribute("stockReport", stockReport);
+//
+//        return "stocklist";
+//    }
 
     @RequestMapping(value = {"/media"})
     public String getMedia(@RequestParam String code, ModelMap model){
@@ -281,16 +347,16 @@ public class FeedsController {
         return "medialist";
     }
     
-    @RequestMapping(value = {"/listamedia"})
-    public String getMediaList(ModelMap model){
-        List<Media> mediaList = mediaService.findAll();
-        MediaReport mediaReport = mediaService.getReport();
-
-        model.addAttribute("mediaList", mediaList);
-        model.addAttribute("mediaReport", mediaReport);
-
-        return "medialist";
-    }
+//    @RequestMapping(value = {"/listamedia"})
+//    public String getMediaList(ModelMap model){
+//        List<Media> mediaList = mediaService.findAll();
+//        MediaReport mediaReport = mediaService.getReport();
+//
+//        model.addAttribute("mediaList", mediaList);
+//        model.addAttribute("mediaReport", mediaReport);
+//
+//        return "medialist";
+//    }
 
     @RequestMapping(value = {"/merchandise"})
     public String getMerchandise(@RequestParam String code, ModelMap model){
@@ -334,16 +400,16 @@ public class FeedsController {
         return "merchandiselist";
     }
     
-    @RequestMapping(value = {"/listamerchandise"})
-    public String getMerchandiseList(ModelMap model){
-        List<Merchandise> merchandiseList = merchandiseService.findAll();
-        MerchandiseReport merchandiseReport= merchandiseService.getReport();
-
-        model.addAttribute("merchandiseList", merchandiseList);
-        model.addAttribute("merchandiseReport", merchandiseReport);
-
-        return "merchandiselist";
-    }
+//    @RequestMapping(value = {"/listamerchandise"})
+//    public String getMerchandiseList(ModelMap model){
+//        List<Merchandise> merchandiseList = merchandiseService.findAll();
+//        MerchandiseReport merchandiseReport= merchandiseService.getReport();
+//
+//        model.addAttribute("merchandiseList", merchandiseList);
+//        model.addAttribute("merchandiseReport", merchandiseReport);
+//
+//        return "merchandiselist";
+//    }
 
     @RequestMapping(value = {"/clasificacion"})
     public String getCLassification(@RequestParam String code, ModelMap model){
@@ -387,41 +453,25 @@ public class FeedsController {
         return "classificationlist";
     }
     
-    @RequestMapping(value = {"/listaclasificacion"})
-    public String getCLassificationList(ModelMap model){
-        List<Classification> classificationList = classificationService.findAll();
-        ClassificationReport classificationReport= classificationService.getReport();
+//    @RequestMapping(value = {"/listaclasificacion"})
+//    public String getCLassificationList(ModelMap model){
+//        List<Classification> classificationList = classificationService.findAll();
+//        ClassificationReport classificationReport= classificationService.getReport();
+//
+//        model.addAttribute("classificationList", classificationList);
+//        model.addAttribute("classificationReport", classificationReport);
+//
+//        return "classificationlist";
+//    }
 
-        model.addAttribute("classificationList", classificationList);
-        model.addAttribute("classificationReport", classificationReport);
-
-        return "classificationlist";
-    }
-
-    @RequestMapping(value = {"/listaauditoria"})
-    public String getAuditList(ModelMap model)
-    {
-        List<Audit> auditList = auditService.findAll();
-        model.addAttribute("auditList", auditList);
-
-        return "auditlist";
-    }
-
-    private FeedStatus parseFeedStatus(String status)
-    {
-        if(status.equals("Procesado"))
-            return FeedStatus.OK;
-
-        else if(status.equals("Procesado con error"))
-            return FeedStatus.ERROR;
-
-        else if(status.equals("Procesado con warning"))
-            return FeedStatus.WARNING;
-
-        else
-            return FeedStatus.NOT_PROCESSED;
-
-    }
+//    @RequestMapping(value = {"/listaauditoria"})
+//    public String getAuditList(ModelMap model)
+//    {
+//        List<Audit> auditList = auditService.findAll();
+//        model.addAttribute("auditList", auditList);
+//
+//        return "auditlist";
+//    }
 
     @RequestMapping(value = {"/feedmenu"})
     public String feedMenu(ModelMap model){
@@ -430,29 +480,12 @@ public class FeedsController {
         return "feedmenu";
     }
 
-//    @RequestMapping(value = {"/upload"}, method = RequestMethod.POST)
-//    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-//                                   RedirectAttributes redirectAttributes) {
-//
-////        storageService.store(file);
-//
-//        System.out.println(file.getOriginalFilename());
-////        redirectAttributes.addFlashAttribute("message",
-////                "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-//        return "redirect:/";
-//    }
-
     @RequestMapping(value = {"/upload"}, method = RequestMethod.POST)
     public String handleFileUpload(@Valid MultipartList multipartList) {
 
-//        storageService.store(file);
         List<MultipartFile> multiparts = multipartList.getFiles();
         for (MultipartFile multipart : multiparts)
             fileService.saveFile(multipart);
-//            System.out.println(multipart.getOriginalFilename());
-//        redirectAttributes.addFlashAttribute("message",
-//                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         List<String> fileNames = fileService.getFileNames();
 
@@ -523,5 +556,53 @@ public class FeedsController {
             model.addAttribute("classificationReport", classificationReport);
         }
         return page;
+    }
+
+    @RequestMapping(value = {"/productreport"})
+    public String productReport(ModelMap model){
+        ProductReport productReport = productService.getReport();
+        model.addAttribute("productReport", productReport);
+
+        return "productreport";
+    }
+
+    @RequestMapping(value = {"/pricereport"})
+    public String priceReport(ModelMap model){
+        PriceReport priceReport = priceService.getReport();
+        model.addAttribute("priceReport", priceReport);
+
+        return "pricereport";
+    }
+
+    @RequestMapping(value = {"/stockreport"})
+    public String stockReport(ModelMap model){
+        StockReport stockReport = stockService.getReport();
+        model.addAttribute("stockReport", stockReport);
+
+        return "stockreport";
+    }
+
+    @RequestMapping(value = {"/mediareport"})
+    public String mediaReport(ModelMap model){
+        MediaReport mediaReport = mediaService.getReport();
+        model.addAttribute("mediaReport", mediaReport);
+
+        return "mediareport";
+    }
+
+    @RequestMapping(value = {"/merchandisereport"})
+    public String merchandiseReport(ModelMap model){
+        MerchandiseReport merchandiseReport = merchandiseService.getReport();
+        model.addAttribute("merchandiseReport", merchandiseReport);
+
+        return "merchandisereport";
+    }
+
+    @RequestMapping(value = {"/classificationreport"})
+    public String classificationReport(ModelMap model){
+        ClassificationReport classificationReport = classificationService.getReport();
+        model.addAttribute("classificationReport", classificationReport);
+
+        return "classificationreport";
     }
 }

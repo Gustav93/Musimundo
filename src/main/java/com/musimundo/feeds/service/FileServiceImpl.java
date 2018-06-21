@@ -62,14 +62,7 @@ public class FileServiceImpl implements FileService {
     public void deleteFiles() {
         File filePath = new File(PATH);
         File[] files = filePath.listFiles();
-        for(File file : files)
+        for (File file : files)
             file.delete();
-    }
-
-    private String[] getFilenames()
-    {
-        File file = new File(PATH);
-
-        return file.list();
     }
 }

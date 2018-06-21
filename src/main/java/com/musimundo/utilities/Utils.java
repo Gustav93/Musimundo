@@ -6,6 +6,10 @@ public class Utils {
 	
 	public static String getDateString(Date date) {
     	String todate = "";
+
+    	if(date == null)
+    		return todate;
+
     	todate+=(date.getYear()+1900)+"/";
     	todate+=(date.getMonth()+1)+"/";
     	todate+=(date.getDate())+" ";

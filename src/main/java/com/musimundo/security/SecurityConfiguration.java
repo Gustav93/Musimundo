@@ -38,12 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/", "/list", "/bifurcacion","/indexcarritos", 
 				"/getcarritos",	"/consultarcarro", "/listservice", "/servicesmonitor", 
-				"/getcarritosperiodo", "/consultastock",	"/getstock", "/show-service-*", 
-				"/listaproductos", "/listaprecios", "/listastock", "/listamedia", 
-				"/listamerchandise", "/listaclasificacion", "/listaauditoria", "/feedMenu", 
+				"/getcarritosperiodo", "/consultastock",	"/getstock", "/show-service-*", "/feedMenu",
 				"/busquedafeed", "/historico", "/productbyfecha", "/pricebyfecha", "/stockbyfecha", 
 				"/mediabyfecha", "/merchandisebyfecha", "/clasificacionbyfecha", "/product", "/precios", 
-				"/stock", "/media", "/merchandise", "/clasificacion", "/upload")
+				"/stock", "/media", "/merchandise", "/clasificacion", "/upload", "productreport", "/pricereport", "/stockreport", "/mediareport", "/merchandisereport", "/classificationreport")
 				.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
 				.antMatchers("/newuser/**", "/delete-user-*", "/newservice/**").access("hasRole('ADMIN')").antMatchers("/edit-user-*", "/edit-service-*")
 				.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")

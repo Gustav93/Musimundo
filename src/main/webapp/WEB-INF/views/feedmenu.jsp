@@ -118,13 +118,13 @@
 			                    <div class="container">
 			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
 			                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-group-vertical">
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Precios.html'">Mostrar Precios</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Productos.html'">Mostrar Productos</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Stock.html'">Mostrar Stock</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Media.html'">Mostar Media</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Merchandise.html'">Mostar Merchandise</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Clasificacion.html'">Mostar Clasificacion</button>
-			                            <button class="btn btn-default" type="button" onclick="window.location.href ='Auditoria.html'">Mostrar Auditoria</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/pricereport'">Mostrar Precios</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/productreport'">Mostrar Productos</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/stockreport'">Mostrar Stock</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/mediareport'">Mostar Media</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/merchandisereport'">Mostar Merchandise</button>
+			                            <button class="btn btn-default" type="button" onclick="window.location.href ='/classificationreport'">Mostar Clasificacion</button>
+			                            <%--<button class="btn btn-default" type="button" onclick="window.location.href =''">Mostrar Auditoria</button>--%>
 			                            <br>
 			                        </div>
 			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
@@ -152,17 +152,15 @@
 			                        </form:form>
 			                    </div>
 			
-			                    <div class="container">
-			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-			                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			                            <form method="get" action="limpiar_tabla_auditoria">
-			                            	<span class="input-group-btn">
-								                  <button type="submit" class="btn btn-primary">Limpiar Tabla Auditoria</button>
-								            </span>			                                
-			                            </form>
-			                        </div>
-			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-			                    </div>
+			                    <%--<div class="container">--%>
+			                        <%--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>--%>
+			                        <%--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">--%>
+			                            <%--<form method="get" action="limpiar_tabla_auditoria">--%>
+			                                <%--<input class = "form-control" type="submit" value="Limpiar Tabla Auditoria">--%>
+			                            <%--</form>--%>
+			                        <%--</div>--%>
+			                        <%--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>--%>
+			                    <%--</div>--%>
 			                </div>
                         </div>
                     </div>
