@@ -24,4 +24,6 @@ public interface AuditDao
     void save(Audit audit);
 
 	boolean updateStateByTypeAndImport(FeedType feedType, String importOrigin);
+
+	boolean insertAuditlist(String insert);
 }

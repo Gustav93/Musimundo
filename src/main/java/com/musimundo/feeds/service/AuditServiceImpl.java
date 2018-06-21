@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,5 +113,44 @@ public class AuditServiceImpl implements AuditService {
         entity.setImportOrigin(audit.getImportOrigin());
         entity.setFeedType(audit.getFeedType());
         entity.setProcessed(audit.getProcessed());
+    }
+    
+    @Override
+    public void insertValues(List<Audit> auditorias) throws ParseException {
+    	if(auditorias.size()<25000) {
+    		String insert = makeInsert(auditorias);
+    		boolean insertOk = dao.insertAuditlist(insert);
+    	}else{    		
+    		List<List<Audit>> arreglosAuditorias = new ArrayList<List<Audit>>();
+    		int cantArreglos = auditorias.size()/25000;
+    		int cantidadPorArreglo = auditorias.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosAuditorias.add(auditorias.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Audit> arreglo:arreglosAuditorias) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertAuditlist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Audit> auditorias) {
+    	String insert = "INSERT INTO musimundo.audit(AUDIT_LEVEL, AUDIT_TYPE, AUDIT_DATE, "
+    			+ "ERROR_CODE, DESCRIPTION, COMPANY, PRODUCT_CODE, IMPORT_ORIGIN, FEED_TYPE, "
+    			+ "PROCESSED, WAREHOUSE_STOCK) VALUES ";
+		int cont = 0;
+		for(Audit a:auditorias) {
+			if(cont==0) {
+				insert += a.toInsert();
+			}else {
+				insert +=","+ a.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

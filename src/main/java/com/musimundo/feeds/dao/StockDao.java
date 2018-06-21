@@ -40,4 +40,6 @@ public interface StockDao
 	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
 
 	void saveList(List<Stock> stockList);
+
+	boolean insertStocklist(String insert);
 }

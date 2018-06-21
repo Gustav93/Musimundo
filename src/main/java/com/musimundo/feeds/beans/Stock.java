@@ -1,6 +1,7 @@
 package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Utils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -135,5 +136,21 @@ public class Stock
 
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+    
+    public String toInsert() {
+		String values = "(";
+    	values+="'"+ productCode+"', ";
+    	values+=stock+", ";
+    	values+="'"+warehouse+"', ";
+    	values+="'"+status+"', ";
+    	values+="'"+importOrigin+"', ";    	
+    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
+    	values+=feedStatus.ordinal()+", ";
+    	values+="'"+errorDescription+"', ";
+    	values+="'"+company+"', ";   	
+    	values+=processed;
+		values += ")";
+		return values;
     }
 }

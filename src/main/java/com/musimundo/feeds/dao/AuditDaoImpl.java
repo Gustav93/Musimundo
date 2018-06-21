@@ -3,6 +3,8 @@ package com.musimundo.feeds.dao;
 import com.musimundo.feeds.beans.Audit;
 import com.musimundo.utilities.FeedType;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -104,5 +106,23 @@ public class AuditDaoImpl extends AbstractDao <Integer, Audit> implements AuditD
 		}				
 		return true;		
 	}
+    
+    @Override
+    public boolean insertAuditlist(String insert) {
+    	
+    	Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createSQLQuery(insert);
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;    	
+    }
     
 }

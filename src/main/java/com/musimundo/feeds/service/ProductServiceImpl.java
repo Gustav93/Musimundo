@@ -1,6 +1,7 @@
 package com.musimundo.feeds.service;
 
 import com.csvreader.CsvWriter;
+import com.musimundo.feeds.beans.Price;
 import com.musimundo.feeds.beans.Product;
 import com.musimundo.feeds.beans.ProductReport;
 import com.musimundo.feeds.dao.ProductDao;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -384,5 +386,45 @@ public class ProductServiceImpl implements ProductService {
             return "";
 
         return dateFormat.format(date);
+    }
+    
+    @Override
+    public void insertValues(List<Product> products) throws ParseException {
+    	if(products.size()<25000) {
+    		String insert = makeInsert(products);
+    		boolean insertOk = dao.insertProductlist(insert);
+    	}else{    		
+    		List<List<Product>> arreglosProduct = new ArrayList<List<Product>>();
+    		int cantArreglos = products.size()/25000;
+    		int cantidadPorArreglo = products.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosProduct.add(products.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Product> arreglo:arreglosProduct) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertProductlist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Product> products) {
+    	String insert = "INSERT INTO musimundo.product " + 
+    			"(PRODUCT_CODE, EAN, BRAND, NAME, CATEGORY, WEIGHT, ONLINE_DATE_TIME, "
+    			+ "OFFLINE_DATE_TIME, APPROVAL_STATUS, DESCRIPTION, IMPORT_ORIGIN, "
+    			+ "PROCESSING_DATE, FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED) VALUES";
+		int cont = 0;
+		for(Product product:products) {
+			if(cont==0) {
+				insert += product.toInsert();
+			}else {
+				insert +=","+ product.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

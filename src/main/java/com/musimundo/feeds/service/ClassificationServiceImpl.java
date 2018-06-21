@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -366,5 +367,45 @@ public class ClassificationServiceImpl implements ClassificationService {
             return "";
 
         return dateFormat.format(date);
+    }
+    
+    @Override
+    public void insertValues(List<Classification> clasificaciones) throws ParseException {
+    	if(clasificaciones.size()<25000) {
+    		String insert = makeInsert(clasificaciones);
+    		boolean insertOk = dao.insertClassificationlist(insert);
+    	}else{    		
+    		List<List<Classification>> arreglosclasificaciones = new ArrayList<List<Classification>>();
+    		int cantArreglos = clasificaciones.size()/25000;
+    		int cantidadPorArreglo = clasificaciones.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosclasificaciones.add(clasificaciones.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Classification> arreglo:arreglosclasificaciones) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertClassificationlist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Classification> clasificaciones) {
+    	String insert = "INSERT INTO musimundo.classification " + 
+    			"(PRODUCT_CODE, ATT_CODE, CATEGORY_CODE, ATT_VALUE, IMPORT_ORIGIN, "
+    			+ "PROCESSING_DATE, FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED)" + 
+    			"VALUES ";
+		int cont = 0;
+		for(Classification classificacion:clasificaciones) {
+			if(cont==0) {
+				insert += classificacion.toInsert();
+			}else {
+				insert +=","+ classificacion.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

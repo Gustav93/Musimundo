@@ -35,4 +35,8 @@ public interface MerchandiseDao {
 	List<String> findFeedsByDate(Date desde, Date hasta, String empresa);
 
 	Long countByFeed(String feedName, FeedStatus status);
+
+	boolean insertMerchandiselist(String insert);
+
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
 }

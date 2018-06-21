@@ -5,6 +5,7 @@ import com.musimundo.utilities.ErrorType;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.FeedType;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface AuditService {
@@ -29,5 +30,7 @@ public interface AuditService {
     ErrorType getErrorType(Audit audit);
 
     void setWarehouseStock(Audit audit);
+
+	void insertValues(List<Audit> auditorias) throws ParseException;
 
 }

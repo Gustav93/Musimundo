@@ -52,11 +52,6 @@ public class ServiceCheckerImpl implements ServiceChecker{
 			}
 			serviceToCheck.setElapsedTime(serviceCheck.getElapsedString());
 			serviceToCheckService.updateStateLastCheckServiceToCheck(serviceToCheck);
-			System.out.println("Servicio Chequeado: "+serviceToCheck.getName()+"ServiceCheck creado: id: "+serviceCheck.getId());
-			System.out.println("Name: "+serviceCheck.getName());
-			System.out.println("URL: "+serviceCheck.getUrl());
-			System.out.println("Elapsed Time: "+serviceCheck.getElapsedTime());
-			System.out.println("is Active: "+serviceCheck.isActive());
 			serviceToCheckList.remove(serviceToCheck.getName());
 		}
 		

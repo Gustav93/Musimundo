@@ -1,6 +1,7 @@
 package com.musimundo.feeds.beans;
 
 import com.musimundo.utilities.FeedType;
+import com.musimundo.utilities.Utils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -144,5 +145,22 @@ public class Audit
 
     public void setWarehouseStock(String warehouseStock) {
         this.warehouseStock = warehouseStock;
+    }
+    
+    public String toInsert() {
+		String values = "(";
+    	values+="'"+ auditLevel+"', ";
+    	values+="'"+auditType+"', ";
+    	values+="date('"+Utils.getDateString(auditDate)+"'), ";
+    	values+="'"+errorCode+"', ";
+    	values+="'"+description+"', ";
+    	values+="'"+company+"', ";
+    	values+="'"+productCode+"', ";
+    	values+="'"+importOrigin+"', ";
+    	values+=feedType.ordinal()+", ";
+    	values+=processed+", ";
+    	values+="'"+warehouseStock+"'";
+		values += ")";
+		return values;
     }
 }

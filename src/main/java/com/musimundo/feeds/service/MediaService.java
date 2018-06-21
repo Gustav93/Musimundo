@@ -5,6 +5,7 @@ import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public interface MediaService
     MediaReport getReport(List<Media> mediaList, String importOrigin);
 
     MediaReport getReport(List<Media> mediaList);
+	
+	void insertValues(List<Media> medias) throws ParseException;
 
     List<MediaReport> getReportList(List<Media> mediaList);
 

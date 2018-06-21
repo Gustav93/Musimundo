@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -374,5 +375,44 @@ public class PriceServiceImpl implements PriceService {
             return "";
 
         return dateFormat.format(date);
+    }
+    
+    @Override
+    public void insertValues(List<Price> prices) throws ParseException {
+    	if(prices.size()<25000) {
+    		String insert = makeInsert(prices);
+    		boolean insertOk = dao.insertPricelist(insert);
+    	}else{    		
+    		List<List<Price>> arreglosPrice = new ArrayList<List<Price>>();
+    		int cantArreglos = prices.size()/25000;
+    		int cantidadPorArreglo = prices.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosPrice.add(prices.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Price> arreglo:arreglosPrice) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertPricelist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Price> prices) {
+    	String insert = "INSERT INTO musimundo.price " + 
+    			"(PRODUCT_CODE, CURRENCY, ONLINE_PRICE, STORE_PRICE, HAS_PRIORITY, IMPORT_ORIGIN, " + 
+    			"PROCESSING_DATE, FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED) VALUES";
+		int cont = 0;
+		for(Price price:prices) {
+			if(cont==0) {
+				insert += price.toInsert();
+			}else {
+				insert +=","+ price.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

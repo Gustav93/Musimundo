@@ -6,6 +6,7 @@ import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,9 @@ public interface MerchandiseService
 
 	File getCsv(List<Merchandise> merchandiseList, Filter filter);
 
-    MerchandiseReport getReport(List<Merchandise> merchandiseList);
+	void insertValues(List<Merchandise> merchandises) throws ParseException;
+	
+	MerchandiseReport getReport(List<Merchandise> merchandiseList);
 
     MerchandiseReport getReport(List<Merchandise> merchandiseList, String importOrigin);
 

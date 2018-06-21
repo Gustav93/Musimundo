@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -377,5 +378,44 @@ public class StockServiceImpl implements StockService {
             return "";
 
         return integer.toString();
+    }
+	
+	    @Override
+    public void insertValues(List<Stock> stocks) throws ParseException {
+    	if(stocks.size()<25000) {
+    		String insert = makeInsert(stocks);
+    		boolean insertOk = dao.insertStocklist(insert);
+    	}else{    		
+    		List<List<Stock>> arreglosStock = new ArrayList<List<Stock>>();
+    		int cantArreglos = stocks.size()/25000;
+    		int cantidadPorArreglo = stocks.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosStock.add(stocks.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Stock> arreglo:arreglosStock) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertStocklist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Stock> stocks) {
+    	String insert = "INSERT INTO musimundo.stock " + 
+    			"(PRODUCT_CODE, STOCK, WAREHOUSE, STATUS, IMPORT_ORIGIN, PROCESSING_DATE, "
+    			+ "FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED) VALUES";
+		int cont = 0;
+		for(Stock stock:stocks) {
+			if(cont==0) {
+				insert += stock.toInsert();
+			}else {
+				insert +=","+ stock.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

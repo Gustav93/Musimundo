@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -378,5 +379,44 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             return "";
 
         return dateFormat.format(date);
+    }
+    
+    @Override
+    public void insertValues(List<Merchandise> merchandises) throws ParseException {
+    	if(merchandises.size()<25000) {
+    		String insert = makeInsert(merchandises);
+    		boolean insertOk = dao.insertMerchandiselist(insert);
+    	}else{    		
+    		List<List<Merchandise>> arreglosMerchandise = new ArrayList<List<Merchandise>>();
+    		int cantArreglos = merchandises.size()/25000;
+    		int cantidadPorArreglo = merchandises.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosMerchandise.add(merchandises.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Merchandise> arreglo:arreglosMerchandise) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertMerchandiselist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Merchandise> merchandises) {
+    	String insert = "INSERT INTO musimundo.merchandise " + 
+    			"(SOURCE, REF_TYPE, TARGET, RELATIONSHIP, QUALIFIER, PRESELECTED, IMPORT_ORIGIN, "
+    			+ "PROCESSING_DATE, FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED) VALUES";
+		int cont = 0;
+		for(Merchandise merchandise:merchandises) {
+			if(cont==0) {
+				insert += merchandise.toInsert();
+			}else {
+				insert +=","+ merchandise.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

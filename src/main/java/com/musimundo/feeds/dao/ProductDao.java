@@ -38,4 +38,8 @@ public interface ProductDao
 	Long countByFeed(String feedName, FeedStatus status);
 
     List<Product> findBy(Date desde, Date hasta, String empresa, Filter filter);
+
+	boolean insertProductlist(String insert);
+
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
 }

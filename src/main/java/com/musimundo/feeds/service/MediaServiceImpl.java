@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -365,5 +366,44 @@ public class MediaServiceImpl implements MediaService
         Calendario calendario = new Calendario();
 
         return "media-procesado-" + calendario.getFechaYHora() + ".csv";
+    }
+    
+    @Override
+    public void insertValues(List<Media> medias) throws ParseException {
+    	if(medias.size()<25000) {
+    		String insert = makeInsert(medias);
+    		boolean insertOk = dao.insertMedialist(insert);
+    	}else{    		
+    		List<List<Media>> arreglosMedias = new ArrayList<List<Media>>();
+    		int cantArreglos = medias.size()/25000;
+    		int cantidadPorArreglo = medias.size()/cantArreglos;
+    		int inicioSubArreglo = 0;
+    		int finSubArreglo = cantidadPorArreglo;
+    		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
+    			arreglosMedias.add(medias.subList(inicioSubArreglo, finSubArreglo)); 
+    			inicioSubArreglo+=finSubArreglo;
+    			finSubArreglo+=finSubArreglo;
+    		}
+    		for(List<Media> arreglo:arreglosMedias) {
+    			String insert = makeInsert(arreglo);
+        		boolean insertOk = dao.insertMedialist(insert);
+    		}    		
+    	}
+    }
+    
+    public String makeInsert(List<Media> medias) {
+    	String insert = "INSERT INTO musimundo.media " + 
+    			"(PRODUCT_CODE, CODE_MEDIA, IS_DEFAULT, IMPORT_ORIGIN, PROCESSING_DATE, "
+    			+ "FEED_STATUS, ERROR_DESCRIPTION, COMPANY, PROCESSED) VALUES ";
+		int cont = 0;
+		for(Media media:medias) {
+			if(cont==0) {
+				insert += media.toInsert();
+			}else {
+				insert +=","+ media.toInsert();
+			}
+			cont++;
+		}
+		return insert;
     }
 }

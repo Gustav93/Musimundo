@@ -189,5 +189,23 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
 		}				
 		return true;		
 	}
+	
+	@Override
+    public boolean insertStocklist(String insert) {
+    	
+    	Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createSQLQuery(insert);
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;    	
+    }
 
 }

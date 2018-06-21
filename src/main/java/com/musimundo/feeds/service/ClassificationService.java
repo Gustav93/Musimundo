@@ -6,6 +6,7 @@ import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,9 @@ public interface ClassificationService
     ClassificationReport getReport(List<Classification> classificationList, String importOrigin);
 
     ClassificationReport getReport(List<Classification> classificationList);
-
+	
+	void insertValues(List<Classification> clasificaciones) throws ParseException;
+	
     List<ClassificationReport> getReportList(List<Classification> classificationList);
 
     List<String> getImportOrigin(List<Classification> classificationList);

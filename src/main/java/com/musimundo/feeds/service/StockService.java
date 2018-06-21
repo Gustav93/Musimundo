@@ -6,6 +6,7 @@ import com.musimundo.utilities.Company;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public interface StockService {
     StockReport getReport(List<Stock> stockList, String importOrigin);
 
     List<StockReport> getReportList(List<Stock> stockList);
+	
+	void insertValues(List<Stock> stocks) throws ParseException;
 
     List<String> getImportOrigin(List<Stock> stockList);
 

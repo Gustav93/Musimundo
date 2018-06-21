@@ -50,7 +50,6 @@ public class ServiceCheckerDaoImpl implements ServiceCheckerDao{
         String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(elapsed),
                 TimeUnit.MILLISECONDS.toMinutes(elapsed) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(elapsed)),
                 TimeUnit.MILLISECONDS.toSeconds(elapsed) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsed)));
-        System.out.println(hms);
         
         serviceCheck.setElapsedString(hms);
         serviceCheck.setElapsedTime(elapsed);

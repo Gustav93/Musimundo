@@ -3,6 +3,8 @@ package com.musimundo.feeds.dao;
 import com.musimundo.feeds.beans.Price;
 import com.musimundo.utilities.FeedStatus;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
@@ -144,5 +146,40 @@ public class PriceDaoImpl extends AbstractDao <Integer, Price> implements PriceD
 
         return res;
 	}
+	
+	@Override
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+		Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createQuery("UPDATE Price SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;		
+	}
+	
+	@Override
+    public boolean insertPricelist(String insert) {
+    	
+    	Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createSQLQuery(insert);
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;    	
+    }
 	
 }

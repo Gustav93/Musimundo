@@ -100,7 +100,6 @@ public class ReporteCarrosPeriodo
         WebResource webResource = client.resource(url);
         ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
         listaCarrosCerrados = response.getEntity(ListaCarrosCerrados.class);
-        System.out.println(listaCarrosCerrados);
 
         return listaCarrosCerrados;
     }

@@ -4,6 +4,8 @@ import com.musimundo.feeds.beans.Product;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -174,5 +176,40 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
         List<Product> res = criteria.list();
 
         return res;
+    }
+	
+	@Override
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+		Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createQuery("UPDATE Product SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;		
+	}
+	
+	@Override
+    public boolean insertProductlist(String insert) {
+    	
+    	Session sessionNew = null;
+		try{
+			sessionNew = getSessionFactory().openSession();
+			Query query = sessionNew.createSQLQuery(insert);
+			query.executeUpdate();
+			sessionNew.clear();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}finally {
+			sessionNew.close();
+		}				
+		return true;    	
     }
 }

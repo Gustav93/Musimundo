@@ -324,8 +324,6 @@ public class AppController {
 	@RequestMapping(value = {"/getstock" }, method = RequestMethod.GET)
 	public String getstock(@RequestParam String empresa, @RequestParam String codigo, ModelMap model) throws Exception {
 		
-		System.out.println(empresa);
-		System.out.println(codigo);
 		String stockDisponible = "";
 		int cantStock = 0;
 		
