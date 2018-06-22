@@ -61,10 +61,10 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         this.path = path;
         String fileName = getFileName(path);
 
-        if(!fileNameService.exists(fileName))
-            fileNameService.save(new FileName(fileName));
-        else
-            return;
+//        if(!fileNameService.exists(fileName))
+//            fileNameService.save(new FileName(fileName));
+//        else
+//            return;
 
 
         try {
@@ -511,6 +511,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
     private void createAuditRegister(CsvReader reader) {
         reader.setDelimiter(';');
+        List<Audit> auditList = new ArrayList<>();
 
         try {
             while (reader.readRecord())
@@ -553,13 +554,18 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                     fixProductCode(audit);
 //                    String warehouse = auditService.setWarehouseStock(audit.);
 //                    audit.setWarehouseStock(warehouse);
-                    auditService.save(audit);
+//                    auditService.save(audit);
+                    auditList.add(audit);
                 }
             }
+
+            auditService.insertValues(auditList);
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
             reader.close();
         }
     }

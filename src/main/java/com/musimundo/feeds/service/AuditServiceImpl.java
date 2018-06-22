@@ -117,19 +117,19 @@ public class AuditServiceImpl implements AuditService {
     
     @Override
     public void insertValues(List<Audit> auditorias) throws ParseException {
-    	if(auditorias.size()<25000) {
+    	if(auditorias.size()<20000) {
     		String insert = makeInsert(auditorias);
     		boolean insertOk = dao.insertAuditlist(insert);
     	}else{    		
     		List<List<Audit>> arreglosAuditorias = new ArrayList<List<Audit>>();
-    		int cantArreglos = auditorias.size()/25000;
+    		int cantArreglos = (auditorias.size()/20000) + 1;
     		int cantidadPorArreglo = auditorias.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosAuditorias.add(auditorias.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			inicioSubArreglo=finSubArreglo;
+    			finSubArreglo+=cantidadPorArreglo;
     		}
     		for(List<Audit> arreglo:arreglosAuditorias) {
     			String insert = makeInsert(arreglo);
