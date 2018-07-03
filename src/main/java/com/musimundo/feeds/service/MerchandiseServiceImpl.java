@@ -383,20 +383,29 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     
     @Override
     public void insertValues(List<Merchandise> merchandises) throws ParseException {
-    	if(merchandises.size()<25000) {
+    	if(merchandises.size()<20000) {
     		String insert = makeInsert(merchandises);
     		boolean insertOk = dao.insertMerchandiselist(insert);
     	}else{    		
-    		List<List<Merchandise>> arreglosMerchandise = new ArrayList<List<Merchandise>>();
-    		int cantArreglos = merchandises.size()/25000;
+    		List<List<Merchandise>> arreglosMerchandise = new ArrayList();
+    		int cantArreglos = (merchandises.size()/20000) + 1;
     		int cantidadPorArreglo = merchandises.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
-    			arreglosMerchandise.add(merchandises.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			arreglosMerchandise.add(merchandises.subList(inicioSubArreglo, finSubArreglo));
+                inicioSubArreglo=finSubArreglo;
+                finSubArreglo+=cantidadPorArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Merchandise> lastMerchandise = new ArrayList<>();
+                lastMerchandise.add(merchandises.get(merchandises.size()-1));
+                arreglosMerchandise.add(lastMerchandise);
+            }
+
     		for(List<Merchandise> arreglo:arreglosMerchandise) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertMerchandiselist(insert);

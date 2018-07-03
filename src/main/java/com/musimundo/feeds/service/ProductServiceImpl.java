@@ -390,20 +390,29 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public void insertValues(List<Product> products) throws ParseException {
-    	if(products.size()<25000) {
+    	if(products.size()<20000) {
     		String insert = makeInsert(products);
     		boolean insertOk = dao.insertProductlist(insert);
     	}else{    		
-    		List<List<Product>> arreglosProduct = new ArrayList<List<Product>>();
-    		int cantArreglos = products.size()/25000;
+    		List<List<Product>> arreglosProduct = new ArrayList();
+    		int cantArreglos = (products.size()/20000) + 1;
     		int cantidadPorArreglo = products.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
-    			arreglosProduct.add(products.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			arreglosProduct.add(products.subList(inicioSubArreglo, finSubArreglo));
+                inicioSubArreglo=finSubArreglo;
+                finSubArreglo+=cantidadPorArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Product> lastProduct = new ArrayList<>();
+                lastProduct.add(products.get(products.size()-1));
+                arreglosProduct.add(lastProduct);
+            }
+
     		for(List<Product> arreglo:arreglosProduct) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertProductlist(insert);

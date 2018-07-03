@@ -370,20 +370,29 @@ public class MediaServiceImpl implements MediaService
     
     @Override
     public void insertValues(List<Media> medias) throws ParseException {
-    	if(medias.size()<25000) {
+    	if(medias.size()<20000) {
     		String insert = makeInsert(medias);
     		boolean insertOk = dao.insertMedialist(insert);
     	}else{    		
-    		List<List<Media>> arreglosMedias = new ArrayList<List<Media>>();
-    		int cantArreglos = medias.size()/25000;
+    		List<List<Media>> arreglosMedias = new ArrayList();
+    		int cantArreglos = (medias.size()/20000) + 1;
     		int cantidadPorArreglo = medias.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosMedias.add(medias.subList(inicioSubArreglo, finSubArreglo)); 
     			inicioSubArreglo+=finSubArreglo;
     			finSubArreglo+=finSubArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Media> lastMedia = new ArrayList<>();
+                lastMedia.add(medias.get(medias.size()-1));
+                arreglosMedias.add(lastMedia);
+            }
+
     		for(List<Media> arreglo:arreglosMedias) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertMedialist(insert);

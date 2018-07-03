@@ -371,20 +371,29 @@ public class ClassificationServiceImpl implements ClassificationService {
     
     @Override
     public void insertValues(List<Classification> clasificaciones) throws ParseException {
-    	if(clasificaciones.size()<25000) {
+    	if(clasificaciones.size()<20000) {
     		String insert = makeInsert(clasificaciones);
     		boolean insertOk = dao.insertClassificationlist(insert);
     	}else{    		
-    		List<List<Classification>> arreglosclasificaciones = new ArrayList<List<Classification>>();
-    		int cantArreglos = clasificaciones.size()/25000;
+    		List<List<Classification>> arreglosclasificaciones = new ArrayList();
+    		int cantArreglos = (clasificaciones.size()/20000) + 1;
     		int cantidadPorArreglo = clasificaciones.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
-    			arreglosclasificaciones.add(clasificaciones.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			arreglosclasificaciones.add(clasificaciones.subList(inicioSubArreglo, finSubArreglo));
+                inicioSubArreglo+=finSubArreglo;
+                finSubArreglo+=finSubArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Classification> lastClassification = new ArrayList<>();
+                lastClassification.add(clasificaciones.get(clasificaciones.size()-1));
+                arreglosclasificaciones.add(lastClassification);
+            }
+
     		for(List<Classification> arreglo:arreglosclasificaciones) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertClassificationlist(insert);

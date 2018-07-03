@@ -157,7 +157,8 @@ public class Price
     	values+=storePrice+", ";
     	values+=hasPriority+", ";
     	values+="'"+importOrigin+"', ";
-    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
+    	//values+="date('"+Utils.getDateString(processingDate)+"'), ";
+        values+="null, ";
     	values+=feedStatus.ordinal()+", ";
     	values+="'"+errorDescription+"', ";
     	values+="'"+company+"', ";   	

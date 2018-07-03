@@ -387,15 +387,24 @@ public class StockServiceImpl implements StockService {
     		boolean insertOk = dao.insertStocklist(insert);
     	}else{    		
     		List<List<Stock>> arreglosStock = new ArrayList<List<Stock>>();
-    		int cantArreglos = stocks.size()/25000;
+    		int cantArreglos = (stocks.size()/25000) + 1;
     		int cantidadPorArreglo = stocks.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
-    			arreglosStock.add(stocks.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			arreglosStock.add(stocks.subList(inicioSubArreglo, finSubArreglo));
+                inicioSubArreglo=finSubArreglo;
+                finSubArreglo+=cantidadPorArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Stock> lastStock = new ArrayList<>();
+                lastStock.add(stocks.get(stocks.size()-1));
+                arreglosStock.add(lastStock);
+            }
+
     		for(List<Stock> arreglo:arreglosStock) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertStocklist(insert);

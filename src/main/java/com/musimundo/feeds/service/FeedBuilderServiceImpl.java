@@ -7,6 +7,7 @@ import com.musimundo.utilities.FeedType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -347,6 +348,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
     }
 
     private void createProductRegister(CsvReader reader) {
+
+        List<Product> productList = new ArrayList<>();
+
         try {
             while (reader.readRecord())
             {
@@ -363,18 +367,26 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 product.setDescription(reader.get(9));
                 product.setImportOrigin(getFileName(path));
 
-                productService.save(product);
+        //        productService.save(product);
+                productList.add(product);
             }
+
+            productService.insertValues(productList);
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-        finally {
+    finally {
             reader.close();
         }
     }
 
     private void createPriceRegister(CsvReader reader){
+
+        List<Price> priceList = new ArrayList<>();
+
         try {
             while (reader.readRecord())
             {
@@ -387,12 +399,16 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 price.setHasPriority(Boolean.parseBoolean(reader.get(4)));
                 price.setImportOrigin(getFileName(path));
 
-                priceService.save(price);
+//                priceService.save(price);
+                priceList.add(price);
             }
+
+            priceService.insertValues(priceList);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
             reader.close();
         }
     }
@@ -444,6 +460,9 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
     private void createMediaRegister(CsvReader reader){
         try {
+
+            List<Media> mediaList = new ArrayList<>();
+
             while (reader.readRecord())
             {
                 Media media = new Media();
@@ -453,18 +472,26 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 media.setIsDefault(Boolean.parseBoolean(reader.get(2)));
                 media.setImportOrigin(getFileName(path));
 
-                mediaService.save(media);
+                //mediaService.save(media);
+                mediaList.add(media);
             }
+
+            mediaService.insertValues(mediaList);
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
             reader.close();
         }
     }
 
     private void createMerchandiseRegister(CsvReader reader){
         try {
+
+            List<Merchandise> merchandiseList = new ManagedList<>();
+
             while (reader.readRecord())
             {
                 Merchandise merchandise = new Merchandise();
@@ -477,18 +504,27 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 merchandise.setPreselected(reader.get(5));
                 merchandise.setImportOrigin(getFileName(path));
 
-                merchandiseService.save(merchandise);
+                //merchandiseService.save(merchandise);
+                merchandiseList.add(merchandise);
+
             }
+
+            merchandiseService.insertValues(merchandiseList);
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
             reader.close();
         }
     }
 
     private void createClassificationRegister(CsvReader reader){
         try {
+
+            List<Classification> classificationList = new ArrayList<>();
+
             while (reader.readRecord())
             {
                 Classification classification = new Classification();
@@ -499,12 +535,15 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
                 classification.setAttValue(reader.get(3));
                 classification.setImportOrigin(getFileName(path));
 
-                classificationService.save(classification);
+                //classificationService.save(classification);
+                classificationList.add(classification);
             }
+
+            classificationService.insertValues(classificationList);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (ParseException e) {
+        } finally {
             reader.close();
         }
     }

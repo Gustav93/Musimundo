@@ -145,7 +145,8 @@ public class Classification
     	values+="'"+categoryCode+"', ";
     	values+="'"+attValue+"', ";
     	values+="'"+importOrigin+"', ";
-    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
+//    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
+        values+="null, ";
     	values+=feedStatus.ordinal()+", ";
     	values+="'"+errorDescription+"', ";
     	values+="'"+company+"', ";   	

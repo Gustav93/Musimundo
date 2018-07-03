@@ -379,20 +379,29 @@ public class PriceServiceImpl implements PriceService {
     
     @Override
     public void insertValues(List<Price> prices) throws ParseException {
-    	if(prices.size()<25000) {
+    	if(prices.size()<20000) {
     		String insert = makeInsert(prices);
     		boolean insertOk = dao.insertPricelist(insert);
     	}else{    		
-    		List<List<Price>> arreglosPrice = new ArrayList<List<Price>>();
-    		int cantArreglos = prices.size()/25000;
+    		List<List<Price>> arreglosPrice = new ArrayList();
+    		int cantArreglos = (prices.size()/20000) + 1;
     		int cantidadPorArreglo = prices.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
-    			arreglosPrice.add(prices.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			arreglosPrice.add(prices.subList(inicioSubArreglo, finSubArreglo));
+                inicioSubArreglo=finSubArreglo;
+                finSubArreglo+=cantidadPorArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Price> lastPrice = new ArrayList<>();
+                lastPrice.add(prices.get(prices.size()-1));
+                arreglosPrice.add(lastPrice);
+            }
+
     		for(List<Price> arreglo:arreglosPrice) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertPricelist(insert);

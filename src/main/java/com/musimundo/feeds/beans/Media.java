@@ -133,7 +133,8 @@ public class Media
     	values+="'"+codeMedia+"', ";
     	values+=isDefault+", ";
     	values+="'"+importOrigin+"', ";
-    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
+        values+="null, ";
+    	//values+="date('"+Utils.getDateString(processingDate)+"'), ";
     	values+=feedStatus.ordinal()+", ";
     	values+="'"+errorDescription+"', ";
     	values+="'"+company+"', ";   	

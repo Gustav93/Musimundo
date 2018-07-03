@@ -121,16 +121,25 @@ public class AuditServiceImpl implements AuditService {
     		String insert = makeInsert(auditorias);
     		boolean insertOk = dao.insertAuditlist(insert);
     	}else{    		
-    		List<List<Audit>> arreglosAuditorias = new ArrayList<List<Audit>>();
+    		List<List<Audit>> arreglosAuditorias = new ArrayList();
     		int cantArreglos = (auditorias.size()/20000) + 1;
     		int cantidadPorArreglo = auditorias.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
+
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosAuditorias.add(auditorias.subList(inicioSubArreglo, finSubArreglo)); 
     			inicioSubArreglo=finSubArreglo;
     			finSubArreglo+=cantidadPorArreglo;
     		}
+
+            if((cantArreglos*cantidadPorArreglo)%2 != 0)
+            {
+                List<Audit> lastAudit = new ArrayList<>();
+                lastAudit.add(auditorias.get(auditorias.size()-1));
+                arreglosAuditorias.add(lastAudit);
+            }
+
     		for(List<Audit> arreglo:arreglosAuditorias) {
     			String insert = makeInsert(arreglo);
         		boolean insertOk = dao.insertAuditlist(insert);
