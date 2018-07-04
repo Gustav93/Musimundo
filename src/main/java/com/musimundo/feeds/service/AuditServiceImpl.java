@@ -162,4 +162,9 @@ public class AuditServiceImpl implements AuditService {
 		}
 		return insert;
     }
+
+    @Override
+    public void updateState(FeedType feedType, String importOrigin){
+        dao.updateStateByTypeAndImport(feedType, importOrigin);
+    }
 }

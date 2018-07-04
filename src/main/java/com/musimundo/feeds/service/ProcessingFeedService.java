@@ -6,7 +6,7 @@ import com.musimundo.utilities.FeedType;
 import java.util.List;
 
 public interface ProcessingFeedService {
-    void process(FeedType feedType);
+//    void process(FeedType feedType);
 
     List<Product> processProduct();
 

@@ -33,4 +33,6 @@ public interface AuditService {
 
 	void insertValues(List<Audit> auditorias) throws ParseException;
 
+	void updateState(FeedType feedType, String importOrigin);
+
 }
