@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Carritos</title>
+    <title>Productos</title>
 
     <!-- Bootstrap -->
     <link href="<c:url value='/static/assets/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css'/>" rel="stylesheet"></link>
@@ -75,29 +75,28 @@
                                 <h3>Totales del Día</h3>
                                 
 
-                                <div class="row"></div>
-
+                                <div class="row"></div> 
+                                
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="tile-stats">
-                                            <div id="totalCarros" class="count">${totalesCarritos.totalCarros}</div>
-                                            <h3>Total Carros</h3>
+                                            <div id="totalProductos" class="count">${totalesCarritos.totalProductos}</div>
+                                            <h3>Total Productos</h3>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="tile-stats">
-                                            <div id="totalCarrosCarsa" class="count">${totalesCarritos.totalCarrosCarsa}</div>
-                                            <h3>Total Carros Carsa</h3>
+                                            <div id="totalProductosCarsa" class="count">${totalesCarritos.totalProductosCarsa}</div>
+                                            <h3>Total Productos Carsa</h3>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="tile-stats">
-                                            <div id="totalCarrosEmsa" class="count">${totalesCarritos.totalCarrosEmsa}</div>
-                                            <h3>Total Carros Emsa</h3>
+                                            <div id="totalProductosEmsa" class="count">${totalesCarritos.totalProductosEmsa}</div>
+                                            <h3>Total Productos Emsa</h3>
                                         </div>
                                     </div>
-
-                                </div>
+                                </div>                               
 
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -118,28 +117,7 @@
                                             <h3>Total Recaudado Emsa</h3>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="tile-stats">
-                                            <div id="totalProductos" class="count">${totalesCarritos.totalProductos}</div>
-                                            <h3>Total Productos</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="tile-stats">
-                                            <div id="totalProductosCarsa" class="count">${totalesCarritos.totalProductosCarsa}</div>
-                                            <h3>Total Productos Carsa</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="tile-stats">
-                                            <div id="totalProductosEmsa" class="count">${totalesCarritos.totalProductosEmsa}</div>
-                                            <h3>Total Productos Emsa</h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>
                         </div>
                     </div>
@@ -147,34 +125,38 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h3>Carros de Día</h3>
+                                <h3>Productos</h3>
                                 <div class="row"></div>
                             </div>
                             <div class="x_content">
                                 <!--<table id="datatable_carros" class="table table-striped table-bordered dataTable no-footer nowrap" role="grid" aria-describedby="datatable_info">-->
-                                    <table id="datatable_carros" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info">
+                                    <table id="datatable_product" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Id</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Fecha de Cierre</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Usuario Invitado</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Medio de Pago</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Tarjeta</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Cuotas</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Empresa</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Total</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Musi Code</th>           
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Carsa Code</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Emsa Code</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Titulo Producto</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Categoria Principal</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Categoria Principal Padre</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Es Producto</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Precio Articulo</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Cantidad Vendida</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 155px;" aria-label="Position: activate to sort column ascending">Precio total</th>
                                     </thead>
                                     <tbody>
-										<c:forEach items="${carritos}" var="carroCerrado">
+										<c:forEach items="${productos}" var="producto">
 											<tr>
-												<td>${carroCerrado.id}</td>
-												<td>${carroCerrado.fechaCierrePedido}</td>
-												<td>${carroCerrado.usuarioInvitado}</td>
-												<td>${carroCerrado.medioPago}</td>
-												<td>${carroCerrado.tarjeta}</td>
-												<td>${carroCerrado.cuotas}</td>
-												<td>${carroCerrado.empresa}</td>
-												<td>${carroCerrado.total}</td>
+												<td>${producto.musicode}</td>
+												<td>${producto.emsaCode}</td>
+												<td>${producto.carsaCode}</td>
+												<td>${producto.tituloProducto}</td>
+												<td>${producto.categoriaPrincipal}</td>
+												<td>${producto.categoriaPrincipalPadre}</td>												
+												<td>${producto.esProducto}</td>
+												<td>${producto.precioArticulo}</td>
+												<td>${producto.cantidadVendida}</td>
+												<td>${producto.precioTotal}</td>
 											</tr>
 										</c:forEach>
 							    	</tbody>
@@ -204,11 +186,15 @@
 
 <script>
 $(document).ready(function () {
-    setInterval(updateCarros, 20000);
+    setInterval(updateCarros, 50000);
 });
+
+$('#datatable_product').DataTable();
 $('#totalRecaudadoEmsa').text(parseFloat($('#totalRecaudadoEmsa').text()).toFixed(2))
 $('#totalRecaudadoCarsa').text(parseFloat($('#totalRecaudadoCarsa').text()).toFixed(2))
 $('#totalRecaudado').text(parseFloat($('#totalRecaudado').text()).toFixed(2))
+
+
 function updateCarros(){
 	location.reload();
 }

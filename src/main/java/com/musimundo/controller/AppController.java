@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.musimundo.carritos.beans.Articulo;
 import com.musimundo.carritos.beans.CarroCerrado;
 import com.musimundo.carritos.beans.ListaCarrosCerrados;
 import com.musimundo.carritos.beans.StockJSON;
@@ -108,6 +109,26 @@ public class AppController {
 		model.addAttribute("liActivo", "liCarritos");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "carritosindex";
+	}
+	
+	@RequestMapping(value = {"/productos" }, method = RequestMethod.GET)
+	public String productos(ModelMap model) {		
+		
+		List<Articulo> articulos = new ArrayList<>();
+		
+		for(CarroCerrado carrito: listaCarritos) {
+			for(Articulo articulo:carrito.getOrderEntries().getEntries()) {
+				if(articulo.getEsProducto() && !articulo.getMusicode().isEmpty() && !articulo.getMusicode().contains("GEX0001")) {
+					articulos.add(articulo);
+				}												
+			}
+		}
+		model.addAttribute("totalesCarritos", totalesCarritos);
+		model.addAttribute("carritos", listaCarritos);
+		model.addAttribute("productos", articulos);
+		model.addAttribute("liActivo", "liProductos");
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "productosvendidos";
 	}
 
 		

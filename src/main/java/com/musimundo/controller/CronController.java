@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.musimundo.carritos.beans.Articulo;
 import com.musimundo.carritos.beans.CarroCerrado;
 import com.musimundo.carritos.beans.ListaCarrosCerrados;
 import com.musimundo.carritos.beans.TotalesCarritos;
@@ -92,17 +93,17 @@ public class CronController {
 	            	if (carro.getEmpresa().equals("CARSA")||carro.getEmpresa().equals("EMSA")){
 	    	        	totalesCarritos.setTotalCarros(totalesCarritos.getTotalCarros()+1);
 	    	        	totalesCarritos.setTotalRecaudado(totalesCarritos.getTotalRecaudado()+ carro.getTotal());
-	    	        	totalesCarritos.setTotalProductos(totalesCarritos.getTotalProductos()+carro.getCantProductosVendidos());
+	    	        	totalesCarritos.setTotalProductos(totalesCarritos.getTotalProductos()+getProductosReales(carro));
 
 	    	            if (carro.getEmpresa().equals("CARSA")) {
 	    	            	totalesCarritos.setTotalCarrosCarsa(totalesCarritos.getTotalCarrosCarsa()+1);
 	    		        	totalesCarritos.setTotalRecaudadoCarsa(totalesCarritos.getTotalRecaudadoCarsa()+ carro.getTotal());
-	    		        	totalesCarritos.setTotalProductosCarsa(totalesCarritos.getTotalProductosCarsa()+carro.getCantProductosVendidos());
+	    		        	totalesCarritos.setTotalProductosCarsa(totalesCarritos.getTotalProductosCarsa()+getProductosReales(carro));
 
 	    	            } else if (carro.getEmpresa().equals("EMSA")) {
 	    	            	totalesCarritos.setTotalCarrosEmsa(totalesCarritos.getTotalCarrosEmsa()+1);
 	    		        	totalesCarritos.setTotalRecaudadoEmsa(totalesCarritos.getTotalRecaudadoEmsa()+ carro.getTotal());
-	    		        	totalesCarritos.setTotalProductosEmsa(totalesCarritos.getTotalProductosEmsa()+carro.getCantProductosVendidos());
+	    		        	totalesCarritos.setTotalProductosEmsa(totalesCarritos.getTotalProductosEmsa()+getProductosReales(carro));
 	    	            }
 	    	        }	     
 	            	res.add(carro);
@@ -110,6 +111,16 @@ public class CronController {
 	        }
 		}
 		return res;
+	}
+	
+	private Integer getProductosReales(CarroCerrado carro) {
+		int productos = 0;
+		for(Articulo articulo:carro.getOrderEntries().getEntries()) {
+			if(articulo.getEsProducto() && !articulo.getMusicode().isEmpty() && !articulo.getMusicode().contains("GEX")) {
+				productos++;
+			}
+		}
+		return productos;
 	}
 
 }

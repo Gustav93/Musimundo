@@ -9,9 +9,7 @@ import com.musimundo.utilities.Calendario;
 import com.musimundo.utilities.Company;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
