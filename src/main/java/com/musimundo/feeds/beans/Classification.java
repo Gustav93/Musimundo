@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "CLASSIFICATION")
+@Table(name = "classification")
 public class Classification
 {
     @Id
@@ -141,9 +141,9 @@ public class Classification
     public String toInsert() {
 		String values = "(";
     	values+="'"+ productCode+"', ";
-    	values+="'"+attCode+"', ";
-    	values+="'"+categoryCode+"', ";
-    	values+="'"+attValue+"', ";
+    	values+="'"+attCode.replaceAll("'", " ")+"', ";
+    	values+="'"+categoryCode.replaceAll("'", " ")+"', ";
+    	values+="'"+attValue.replaceAll("'", " ")+"', ";
     	values+="'"+importOrigin+"', ";
 //    	values+="date('"+Utils.getDateString(processingDate)+"'), ";
         values+="null, ";

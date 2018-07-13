@@ -37,7 +37,7 @@ public interface StockDao
 
 	List<String> findFeedsByDate(Date desde, Date hasta, String empresa);
 
-	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company);
 
 	void saveList(List<Stock> stockList);
 

@@ -233,6 +233,42 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
+        return dao.updateStateByTypeAndImport(status,errorDescription,company);
+    }
+
+    @Override
+    public List<Product> cloneProductList(List<Product> productList) {
+        List<Product> res = new ArrayList<>();
+
+        for(Product product : productList)
+        {
+            Product productCopy = new Product();
+
+            productCopy.setId(product.getId());
+            productCopy.setProductCode(product.getProductCode());
+            productCopy.setEan(product.getEan());
+            productCopy.setBrand(product.getBrand());
+            productCopy.setName(product.getName());
+            productCopy.setCategory(product.getCategory());
+            productCopy.setWeight(product.getWeight());
+            productCopy.setOnlineDateTime(product.getOnlineDateTime());
+            productCopy.setOfflineDateTime(product.getOfflineDateTime());
+            productCopy.setApprovalStatus(product.getApprovalStatus());
+            productCopy.setDescription(product.getDescription());
+            productCopy.setImportOrigin(product.getImportOrigin());
+            productCopy.setProcessingDate(product.getProcessingDate());
+            productCopy.setFeedStatus(product.getFeedStatus());
+            productCopy.setErrorDescription(product.getErrorDescription());
+            productCopy.setCompany(product.getCompany());
+
+            res.add(productCopy);
+        }
+
+        return res;
+    }
+
+    @Override
     public ProductReport getReportByDate(Date fechaDesde, Date fechaHasta) {
         ProductReport report = new ProductReport();
         //control si fechahasta es nula o igual a fecha desde
@@ -400,7 +436,7 @@ public class ProductServiceImpl implements ProductService {
 
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosProduct.add(products.subList(inicioSubArreglo, finSubArreglo));
-                inicioSubArreglo=finSubArreglo;
+                inicioSubArreglo+=cantidadPorArreglo;
                 finSubArreglo+=cantidadPorArreglo;
     		}
 

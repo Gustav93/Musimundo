@@ -3,6 +3,7 @@ package com.musimundo.feeds.service;
 import com.musimundo.feeds.beans.Classification;
 import com.musimundo.feeds.beans.ClassificationReport;
 import com.musimundo.utilities.Company;
+import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
@@ -45,4 +46,8 @@ public interface ClassificationService
     List<String> getImportOrigin(List<Classification> classificationList);
 
     Company getCompany(List<Classification> classificationList);
+
+    List<Classification> cloneClassificationList(List<Classification> classificationList);
+
+    boolean updateStateByTypeAndImport(FeedStatus feedStatus, String errorDescription, String company);
 }

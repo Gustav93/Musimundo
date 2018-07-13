@@ -3,6 +3,7 @@ package com.musimundo.feeds.service;
 import com.musimundo.feeds.beans.Price;
 import com.musimundo.feeds.beans.PriceReport;
 import com.musimundo.utilities.Company;
+import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
@@ -45,4 +46,8 @@ public interface PriceService {
     List<String> getImportOrigin(List<Price> priceList);
 
     Company getCompany(List<Price> priceList);
+
+    boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company);
+
+    List<Price> clonePriceList(List<Price> priceList);
 }

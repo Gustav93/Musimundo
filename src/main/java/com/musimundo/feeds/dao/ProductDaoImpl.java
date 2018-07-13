@@ -3,6 +3,7 @@ package com.musimundo.feeds.dao;
 import com.musimundo.feeds.beans.Product;
 import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
+import com.musimundo.utilities.Utils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -179,11 +180,15 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
     }
 	
 	@Override
-	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
 		Session sessionNew = null;
+		String date = Utils.getDateString(new Date());
+		FeedStatus feedStatus = FeedStatus.OK;
+		String description = "PRODUCT - La novedad se cargó exitosamente";
 		try{
 			sessionNew = getSessionFactory().openSession();
-			Query query = sessionNew.createQuery("UPDATE Product SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+			Query query = sessionNew.createSQLQuery("UPDATE product SET processed = 1, PROCESSING_DATE="+ "'" +date+ "'" +", FEED_STATUS="+status.ordinal()+", COMPANY="+ "'" + company+ "'" +", ERROR_DESCRIPTION="+ "'" +errorDescription+ "'" +" where processed=0");
+//            Query query = sessionNew.createQuery("UPDATE Product SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
 			query.executeUpdate();
 			sessionNew.clear();
 		}catch (Exception e) {

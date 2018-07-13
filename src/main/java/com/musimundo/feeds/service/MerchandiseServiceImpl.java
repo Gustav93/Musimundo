@@ -358,6 +358,38 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         return res;
     }
 
+    @Override
+    public List<Merchandise> cloneMerchandiseList(List<Merchandise> merchandiseList) {
+        List<Merchandise> res = new ArrayList<>();
+
+        for(Merchandise merchandise : merchandiseList)
+        {
+            Merchandise merchandiseCopy = new Merchandise();
+
+            merchandiseCopy.setId(merchandise.getId());
+            merchandiseCopy.setSource(merchandise.getSource());
+            merchandiseCopy.setRefType(merchandise.getRefType());
+            merchandiseCopy.setTarget(merchandise.getTarget());
+            merchandiseCopy.setRelationship(merchandise.getRelationship());
+            merchandiseCopy.setQualifier(merchandise.getQualifier());
+            merchandiseCopy.setPreselected(merchandise.getPreselected());
+            merchandiseCopy.setImportOrigin(merchandise.getImportOrigin());
+            merchandiseCopy.setProcessingDate(merchandise.getProcessingDate());
+            merchandiseCopy.setFeedStatus(merchandise.getFeedStatus());
+            merchandiseCopy.setErrorDescription(merchandise.getErrorDescription());
+            merchandiseCopy.setCompany(merchandise.getCompany());
+
+            res.add(merchandiseCopy);
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean updateStateByTypeAndImport(FeedStatus feedStatus, String errorDescription, String company) {
+        return dao.updateStateByTypeAndImport(feedStatus, errorDescription, company);
+    }
+
     private String nombreArchivoProcesadoMerchandise()
     {
         Calendario calendario = new Calendario();

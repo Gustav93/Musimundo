@@ -2,15 +2,12 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Stock;
 import com.musimundo.utilities.FeedStatus;
-import com.musimundo.utilities.FeedType;
-
+import com.musimundo.utilities.Utils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -174,11 +171,12 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
     }
 	
 	@Override
-	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
 		Session sessionNew = null;
+        String date = Utils.getDateString(new Date());
 		try{
 			sessionNew = getSessionFactory().openSession();
-			Query query = sessionNew.createQuery("UPDATE Stock SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+            Query query = sessionNew.createSQLQuery("UPDATE stock SET processed = 1, PROCESSING_DATE="+ "'" +date+ "'" +", FEED_STATUS="+status.ordinal()+", COMPANY="+ "'" + company+ "'" +", ERROR_DESCRIPTION="+ "'" +errorDescription+ "'" +" where processed=0");
 			query.executeUpdate();
 			sessionNew.clear();
 		}catch (Exception e) {
@@ -207,5 +205,4 @@ public class StockDaoImpl extends AbstractDao <Integer, Stock> implements StockD
 		}				
 		return true;    	
     }
-
 }

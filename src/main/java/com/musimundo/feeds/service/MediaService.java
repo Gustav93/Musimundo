@@ -2,6 +2,7 @@ package com.musimundo.feeds.service;
 
 import com.musimundo.feeds.beans.*;
 import com.musimundo.utilities.Company;
+import com.musimundo.utilities.FeedStatus;
 import com.musimundo.utilities.Filter;
 
 import java.io.File;
@@ -44,5 +45,9 @@ public interface MediaService
     List<String> getImportOrigin(List<Media> mediaList);
 
     Company getCompany(List<Media> mediaList);
+
+    List<Media> cloneMediaList(List<Media> mediaList);
+
+    boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company);
 
 }

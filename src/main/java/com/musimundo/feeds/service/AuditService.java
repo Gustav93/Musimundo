@@ -35,4 +35,6 @@ public interface AuditService {
 
 	void updateState(FeedType feedType, String importOrigin);
 
+	List<Audit> cloneAuditList(List<Audit> auditList);
+
 }

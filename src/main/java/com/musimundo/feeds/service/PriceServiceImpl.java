@@ -353,6 +353,37 @@ public class PriceServiceImpl implements PriceService {
         return res;
     }
 
+    @Override
+    public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
+        return dao.updateStateByTypeAndImport(status,errorDescription,company);
+    }
+
+    @Override
+    public List<Price> clonePriceList(List<Price> priceList) {
+        List<Price> res = new ArrayList<>();
+
+        for(Price price : priceList)
+        {
+            Price priceCopy = new Price();
+
+            priceCopy.setId(price.getId());
+            priceCopy.setProductCode(price.getProductCode());
+            priceCopy.setCurrency(price.getCurrency());
+            priceCopy.setOnlinePrice(price.getOnlinePrice());
+            priceCopy.setStorePrice(price.getStorePrice());
+            priceCopy.setHasPriority(price.getHasPriority());
+            priceCopy.setImportOrigin(price.getImportOrigin());
+            priceCopy.setProcessingDate(price.getProcessingDate());
+            priceCopy.setFeedStatus(price.getFeedStatus());
+            priceCopy.setErrorDescription(price.getErrorDescription());
+            priceCopy.setCompany(price.getCompany());
+
+            res.add(priceCopy);
+        }
+
+        return res;
+    }
+
     private String nombreArchivoProcesadoPrecio()
     {
         Calendario calendario = new Calendario();
@@ -391,7 +422,7 @@ public class PriceServiceImpl implements PriceService {
 
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosPrice.add(prices.subList(inicioSubArreglo, finSubArreglo));
-                inicioSubArreglo=finSubArreglo;
+                inicioSubArreglo+=cantidadPorArreglo;
                 finSubArreglo+=cantidadPorArreglo;
     		}
 

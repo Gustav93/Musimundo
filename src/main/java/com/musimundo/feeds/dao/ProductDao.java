@@ -41,5 +41,5 @@ public interface ProductDao
 
 	boolean insertProductlist(String insert);
 
-	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company);
 }

@@ -344,6 +344,35 @@ public class MediaServiceImpl implements MediaService
         return res;
     }
 
+    @Override
+    public List<Media> cloneMediaList(List<Media> mediaList) {
+        List<Media> res = new ArrayList<>();
+
+        for(Media media : mediaList)
+        {
+            Media mediaCopy = new Media();
+
+            mediaCopy.setId(media.getId());
+            mediaCopy.setProductCode(media.getProductCode());
+            mediaCopy.setCodeMedia(media.getCodeMedia());
+            mediaCopy.setIsDefault(media.getIsDefault());
+            mediaCopy.setImportOrigin(media.getImportOrigin());
+            mediaCopy.setProcessingDate(media.getProcessingDate());
+            mediaCopy.setFeedStatus(media.getFeedStatus());
+            mediaCopy.setErrorDescription(media.getErrorDescription());
+            mediaCopy.setCompany(media.getCompany());
+
+            res.add(mediaCopy);
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
+        return dao.updateStateByTypeAndImport(status,errorDescription,company);
+    }
+
     private String dateToString(Date date)
     {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -382,8 +411,8 @@ public class MediaServiceImpl implements MediaService
 
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosMedias.add(medias.subList(inicioSubArreglo, finSubArreglo)); 
-    			inicioSubArreglo+=finSubArreglo;
-    			finSubArreglo+=finSubArreglo;
+    			inicioSubArreglo+=cantidadPorArreglo;
+    			finSubArreglo+=cantidadPorArreglo;
     		}
 
             if((cantArreglos*cantidadPorArreglo)%2 != 0)

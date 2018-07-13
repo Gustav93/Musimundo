@@ -2,6 +2,7 @@ package com.musimundo.feeds.dao;
 
 import com.musimundo.feeds.beans.Media;
 import com.musimundo.utilities.FeedStatus;
+import com.musimundo.utilities.Utils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,7 +19,7 @@ public class MediaDaoImpl extends AbstractDao <Integer, Media> implements MediaD
 {
     @Override
     public Media findById(int id) {
-        Media res = findById(id);
+        Media res = getByKey(id);
 
         return res;
     }
@@ -146,11 +147,12 @@ public class MediaDaoImpl extends AbstractDao <Integer, Media> implements MediaD
 	}
 	
 	@Override
-	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company,  String notOk) {
+	public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
 		Session sessionNew = null;
+		String date = Utils.getDateString(new Date());
 		try{
 			sessionNew = getSessionFactory().openSession();
-			Query query = sessionNew.createQuery("UPDATE Media SET processed = 1, FEED_STATUS="+status.ordinal()+", COMPANY="+company+", ERROR_DESCRIPTION="+errorDescription+" where processed=0 and ID NOT IN("+notOk+")");
+			Query query = sessionNew.createSQLQuery("UPDATE media SET processed = 1, PROCESSING_DATE="+ "'" +date+ "'" +", FEED_STATUS="+status.ordinal()+", COMPANY="+ "'" + company+ "'" +", ERROR_DESCRIPTION="+ "'" +errorDescription+ "'" +" where processed=0");
 			query.executeUpdate();
 			sessionNew.clear();
 		}catch (Exception e) {

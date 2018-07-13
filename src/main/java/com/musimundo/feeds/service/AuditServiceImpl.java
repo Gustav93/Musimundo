@@ -167,4 +167,30 @@ public class AuditServiceImpl implements AuditService {
     public void updateState(FeedType feedType, String importOrigin){
         dao.updateStateByTypeAndImport(feedType, importOrigin);
     }
+
+    @Override
+    public List<Audit> cloneAuditList(List<Audit> auditList) {
+        List<Audit> res = new ArrayList<>();
+
+        for(Audit audit : auditList)
+        {
+            Audit auditCopy = new Audit();
+
+            auditCopy.setId(audit.getId());
+            auditCopy.setAuditLevel(audit.getAuditLevel());
+            auditCopy.setAuditType(audit.getAuditType());
+            auditCopy.setAuditDate(audit.getAuditDate());
+            auditCopy.setErrorCode(audit.getErrorCode());
+            auditCopy.setDescription(audit.getDescription());
+            auditCopy.setCompany(audit.getCompany());
+            auditCopy.setProductCode(audit.getProductCode());
+            auditCopy.setImportOrigin(audit.getImportOrigin());
+            auditCopy.setFeedType(audit.getFeedType());
+            auditCopy.setProcessed(audit.getProcessed());
+
+            res.add(auditCopy);
+        }
+
+        return res;
+    }
 }

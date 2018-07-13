@@ -38,5 +38,5 @@ public interface ClassificationDao {
 
 	boolean insertClassificationlist(String insert);
 
-	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
+	boolean updateState(FeedStatus status, String errorDescription, String company);
 }

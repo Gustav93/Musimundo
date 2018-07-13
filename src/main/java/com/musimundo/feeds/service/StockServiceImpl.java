@@ -325,6 +325,36 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    public List<Stock> cloneStockList(List<Stock> stockList) {
+        List<Stock> res = new ArrayList<>();
+
+        for(Stock stock : stockList)
+        {
+            Stock stockCopy = new Stock();
+
+            stockCopy.setId(stock.getId());
+            stockCopy.setProductCode(stock.getProductCode());
+            stockCopy.setStock(stock.getStock());
+            stockCopy.setWarehouse(stock.getWarehouse());
+            stockCopy.setStatus(stock.getStatus());
+            stockCopy.setImportOrigin(stock.getImportOrigin());
+            stockCopy.setProcessingDate(stock.getProcessingDate());
+            stockCopy.setFeedStatus(stock.getFeedStatus());
+            stockCopy.setErrorDescription(stock.getErrorDescription());
+            stockCopy.setCompany(stock.getCompany());
+
+            res.add(stockCopy);
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company) {
+        return dao.updateStateByTypeAndImport(status,errorDescription,company);
+    }
+
+    @Override
     public StockReport getReportByCode(String code) {
     	StockReport report = new StockReport();
         report.setCountTotal(dao.countAllByCode(code));
@@ -394,7 +424,7 @@ public class StockServiceImpl implements StockService {
 
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosStock.add(stocks.subList(inicioSubArreglo, finSubArreglo));
-                inicioSubArreglo=finSubArreglo;
+                inicioSubArreglo+=cantidadPorArreglo;
                 finSubArreglo+=cantidadPorArreglo;
     		}
 

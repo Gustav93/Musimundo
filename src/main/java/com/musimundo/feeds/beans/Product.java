@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product
 {
     @Id
@@ -211,8 +211,8 @@ public class Product
 		String values = "(";
     	values+="'"+ productCode+"', ";
     	values+="'"+ean+"', ";
-    	values+="'"+brand+"', ";
-    	values+="'"+name+"', ";
+    	values+="'"+brand.replaceAll("'", " ")+"', ";
+    	values+="'"+name.replaceAll("'", " ")+"', ";
     	values+=category+", ";
     	values+=weight+", ";
 //    	values+="date('"+Utils.getDateString(onlineDateTime)+"'), ";
@@ -220,7 +220,7 @@ public class Product
         values+="null, ";
         values+="null, ";
     	values+="'"+approvalStatus+"', ";
-    	values+="'"+description+"', ";
+    	values+="'"+description.replaceAll("'", " ")+"', ";
     	values+="'"+importOrigin+"', ";
     	//values+="date('"+Utils.getDateString(processingDate)+"'), ";
         values+="null, ";

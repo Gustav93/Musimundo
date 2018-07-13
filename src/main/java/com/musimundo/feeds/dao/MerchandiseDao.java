@@ -38,5 +38,5 @@ public interface MerchandiseDao {
 
 	boolean insertMerchandiselist(String insert);
 
-	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company, String notOk);
+	boolean updateStateByTypeAndImport(FeedStatus status, String errorDescription, String company);
 }

@@ -59,15 +59,18 @@ public class ClassificationServiceImpl implements ClassificationService {
     public void update(Classification classification) {
         Classification entity = dao.findById(classification.getId());
 
-        entity.setProductCode(classification.getProductCode());
-        entity.setAttCode(classification.getAttCode());
-        entity.setCategoryCode(classification.getCategoryCode());
-        entity.setAttValue(classification.getAttValue());
-        entity.setImportOrigin(classification.getImportOrigin());
-        entity.setProcessingDate(classification.getProcessingDate());
-        entity.setFeedStatus(classification.getFeedStatus());
-        entity.setErrorDescription(classification.getErrorDescription());
-        entity.setCompany(classification.getCompany());
+        if(entity != null)
+        {
+            entity.setProductCode(classification.getProductCode());
+            entity.setAttCode(classification.getAttCode());
+            entity.setCategoryCode(classification.getCategoryCode());
+            entity.setAttValue(classification.getAttValue());
+            entity.setImportOrigin(classification.getImportOrigin());
+            entity.setProcessingDate(classification.getProcessingDate());
+            entity.setFeedStatus(classification.getFeedStatus());
+            entity.setErrorDescription(classification.getErrorDescription());
+            entity.setCompany(classification.getCompany());
+        }
     }
 
     @Override
@@ -237,16 +240,16 @@ public class ClassificationServiceImpl implements ClassificationService {
             }
         }
 
-        ClassificationReport merchandiseReport = new ClassificationReport();
+        ClassificationReport classificationReport = new ClassificationReport();
 
-        merchandiseReport.setImportOrigin(importOrigin);
-        merchandiseReport.setCountTotal(Long.valueOf(all));
-        merchandiseReport.setCountOk(Long.valueOf(ok));
-        merchandiseReport.setCountWarning(Long.valueOf(warning));
-        merchandiseReport.setCountError(Long.valueOf(error));
-        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+        classificationReport.setImportOrigin(importOrigin);
+        classificationReport.setCountTotal(Long.valueOf(all));
+        classificationReport.setCountOk(Long.valueOf(ok));
+        classificationReport.setCountWarning(Long.valueOf(warning));
+        classificationReport.setCountError(Long.valueOf(error));
+        classificationReport.setCountNotProcessed(Long.valueOf(notProcessed));
 
-        return merchandiseReport;
+        return classificationReport;
     }
 
     @Override
@@ -274,15 +277,15 @@ public class ClassificationServiceImpl implements ClassificationService {
                 notProcessed++;
         }
 
-        ClassificationReport merchandiseReport = new ClassificationReport();
+        ClassificationReport classificationReport = new ClassificationReport();
 
-        merchandiseReport.setCountTotal(Long.valueOf(all));
-        merchandiseReport.setCountOk(Long.valueOf(ok));
-        merchandiseReport.setCountWarning(Long.valueOf(warning));
-        merchandiseReport.setCountError(Long.valueOf(error));
-        merchandiseReport.setCountNotProcessed(Long.valueOf(notProcessed));
+        classificationReport.setCountTotal(Long.valueOf(all));
+        classificationReport.setCountOk(Long.valueOf(ok));
+        classificationReport.setCountWarning(Long.valueOf(warning));
+        classificationReport.setCountError(Long.valueOf(error));
+        classificationReport.setCountNotProcessed(Long.valueOf(notProcessed));
 
-        return merchandiseReport;
+        return classificationReport;
     }
 
     @Override
@@ -346,6 +349,36 @@ public class ClassificationServiceImpl implements ClassificationService {
         return res;
     }
 
+    @Override
+    public List<Classification> cloneClassificationList(List<Classification> classificationList) {
+        List<Classification> res = new ArrayList<>();
+
+        for(Classification classification : classificationList)
+        {
+            Classification classificationCopy = new Classification();
+
+            classificationCopy.setId(classification.getId());
+            classificationCopy.setProductCode(classification.getProductCode());
+            classificationCopy.setAttCode(classification.getAttCode());
+            classificationCopy.setCategoryCode(classification.getCategoryCode());
+            classificationCopy.setAttValue(classification.getAttValue());
+            classificationCopy.setImportOrigin(classification.getImportOrigin());
+            classificationCopy.setProcessingDate(classification.getProcessingDate());
+            classificationCopy.setFeedStatus(classification.getFeedStatus());
+            classificationCopy.setErrorDescription(classification.getErrorDescription());
+            classificationCopy.setCompany(classification.getCompany());
+
+            res.add(classificationCopy);
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean updateStateByTypeAndImport(FeedStatus feedStatus, String errorDescription, String company) {
+        return dao.updateState(feedStatus, errorDescription, company);
+    }
+
     public static String nombreArchivoProcesadoClasificacion()
     {
         Calendario calendario = new Calendario();
@@ -371,20 +404,20 @@ public class ClassificationServiceImpl implements ClassificationService {
     
     @Override
     public void insertValues(List<Classification> clasificaciones) throws ParseException {
-    	if(clasificaciones.size()<20000) {
+    	if(clasificaciones.size()<25000) {
     		String insert = makeInsert(clasificaciones);
     		boolean insertOk = dao.insertClassificationlist(insert);
     	}else{    		
     		List<List<Classification>> arreglosclasificaciones = new ArrayList();
-    		int cantArreglos = (clasificaciones.size()/20000) + 1;
+    		int cantArreglos = (clasificaciones.size()/25000) + 1;
     		int cantidadPorArreglo = clasificaciones.size()/cantArreglos;
     		int inicioSubArreglo = 0;
     		int finSubArreglo = cantidadPorArreglo;
 
     		for(int arreglos=0;arreglos<cantArreglos; arreglos++) {
     			arreglosclasificaciones.add(clasificaciones.subList(inicioSubArreglo, finSubArreglo));
-                inicioSubArreglo+=finSubArreglo;
-                finSubArreglo+=finSubArreglo;
+                inicioSubArreglo+=cantidadPorArreglo;
+                finSubArreglo+=cantidadPorArreglo;
     		}
 
             if((cantArreglos*cantidadPorArreglo)%2 != 0)

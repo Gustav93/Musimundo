@@ -541,7 +541,7 @@ public class FeedsController {
         else if(feedType.equals("Merchandise"))
         {
             List<Merchandise> merchandiseList = processingFeedService.processMerchandise();
-            MerchandiseReport merchandiseReport = merchandiseService.getReport();
+            MerchandiseReport merchandiseReport = merchandiseService.getReport(merchandiseList);
             page = "merchandiselist";
             model.addAttribute("merchandiseList", merchandiseList);
             model.addAttribute("merchandiseReport", merchandiseReport);

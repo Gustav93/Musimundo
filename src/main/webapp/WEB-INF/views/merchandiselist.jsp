@@ -80,7 +80,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="tile-stats">
                                             <div id="total" class="count">${merchandiseReport.countTotal}</div>
-                                            <h3>Procesados Correctamente</h3>
+                                            <h3>Total Procesados</h3>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
