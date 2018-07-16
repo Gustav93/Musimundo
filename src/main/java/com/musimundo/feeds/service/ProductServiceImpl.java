@@ -76,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
             entity.setFeedStatus(product.getFeedStatus());
             entity.setErrorDescription(product.getErrorDescription());
             entity.setCompany(product.getCompany());
+            entity.setProcessed(product.getProcessed());
         }
     }
 
@@ -261,6 +262,7 @@ public class ProductServiceImpl implements ProductService {
             productCopy.setFeedStatus(product.getFeedStatus());
             productCopy.setErrorDescription(product.getErrorDescription());
             productCopy.setCompany(product.getCompany());
+            productCopy.setProcessed(product.getProcessed());
 
             res.add(productCopy);
         }

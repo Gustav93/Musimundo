@@ -434,7 +434,6 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
         List<Classification> classificationListNotOk = new ArrayList<>();
         List<String> importOriginList = classificationService.getImportOrigin(classificationList);
 
-
         boolean existeClassification;
 
         for(Classification classification : classificationList)

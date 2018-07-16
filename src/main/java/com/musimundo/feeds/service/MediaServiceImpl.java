@@ -68,6 +68,7 @@ public class MediaServiceImpl implements MediaService
             entity.setFeedStatus(media.getFeedStatus());
             entity.setErrorDescription(media.getErrorDescription());
             entity.setCompany(media.getCompany());
+            entity.setProcessed(media.getProcessed());
         }
     }
 
@@ -361,6 +362,7 @@ public class MediaServiceImpl implements MediaService
             mediaCopy.setFeedStatus(media.getFeedStatus());
             mediaCopy.setErrorDescription(media.getErrorDescription());
             mediaCopy.setCompany(media.getCompany());
+            mediaCopy.setProcessed(media.getProcessed());
 
             res.add(mediaCopy);
         }

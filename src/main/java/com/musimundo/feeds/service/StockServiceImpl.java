@@ -69,6 +69,7 @@ public class StockServiceImpl implements StockService {
             entity.setFeedStatus(stock.getFeedStatus());
             entity.setErrorDescription(stock.getErrorDescription());
             entity.setCompany(stock.getCompany());
+            entity.setProcessed(stock.getProcessed());
         }
     }
 
@@ -342,6 +343,7 @@ public class StockServiceImpl implements StockService {
             stockCopy.setFeedStatus(stock.getFeedStatus());
             stockCopy.setErrorDescription(stock.getErrorDescription());
             stockCopy.setCompany(stock.getCompany());
+            stockCopy.setProcessed(stock.getProcessed());
 
             res.add(stockCopy);
         }

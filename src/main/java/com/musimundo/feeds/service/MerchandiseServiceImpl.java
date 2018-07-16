@@ -72,6 +72,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             entity.setFeedStatus(merchandise.getFeedStatus());
             entity.setErrorDescription(merchandise.getErrorDescription());
             entity.setCompany(merchandise.getCompany());
+            entity.setProcessed(merchandise.getProcessed());
         }
     }
 
@@ -378,6 +379,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             merchandiseCopy.setFeedStatus(merchandise.getFeedStatus());
             merchandiseCopy.setErrorDescription(merchandise.getErrorDescription());
             merchandiseCopy.setCompany(merchandise.getCompany());
+            merchandiseCopy.setProcessed(merchandise.getProcessed());
 
             res.add(merchandiseCopy);
         }

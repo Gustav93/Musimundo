@@ -71,6 +71,7 @@ public class PriceServiceImpl implements PriceService {
             entity.setFeedStatus(price.getFeedStatus());
             entity.setErrorDescription(price.getErrorDescription());
             entity.setCompany(price.getCompany());
+            entity.setProcessed(price.getProcessed());
         }
     }
 
@@ -377,6 +378,7 @@ public class PriceServiceImpl implements PriceService {
             priceCopy.setFeedStatus(price.getFeedStatus());
             priceCopy.setErrorDescription(price.getErrorDescription());
             priceCopy.setCompany(price.getCompany());
+            priceCopy.setProcessed(price.getProcessed());
 
             res.add(priceCopy);
         }

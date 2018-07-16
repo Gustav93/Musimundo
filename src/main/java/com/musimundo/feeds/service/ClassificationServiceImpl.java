@@ -70,6 +70,7 @@ public class ClassificationServiceImpl implements ClassificationService {
             entity.setFeedStatus(classification.getFeedStatus());
             entity.setErrorDescription(classification.getErrorDescription());
             entity.setCompany(classification.getCompany());
+            entity.setProcessed(classification.getProcessed());
         }
     }
 
