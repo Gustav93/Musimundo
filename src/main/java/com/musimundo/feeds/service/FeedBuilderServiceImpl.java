@@ -62,10 +62,10 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         this.path = path;
         String fileName = getFileName(path);
 
-//        if(!fileNameService.exists(fileName))
-//            fileNameService.save(new FileName(fileName));
-//        else
-//            return;
+        if(!fileNameService.exists(fileName))
+            fileNameService.save(new FileName(fileName));
+        else
+            return;
 
 
         try {
