@@ -36,12 +36,13 @@ public class ReporteCarrosServiceImpl implements ReporteCarrosService{
 	public List<CarroCerrado> getCarrosAprobadosYTotalesPeriodo(String startDate, String endDate, TotalesCarritos totalesCarritos){
 		ListaCarrosCerrados listaCarrosCerrados = new ListaCarrosCerrados();
 		List<CarroCerrado> listaCarritos = new ArrayList<CarroCerrado>();
-		
+
 		try {
-			
-			listaCarrosCerrados = dao.getAllCarrosByPerdiod(startDate, endDate);			
-	        
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+			listaCarrosCerrados = dao.getAllCarrosByPerdiod(startDate, endDate);
+			startDate += " 00:00:00";
+			endDate += " 23:59:59";
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Calendar calDesde = Calendar.getInstance();
 			Calendar calHasta = Calendar.getInstance();
 			calDesde.setTime(dateFormat.parse(startDate));
@@ -69,7 +70,7 @@ public class ReporteCarrosServiceImpl implements ReporteCarrosService{
 	        for (CarroCerrado carro : listaCarrosCerrados.getClosedOrders()) {
 	        	
 	        	if(carro.getFechaCierrePedido() != null && !carro.getFechaCierrePedido().isEmpty()) {
-	        		calUtil.setTime(dateFormat.parse(carro.getFechaCierrePedido()));	        	
+	        		calUtil.setTime(dateFormat.parse(carro.getFechaCierrePedido()));
 	        	
 		        	if(calUtil.getTime().after(fechaDesde) && calUtil.getTime().before(fechaHasta)) {
 			            if (carro.getEstadoPago().toUpperCase().equals("APPROVED")) {

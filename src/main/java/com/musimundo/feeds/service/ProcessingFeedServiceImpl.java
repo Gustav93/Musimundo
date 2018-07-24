@@ -53,7 +53,6 @@ public class ProcessingFeedServiceImpl implements ProcessingFeedService {
         List<Product> productListNotOk = new ArrayList<>();
         boolean existeproducto;
 
-
         for(Product product :productList)
         {
             existeproducto = false;

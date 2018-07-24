@@ -144,42 +144,45 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
     }
 
     private String getFileName(String path) {
-        String patron = "";
+        String patron = "([^\\\\]+)$"; //devuelve el nombre del archivo de un path.
         String importOrigin = "";
 
-        if (isProduct())
-            patron = "producto-\\d+\\.csv";
-
-        else if (isPrice())
-            patron = "precio-\\d+.csv";
-
-        else if (isStock())
-            patron = "stock-\\d+.csv";
-
-        else if (isMedia())
-            patron = "media-\\d+.csv";
-
-        else if (isMerchandise())
-            patron = "merchandise-\\d+.csv";
-
-        else if (isClassification())
-            patron = "clasificacion-\\d+.csv";
-
-        else if (path.contains("_aud") && path.contains("stock"))
-            patron = "stock-\\d+";
-
-        else if (path.contains("_aud"))
-            patron = "([^\\\\]*)$";
+//        if (isProduct())
+//            patron = "producto-\\d+\\.csv";
+//
+//        else if (isPrice())
+//            patron = "precio-\\d+.csv";
+//
+//        else if (isStock())
+//            patron = "stock-\\d+.csv";
+//
+//        else if (isMedia())
+//            patron = "media-\\d+.csv";
+//
+//        else if (isMerchandise())
+//            patron = "merchandise-\\d+.csv";
+//
+//        else if (isClassification())
+//            patron = "clasificacion-\\d+.csv";
+//
+//        else if (path.contains("_aud") && path.contains("stock"))
+//            patron = "stock-\\d+_aud.csv";
+//
+//        else if (path.contains("_aud"))
+//            patron = "([^\\\\]+)$";
 
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(path);
 
-        if (matcher.find()) {
-            if (path.contains("_aud") && path.contains("stock"))
-                importOrigin = matcher.group() + ".csv";
-            else
-                importOrigin = matcher.group();
-        }
+        if(matcher.find())
+            importOrigin = matcher.group();
+
+//        if (matcher.find()) {
+//            if (path.contains("_aud") && path.contains("stock"))
+//                importOrigin = matcher.group() + ".csv";
+//            else
+//                importOrigin = matcher.group();
+//        }
 
         return importOrigin;
     }
@@ -575,7 +578,7 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
 
                     if (importOrigin.contains("stock"))
                     {
-                        importOrigin = getFileName(path);
+                        importOrigin = fixImportOriginStock(path);
                         auditService.setWarehouseStock(audit);
                     }
 
@@ -607,5 +610,11 @@ public class FeedBuilderServiceImpl implements FeedBuilderService {
         } finally {
             reader.close();
         }
+    }
+
+    private String fixImportOriginStock(String path){
+        String res = getFileName(path).replaceAll("_aud", "");
+
+        return res;
     }
 }
